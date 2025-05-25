@@ -5,42 +5,11 @@ import { db } from '../firebase';
 import { CEO } from '../types/ceo';
 import { autoModerateCEO, moderateCEOs } from '../services/moderationService';
 import { Tab } from '@headlessui/react';
-import { INDUSTRIES } from '../data/initialCeos';
+import { PRELOADED_CEOS, INDUSTRIES } from '../data/initialCeos';
 import OutOfVotesModal from './OutOfVotesModal';
 import { useVote } from '../services/voteLimit';
-
-const PRELOADED_CEOS = [
-  { name: "Martin Sorrell", company: "S4 Capital" },
-  { name: "Elon Musk", company: "Tesla" },
-  { name: "Mark Zuckerberg", company: "Meta" },
-  { name: "Jeff Bezos", company: "Amazon" },
-  { name: "Tim Cook", company: "Apple" },
-  { name: "Satya Nadella", company: "Microsoft" },
-  { name: "Larry Page", company: "Alphabet" },
-  { name: "Sergey Brin", company: "Alphabet" },
-  { name: "Larry Ellison", company: "Oracle" },
-  { name: "Jensen Huang", company: "NVIDIA" },
-  { name: "Reed Hastings", company: "Netflix" },
-  { name: "Marc Benioff", company: "Salesforce" },
-  { name: "Andy Jassy", company: "Amazon" },
-  { name: "Sundar Pichai", company: "Google" },
-  { name: "Pat Gelsinger", company: "Intel" },
-  { name: "Lisa Su", company: "AMD" },
-  { name: "Daniel Ek", company: "Spotify" },
-  { name: "Drew Houston", company: "Dropbox" },
-  { name: "Brian Chesky", company: "Airbnb" },
-  { name: "Dara Khosrowshahi", company: "Uber" },
-  { name: "Tony Xu", company: "DoorDash" },
-  { name: "Frank Slootman", company: "Snowflake" },
-  { name: "Marc Lore", company: "Wonder Group" },
-  { name: "Bob Chapek", company: "Disney" },
-  { name: "David Zaslav", company: "Warner Bros Discovery" },
-  { name: "Darren Woods", company: "ExxonMobil" },
-  { name: "Mike Wirth", company: "Chevron" },
-  { name: "Ben van Beurden", company: "Shell" },
-  { name: "Bernard Looney", company: "BP" },
-  { name: "Patrick Pouyanné", company: "TotalEnergies" }
-];
+import toast, { Toaster } from 'react-hot-toast';
+import { getVoteStatus } from '../services/voteLimit';
 
 interface CEOVotingProps {
   onBack: () => void;
@@ -56,28 +25,36 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
   const [justVoted, setJustVoted] = useState<string | null>(null);
   const [selectedIndustry, setSelectedIndustry] = useState<string>('All');
   const [outOfVotes, setOutOfVotes] = useState(false);
+  const [showDevPanel, setShowDevPanel] = useState(false);
+
+  // Move initializePreloadedCeos outside useEffect
+  const initializePreloadedCeos = async () => {
+    const ceosRef = collection(db, 'ceos');
+    for (const ceo of PRELOADED_CEOS) {
+      const q = query(ceosRef, where('name', '==', ceo.name), where('company', '==', ceo.company));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        await addDoc(ceosRef, {
+          name: ceo.name,
+          company: ceo.company,
+          industry: ceo.industry,
+          votes: Math.floor(Math.random() * 50) + 10, // Random starting votes
+          approved: true,
+          submittedAt: new Date()
+        });
+      } else {
+        // Patch missing industry if needed
+        querySnapshot.forEach(async (docSnap) => {
+          const data = docSnap.data();
+          if (!data.industry && ceo.industry) {
+            await updateDoc(doc(db, 'ceos', docSnap.id), { industry: ceo.industry });
+          }
+        });
+      }
+    }
+  };
 
   useEffect(() => {
-    // Initialize preloaded CEOs if they don't exist
-    const initializePreloadedCeos = async () => {
-      const ceosRef = collection(db, 'ceos');
-      
-      for (const ceo of PRELOADED_CEOS) {
-        const q = query(ceosRef, where('name', '==', ceo.name), where('company', '==', ceo.company));
-        const querySnapshot = await getDocs(q);
-        
-        if (querySnapshot.empty) {
-          await addDoc(ceosRef, {
-            name: ceo.name,
-            company: ceo.company,
-            votes: Math.floor(Math.random() * 50) + 10, // Random starting votes
-            approved: true,
-            submittedAt: new Date()
-          });
-        }
-      }
-    };
-
     initializePreloadedCeos();
 
     // Listen for real-time updates
@@ -111,18 +88,16 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
       setOutOfVotes(true);
       return;
     }
+    const status = getVoteStatus();
+    toast.success(`${status.remainingVotes} vote${status.remainingVotes === 1 ? '' : 's'} left!`, { icon: '🗳️' });
     setVotingCeo(ceoId);
     try {
       const ceoRef = doc(db, 'ceos', ceoId);
       await updateDoc(ceoRef, {
         votes: increment(1)
       });
-      
-      // Show success visual feedback
       setJustVoted(ceoId);
       setTimeout(() => setJustVoted(null), 2000);
-      
-      // Run moderation check after voting to approve pending CEOs
       moderateCEOs();
     } catch (error) {
       console.error('Error voting:', error);
@@ -168,10 +143,43 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
     }
   };
 
+  // Dev panel: Reset CEO list in Firebase
+  const handleResetCeos = async () => {
+    if (!window.confirm('Are you sure you want to reset the CEO list? This will delete all CEOs and reload the initial list.')) return;
+    const ceosRef = collection(db, 'ceos');
+    const allDocs = await getDocs(ceosRef);
+    // Delete all
+    await Promise.all(allDocs.docs.map(docSnap => updateDoc(doc(db, 'ceos', docSnap.id), { approved: false })));
+    // Optionally, could delete instead of marking as unapproved
+    // Re-initialize
+    await initializePreloadedCeos();
+    toast.success('CEO list reset!');
+  };
+
   return (
     <div className="min-h-screen w-screen bg-black text-white p-4 overflow-x-hidden" style={{
       background: 'radial-gradient(circle at center, rgba(124, 58, 237, 0.15) 0%, #000000 100%)'
     }}>
+      <Toaster position="top-center" />
+      {/* Hidden Dev Panel Toggle */}
+      <button
+        style={{ position: 'absolute', top: 0, right: 0, opacity: 0, pointerEvents: 'auto', width: 40, height: 40 }}
+        tabIndex={-1}
+        aria-label="Open Dev Panel"
+        onClick={() => setShowDevPanel(v => !v)}
+      />
+      {showDevPanel && (
+        <div className="fixed top-0 right-0 bg-gray-900/90 border border-purple-500/40 p-4 z-50 rounded-bl-lg shadow-xl">
+          <h2 className="font-bold mb-2 text-purple-300">Dev Panel</h2>
+          <button
+            className="bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 rounded text-white font-semibold mb-2"
+            onClick={handleResetCeos}
+          >
+            Reset CEO List
+          </button>
+          <div className="text-xs text-purple-200">(Resets Firestore CEO list to initialCeos.ts)</div>
+        </div>
+      )}
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

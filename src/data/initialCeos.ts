@@ -1,6 +1,9 @@
-
 export const PRELOADED_CEOS = [
   { name: "Martin Sorrell", company: "S4 Capital", industry: "Advertising & PR" },
+  { name: "Mark Read", company: "WPP", industry: "Advertising & PR" },
+  { name: "John Wren", company: "Omnicom Group", industry: "Advertising & PR" },
+  { name: "Philippe Krakowsky", company: "Interpublic Group", industry: "Advertising & PR" },
+  { name: "Yannick Bolloré", company: "Havas", industry: "Advertising & PR" },
   { name: "Elon Musk", company: "Tesla", industry: "Tech" },
   { name: "Mark Zuckerberg", company: "Meta", industry: "Tech" },
   { name: "Jeff Bezos", company: "Amazon", industry: "Tech" },

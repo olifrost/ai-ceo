@@ -2,13 +2,16 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, ShareIcon, PhotoIcon, CloudArrowDownIcon } from '@heroicons/react/24/outline';
 import html2canvas from 'html2canvas';
+import toast from 'react-hot-toast';
 
 interface ShareQuoteModalProps {
   isOpen: boolean;
   onClose: () => void;
   quote: string;
-  modelName: string;
-  modelTitle: string;
+  name: string;
+  attribution: string;
+  accentColor: string;
+  onEdit: (fields: { quote: string; name: string; attribution: string }) => void;
 }
 
 const CEO_IMAGES = [
@@ -25,13 +28,15 @@ const GRADIENT_STYLES = [
   { id: 'solid', name: 'Solid Black', gradient: 'rgba(0, 0, 0, 0.85)' }
 ];
 
-export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, modelTitle }: ShareQuoteModalProps) {
+export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribution, accentColor, onEdit }: ShareQuoteModalProps) {
   const [selectedImage, setSelectedImage] = useState(CEO_IMAGES[0]);
   const [selectedGradient, setSelectedGradient] = useState(GRADIENT_STYLES[0]);
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
-  const [editableQuote, setEditableQuote] = useState(quote);
+  const [editQuote, setEditQuote] = useState(quote);
+  const [editName, setEditName] = useState(name);
+  const [editAttribution, setEditAttribution] = useState(attribution);
   const canvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -42,9 +47,11 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
       setCustomImage(null);
       setSelectedImage(CEO_IMAGES[0]);
       setSelectedGradient(GRADIENT_STYLES[0]);
-      setEditableQuote(quote);
+      setEditQuote(quote);
+      setEditName(name);
+      setEditAttribution(attribution);
     }
-  }, [isOpen, quote]);
+  }, [isOpen, quote, name, attribution]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -102,7 +109,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: 'AI CEO Quote',
-          text: `"${quote}" - ${modelName}`,
+          text: `"${quote}" - ${editName}${editAttribution ? ', ' + editAttribution : ''}`,
           files: [file]
         });
       } else {
@@ -113,6 +120,22 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
       console.error('Error sharing:', error);
       downloadImage();
     }
+  };
+
+  const handleSave = () => {
+    onEdit({ quote: editQuote, name: editName, attribution: editAttribution });
+    onClose();
+  };
+
+  const handleShare = () => {
+    const shareText = `"${editQuote}" - ${editName}${editAttribution ? ', ' + editAttribution : ''}`;
+    if (navigator.share) {
+      navigator.share({ text: shareText });
+    } else {
+      navigator.clipboard.writeText(shareText);
+      toast.success('Quote copied to clipboard!');
+    }
+    handleSave();
   };
 
   return (
@@ -166,15 +189,15 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                   >
                     <div className="space-y-4">
                       <blockquote className="text-xl lg:text-2xl font-semibold font-['Space_Grotesk'] leading-relaxed">
-                        "{editableQuote}"
+                        "{editQuote}"
                       </blockquote>
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="text-lg font-bold font-['Space_Grotesk']">
-                            {modelName}
+                            {editName}
                           </div>
                           <div className="text-sm opacity-90 font-['Space_Grotesk']">
-                            {modelTitle}
+                            {editAttribution}
                           </div>
                         </div>
                         <div className="text-sm opacity-75 font-['Space_Grotesk']">
@@ -236,8 +259,8 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                     Edit Quote
                   </label>
                   <textarea
-                    value={editableQuote}
-                    onChange={e => setEditableQuote(e.target.value)}
+                    value={editQuote}
+                    onChange={e => setEditQuote(e.target.value)}
                     rows={2}
                     className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white resize-none mb-4"
                   />
@@ -298,39 +321,77 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                   <label className="block text-sm font-medium text-purple-300 mb-3">
                     Quote Background Style
                   </label>
-                  <div className="space-y-2">
+                  <div className="grid grid-cols-5 gap-2">
                     {GRADIENT_STYLES.map((style) => (
                       <button
                         key={style.id}
                         onClick={() => setSelectedGradient(style)}
-                        className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-all ${
+                        className={`w-8 h-8 rounded border transition-all ${
                           selectedGradient.id === style.id
-                            ? 'border-purple-400 bg-purple-400/10'
+                            ? 'border-purple-400 ring-2 ring-purple-400/50'
                             : 'border-gray-600 hover:border-gray-500'
                         }`}
-                      >
-                        <div
-                          className="w-8 h-8 rounded border border-gray-500"
-                          style={{ background: style.gradient }}
-                        />
-                      </button>
+                        style={{ background: style.gradient }}
+                        aria-label={style.name}
+                      />
                     ))}
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* Tips */}
-                <div className="bg-gray-800/50 border border-purple-500/20 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-purple-300 mb-2 font-['Space_Grotesk']">
-                    Sharing Tips
-                  </h4>
-                  <ul className="text-sm text-gray-300 space-y-1 font-['Space_Grotesk']">
-                    <li>• Images are optimized for LinkedIn (4:5 ratio)</li>
-                    <li>• Upload your own portrait for personalization</li>
-                    <li>• High-resolution output for crisp sharing</li>
-                    <li>• Perfect for social media and presentations</li>
-                  </ul>
+            {/* Editable fields for quote, name, and attribution */}
+            <div className="p-6 border-t border-purple-500/20">
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-purple-300 mb-2">
+                    Edit Quote
+                  </label>
+                  <textarea
+                    value={editQuote}
+                    onChange={e => setEditQuote(e.target.value)}
+                    rows={2}
+                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-purple-300 mb-2">
+                    Edit Name
+                  </label>
+                  <input
+                    value={editName}
+                    onChange={e => setEditName(e.target.value)}
+                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-purple-300 mb-2">
+                    Edit Attribution
+                  </label>
+                  <input
+                    value={editAttribution}
+                    onChange={e => setEditAttribution(e.target.value)}
+                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white"
+                  />
                 </div>
               </div>
+            </div>
+
+            {/* Save and Cancel buttons */}
+            <div className="flex justify-end p-6 border-t border-purple-500/20">
+              <button
+                onClick={handleShare}
+                className="rounded px-4 py-2 font-semibold text-white"
+                style={{ background: accentColor }}
+              >
+                Save & Share
+              </button>
+              <button
+                onClick={onClose}
+                className="rounded px-4 py-2 font-semibold text-gray-300 bg-gray-800 border border-gray-700"
+              >
+                Cancel
+              </button>
             </div>
           </motion.div>
         </motion.div>

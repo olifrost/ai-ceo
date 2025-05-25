@@ -1,21 +1,27 @@
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, ShareIcon, EnvelopeIcon, GiftIcon } from '@heroicons/react/24/outline';
 import { shareApp, addVotes } from '../services/voteLimit';
 import EmailCEOModal from './EmailCEOModal';
+import ShareQuoteModal from './ShareQuoteModal';
 
 interface OutOfVotesModalProps {
   isOpen: boolean;
   onClose: () => void;
   onVotesAdded: () => void;
   topCeo?: { name: string; company: string } | null;
+  accentColor?: string;
 }
 
-export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo }: OutOfVotesModalProps) {
+export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo, accentColor = '#7c3aed' }: OutOfVotesModalProps) {
   const [isSharing, setIsSharing] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [shareSuccess, setShareSuccess] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  // Editable fields for share dialog
+  const [shareQuote, setShareQuote] = useState(topCeo?.name ? `Replace ${topCeo.name} at ${topCeo.company} with AI!` : 'Replace your CEO with AI!');
+  const [shareName, setShareName] = useState('AI CEO');
+  const [shareAttribution, setShareAttribution] = useState('aiceo.ai');
 
   const handleShare = async () => {
     setIsSharing(true);
@@ -43,6 +49,16 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo 
   const handleEmailComplete = () => {
     setShowEmailModal(false);
     addVotes(1); // Add 1 vote for emailing a CEO
+    onVotesAdded();
+    onClose();
+  };
+
+  // When share quote modal is used, give votes and close modal
+  const handleShareQuoteEdit = ({ quote, name, attribution }: { quote: string; name: string; attribution: string }) => {
+    setShareQuote(quote);
+    setShareName(name);
+    setShareAttribution(attribution);
+    addVotes(2);
     onVotesAdded();
     onClose();
   };
@@ -76,11 +92,9 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo 
                   <XMarkIcon className="w-6 h-6" />
                 </button>
               </div>
-
               <p className="text-gray-300 mb-6 font-['Space_Grotesk']">
                 You've used all your votes! Unlock more by taking one of these actions:
               </p>
-
               <div className="space-y-3">
                 <motion.button
                   onClick={handleShare}
@@ -106,7 +120,6 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo 
                     </>
                   )}
                 </motion.button>
-
                 {topCeo && (
                   <motion.button
                     onClick={handleEmailCEO}
@@ -118,22 +131,41 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo 
                     Email {topCeo.name} (+1 vote)
                   </motion.button>
                 )}
-
-                <div className="text-center pt-4">
-                  <p className="text-sm text-gray-400 font-['Space_Grotesk']">
-                    More ways to earn votes coming soon...
-                  </p>
-                </div>
+                <motion.button
+                  onClick={() => setShowShareModal(true)}
+                  className="w-full bg-gray-800/60 hover:bg-gray-700/80 border border-purple-500/30 px-6 py-4 rounded-lg transition-all font-['Space_Grotesk'] font-semibold text-purple-300 hover:text-white flex items-center justify-center gap-3"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <ShareIcon className="w-5 h-5" />
+                  Open Share Quote Dialog
+                </motion.button>
+                {/* Hidden dev option for more votes */}
+                <motion.button
+                  onClick={() => { addVotes(100); onVotesAdded(); onClose(); }}
+                  className="w-full bg-gray-900 border border-dashed border-green-400 px-6 py-2 rounded-lg text-green-400 text-xs mt-2 opacity-60 hover:opacity-100"
+                  style={{ display: process.env.NODE_ENV === 'development' ? 'block' : 'none' }}
+                >
+                  DEV: Add 100 votes
+                </motion.button>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
       <EmailCEOModal
         isOpen={showEmailModal}
         onClose={() => setShowEmailModal(false)}
         ceoName={topCeo?.name || ''}
+      />
+      <ShareQuoteModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        quote={shareQuote}
+        name={shareName}
+        attribution={shareAttribution}
+        accentColor={accentColor}
+        onEdit={handleShareQuoteEdit}
       />
     </>
   );

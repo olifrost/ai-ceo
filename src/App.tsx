@@ -71,7 +71,25 @@ function App() {
   const [isThinking, setIsThinking] = useState(false)
   const [showVoting, setShowVoting] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
-  
+  // Add state for editable share fields
+  const [shareName, setShareName] = useState('AI CEO')
+  const [shareAttribution, setShareAttribution] = useState('aiceo.ai')
+
+  // Model label mapping for clarity
+  const modelLabels: Record<string, string> = {
+    visionary: 'DISRUPT',
+    efficient: 'OPTIMISE',
+    strategic: 'STRATEGISE',
+    momentum: 'ACCELERATE',
+  };
+  // Accent color for current model
+  const accentColor = {
+    visionary: '#7c3aed',
+    efficient: '#0ea5e9',
+    strategic: '#10b981',
+    momentum: '#ec4899',
+  }[selectedModel] || '#7c3aed';
+
   if (showVoting) {
     return <CEOVoting onBack={() => setShowVoting(false)} />
   }
@@ -90,10 +108,26 @@ function App() {
   }
 
   return (
-    <div className="container" data-model={selectedModel}>
+    <div className="container min-h-screen flex flex-col" data-model={selectedModel}>
       <h1>AI CEO</h1>
       <p className="subtitle">Replace your boss before they replace you</p>
-      
+      {/* Model selector section */}
+      <div className="flex flex-col items-center w-full mb-2">
+        <p className="models-label text-base font-semibold" style={{ color: accentColor }}>Select Executive Model</p>
+        <div className="flex gap-2 mt-1 mb-2">
+          {Object.keys(ceoModels).map((key) => (
+            <button
+              key={key}
+              onClick={() => setSelectedModel(key)}
+              className={`mode-button text-base font-bold tracking-wide px-3 py-1.5 ${selectedModel === key ? 'active' : ''}`}
+              style={{ minWidth: 80, fontSize: '1rem' }}
+            >
+              {modelLabels[key]}
+            </button>
+          ))}
+        </div>
+      </div>
+      {/* Orb and phrase */}
       <div 
         className={`orb ${isThinking ? 'thinking' : ''} ${phrase ? 'active' : ''}`}
         onClick={generatePhrase}
@@ -111,69 +145,71 @@ function App() {
           </motion.p>
         </AnimatePresence>
       </div>
-
-      {/* Action buttons - only show when there's a quote and not thinking */}
-      <AnimatePresence>
-        {phrase && !isThinking && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="flex flex-col items-center gap-2 mb-4 sm:flex-row sm:justify-center sm:gap-4"
-          >
-            <motion.button
-              onClick={() => setShowVoting(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25 flex items-center gap-2"
-            >
-              <UserGroupIcon className="w-5 h-5" />
-              VOTE
-            </motion.button>
-            <motion.button
-              onClick={() => setShowShareModal(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gray-800/30 hover:bg-gray-700/40 border border-purple-500/30 hover:border-purple-400/50 px-6 py-3 rounded-full transition-all backdrop-blur-sm font-['Space_Grotesk'] text-purple-300 hover:text-white flex items-center gap-2 shadow-lg"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-              </svg>
-              Share Quote
-            </motion.button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="mode-selector">
-        <div className="buttons-wrap">
-          {Object.entries(ceoModels).map(([key, model]) => (
-            <button
-              key={key}
-              onClick={() => setSelectedModel(key)}
-              className={`mode-button ${selectedModel === key ? 'active' : ''}`}
-            >
-              {model.name}
-            </button>
-          ))}
-        </div>
-        <p className="models-label">Select Executive Model</p>
+      {/* Model name below orb, above action buttons */}
+      <div className="text-xl font-bold mb-2" style={{ color: accentColor, letterSpacing: 1 }}>{modelLabels[selectedModel]}</div>
+      {/* Action buttons - always visible, but disabled if no quote or thinking */}
+      <div className="flex flex-col items-center gap-2 mb-4 sm:flex-row sm:justify-center sm:gap-4">
+        <motion.button
+          onClick={() => setShowVoting(true)}
+          whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
+          whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
+          className={`border px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg flex items-center gap-2 font-['Space_Grotesk'] ${(!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          style={{
+            borderColor: accentColor,
+            color: accentColor,
+            background: 'transparent',
+            fontSize: '1.15rem',
+            fontWeight: 700
+          }}
+          disabled={!phrase || isThinking}
+        >
+          <UserGroupIcon className="w-5 h-5" style={{ color: accentColor }} />
+          VOTE
+        </motion.button>
+        <motion.button
+          onClick={() => setShowShareModal(true)}
+          whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
+          whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
+          className={`px-6 py-3 rounded-full transition-all backdrop-blur-sm font-['Space_Grotesk'] flex items-center gap-2 shadow-lg ${(!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          style={{
+            border: `1.5px solid ${accentColor}`,
+            color: accentColor,
+            background: 'rgba(0,0,0,0.15)',
+            fontSize: '1.15rem',
+            fontWeight: 700
+          }}
+          disabled={!phrase || isThinking}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: accentColor }}>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+          </svg>
+          Share Quote
+        </motion.button>
       </div>
-
+      {/* Voting modal */}
+      {showVoting && <CEOVoting onBack={() => setShowVoting(false)} />}
       {/* Share Quote Modal */}
       <ShareQuoteModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         quote={phrase}
-        modelName={ceoModels[selectedModel].name}
-        modelTitle={ceoModels[selectedModel].title}
+        name={shareName}
+        attribution={shareAttribution}
+        accentColor={accentColor}
+        onEdit={({ quote, name, attribution }) => {
+          setPhrase(quote)
+          setShareName(name)
+          setShareAttribution(attribution)
+        }}
       />
-
-      {/* Footer */}
-      <footer className="mt-12 text-center text-xs text-gray-400 opacity-80 font-['Space_Grotesk']">
-        <a href="https://seriouspeople.co" target="_blank" rel="noopener noreferrer" className="underline hover:text-purple-300">Made by Serious People</a>
-        <span className="mx-2">·</span>
-        <span>No AI was harmed in the making of this app. (Or was it?)</span>
+      {/* Footer - locked to bottom, accent color */}
+      <footer className="w-full text-center text-xs font-['Space_Grotesk'] py-3 mt-auto" style={{ color: accentColor, background: 'rgba(0,0,0,0.05)', position: 'sticky', bottom: 0 }}>
+        <div>
+          <a href="https://seriouspeople.co" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-80" style={{ color: accentColor }}>Made by Serious People</a>
+        </div>
+        <div>
+          No AI was harmed in the making of this app. (Or was it?)
+        </div>
       </footer>
     </div>
   )
