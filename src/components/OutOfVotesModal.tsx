@@ -21,7 +21,6 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo,
   // Editable fields for share dialog
   const [shareQuote, setShareQuote] = useState(topCeo?.name ? `Replace ${topCeo.name} at ${topCeo.company} with AI!` : 'Replace your CEO with AI!');
   const [shareName, setShareName] = useState('AI CEO');
-  const [shareAttribution, setShareAttribution] = useState('aiceo.ai');
 
   const handleShare = async () => {
     setIsSharing(true);
@@ -46,18 +45,10 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo,
     setShowEmailModal(true);
   };
 
-  const handleEmailComplete = () => {
-    setShowEmailModal(false);
-    addVotes(1); // Add 1 vote for emailing a CEO
-    onVotesAdded();
-    onClose();
-  };
-
   // When share quote modal is used, give votes and close modal
-  const handleShareQuoteEdit = ({ quote, name, attribution }: { quote: string; name: string; attribution: string }) => {
+  const handleShareQuoteEdit = ({ quote, name }: { quote: string; name: string }) => {
     setShareQuote(quote);
     setShareName(name);
-    setShareAttribution(attribution);
     addVotes(2);
     onVotesAdded();
     onClose();
@@ -120,10 +111,19 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo,
                     </>
                   )}
                 </motion.button>
+                <motion.button
+                  onClick={() => setShowShareModal(true)}
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 py-4 rounded-lg transition-all font-['Space_Grotesk'] font-semibold text-white flex items-center justify-center gap-3"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <ShareIcon className="w-5 h-5" />
+                  Open Share Quote Dialog (+2 votes)
+                </motion.button>
                 {topCeo && (
                   <motion.button
                     onClick={handleEmailCEO}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 py-4 rounded-lg transition-all font-['Space_Grotesk'] font-semibold text-white flex items-center justify-center gap-3"
+                    className="w-full bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-800 hover:to-gray-900 px-6 py-4 rounded-lg transition-all font-['Space_Grotesk'] font-semibold text-white flex items-center justify-center gap-3"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -131,15 +131,6 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo,
                     Email {topCeo.name} (+1 vote)
                   </motion.button>
                 )}
-                <motion.button
-                  onClick={() => setShowShareModal(true)}
-                  className="w-full bg-gray-800/60 hover:bg-gray-700/80 border border-purple-500/30 px-6 py-4 rounded-lg transition-all font-['Space_Grotesk'] font-semibold text-purple-300 hover:text-white flex items-center justify-center gap-3"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <ShareIcon className="w-5 h-5" />
-                  Open Share Quote Dialog
-                </motion.button>
                 {/* Hidden dev option for more votes */}
                 <motion.button
                   onClick={() => { addVotes(100); onVotesAdded(); onClose(); }}
@@ -163,7 +154,6 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo,
         onClose={() => setShowShareModal(false)}
         quote={shareQuote}
         name={shareName}
-        attribution={shareAttribution}
         accentColor={accentColor}
         onEdit={handleShareQuoteEdit}
       />

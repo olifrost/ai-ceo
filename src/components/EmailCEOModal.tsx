@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -21,7 +20,8 @@ export default function EmailCEOModal({ isOpen, onClose, ceoName }: EmailCEOModa
   const handleSendEmail = () => {
     if (!email.trim()) return;
     
-    const mailtoLink = createMailtoLink(email, subject, emailBody);
+    // Use encodeURIComponent for subject and body to avoid + for spaces
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
     window.location.href = mailtoLink;
     onClose();
   };
@@ -80,6 +80,10 @@ export default function EmailCEOModal({ isOpen, onClose, ceoName }: EmailCEOModa
                   rows={4}
                   className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white resize-none"
                 />
+                <div className="mt-2 bg-gray-800/40 border border-purple-500/20 rounded-lg p-3">
+                  <div className="text-xs text-purple-300 mb-1 font-semibold">Preview:</div>
+                  <pre className="whitespace-pre-wrap text-xs text-gray-300 font-mono">{emailBody}</pre>
+                </div>
               </div>
 
               <div className="flex gap-3">

@@ -71,9 +71,6 @@ function App() {
   const [isThinking, setIsThinking] = useState(false)
   const [showVoting, setShowVoting] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
-  // Add state for editable share fields
-  const [shareName, setShareName] = useState('AI CEO')
-  const [shareAttribution, setShareAttribution] = useState('aiceo.ai')
 
   // Model label mapping for clarity
   const modelLabels: Record<string, string> = {
@@ -111,22 +108,6 @@ function App() {
     <div className="container min-h-screen flex flex-col" data-model={selectedModel}>
       <h1>AI CEO</h1>
       <p className="subtitle">Replace your boss before they replace you</p>
-      {/* Model selector section */}
-      <div className="flex flex-col items-center w-full mb-2">
-        <p className="models-label text-base font-semibold" style={{ color: accentColor }}>Select Executive Model</p>
-        <div className="flex gap-2 mt-1 mb-2">
-          {Object.keys(ceoModels).map((key) => (
-            <button
-              key={key}
-              onClick={() => setSelectedModel(key)}
-              className={`mode-button text-base font-bold tracking-wide px-3 py-1.5 ${selectedModel === key ? 'active' : ''}`}
-              style={{ minWidth: 80, fontSize: '1rem' }}
-            >
-              {modelLabels[key]}
-            </button>
-          ))}
-        </div>
-      </div>
       {/* Orb and phrase */}
       <div 
         className={`orb ${isThinking ? 'thinking' : ''} ${phrase ? 'active' : ''}`}
@@ -145,8 +126,21 @@ function App() {
           </motion.p>
         </AnimatePresence>
       </div>
-      {/* Model name below orb, above action buttons */}
-      <div className="text-xl font-bold mb-2" style={{ color: accentColor, letterSpacing: 1 }}>{modelLabels[selectedModel]}</div>
+      {/* Model selector below orb */}
+      <div className="flex flex-col items-center w-full mb-2">
+        <div className="flex gap-2 mt-1 mb-2">
+          {Object.keys(ceoModels).map((key) => (
+            <button
+              key={key}
+              onClick={() => setSelectedModel(key)}
+              className={`mode-button text-base font-bold tracking-wide px-3 py-1.5 ${selectedModel === key ? 'active' : ''}`}
+              style={{ minWidth: 80, fontSize: '1rem' }}
+            >
+              {modelLabels[key]}
+            </button>
+          ))}
+        </div>
+      </div>
       {/* Action buttons - always visible, but disabled if no quote or thinking */}
       <div className="flex flex-col items-center gap-2 mb-4 sm:flex-row sm:justify-center sm:gap-4">
         <motion.button
@@ -193,13 +187,10 @@ function App() {
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         quote={phrase}
-        name={shareName}
-        attribution={shareAttribution}
+        name={ceoModels[selectedModel].name}
         accentColor={accentColor}
-        onEdit={({ quote, name, attribution }) => {
+        onEdit={({ quote }) => {
           setPhrase(quote)
-          setShareName(name)
-          setShareAttribution(attribution)
         }}
       />
       {/* Footer - locked to bottom, accent color */}
