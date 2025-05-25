@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import CEOVoting from './components/CEOVoting'
+import ShareQuoteModal from './components/ShareQuoteModal'
 import './App.css'
 
 type CEOModel = {
@@ -66,6 +68,12 @@ function App() {
   const [selectedModel, setSelectedModel] = useState<string>('visionary')
   const [phrase, setPhrase] = useState<string>('')
   const [isThinking, setIsThinking] = useState(false)
+  const [showVoting, setShowVoting] = useState(false)
+  const [showShareModal, setShowShareModal] = useState(false)
+  
+  if (showVoting) {
+    return <CEOVoting onBack={() => setShowVoting(false)} />
+  }
   
   const generatePhrase = () => {
     if (isThinking) return
@@ -103,6 +111,26 @@ function App() {
         </AnimatePresence>
       </div>
       
+      {/* Share button - appears when there's a quote */}
+      <AnimatePresence>
+        {phrase && !isThinking && (
+          <motion.button
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            onClick={() => setShowShareModal(true)}
+            className="share-button mb-4 px-6 py-3 rounded-full font-['Space_Grotesk'] text-white flex items-center gap-2 shadow-lg font-medium"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+            </svg>
+            Share Quote
+          </motion.button>
+        )}
+      </AnimatePresence>
+      
       <p className="instructions">Click the orb to generate CEO wisdom</p>
 
       <div className="mode-selector">
@@ -118,7 +146,26 @@ function App() {
           ))}
         </div>
         <p className="models-label">Select Executive Model</p>
+        
+        {/* Nominate CEO Button */}
+        <motion.button
+          onClick={() => setShowVoting(true)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
+        >
+          🗳️ Nominate your CEO for AI replacement
+        </motion.button>
       </div>
+
+      {/* Share Quote Modal */}
+      <ShareQuoteModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        quote={phrase}
+        modelName={ceoModels[selectedModel].name}
+        modelTitle={ceoModels[selectedModel].title}
+      />
     </div>
   )
 }

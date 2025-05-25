@@ -1,0 +1,49 @@
+
+export const PRELOADED_CEOS = [
+  { name: "Martin Sorrell", company: "S4 Capital", industry: "Advertising & PR" },
+  { name: "Elon Musk", company: "Tesla", industry: "Tech" },
+  { name: "Mark Zuckerberg", company: "Meta", industry: "Tech" },
+  { name: "Jeff Bezos", company: "Amazon", industry: "Tech" },
+  { name: "Tim Cook", company: "Apple", industry: "Tech" },
+  { name: "Satya Nadella", company: "Microsoft", industry: "Tech" },
+  { name: "Larry Page", company: "Alphabet", industry: "Tech" },
+  { name: "Sergey Brin", company: "Alphabet", industry: "Tech" },
+  { name: "Larry Ellison", company: "Oracle", industry: "Tech" },
+  { name: "Jensen Huang", company: "NVIDIA", industry: "Tech" },
+  { name: "Reed Hastings", company: "Netflix", industry: "Tech" },
+  { name: "Marc Benioff", company: "Salesforce", industry: "Tech" },
+  { name: "Andy Jassy", company: "Amazon", industry: "Tech" },
+  { name: "Sundar Pichai", company: "Google", industry: "Tech" },
+  { name: "Pat Gelsinger", company: "Intel", industry: "Tech" },
+  { name: "Lisa Su", company: "AMD", industry: "Tech" },
+  { name: "Daniel Ek", company: "Spotify", industry: "Tech" },
+  { name: "Drew Houston", company: "Dropbox", industry: "Tech" },
+  { name: "Brian Chesky", company: "Airbnb", industry: "Tech" },
+  { name: "Dara Khosrowshahi", company: "Uber", industry: "Tech" },
+  { name: "Tony Xu", company: "DoorDash", industry: "Tech" },
+  { name: "Frank Slootman", company: "Snowflake", industry: "Tech" },
+  { name: "Marc Lore", company: "Wonder Group", industry: "Tech" },
+  { name: "Bob Chapek", company: "Disney", industry: "Entertainment" },
+  { name: "David Zaslav", company: "Warner Bros Discovery", industry: "Entertainment" },
+  { name: "Darren Woods", company: "ExxonMobil", industry: "Energy" },
+  { name: "Mike Wirth", company: "Chevron", industry: "Energy" },
+  { name: "Ben van Beurden", company: "Shell", industry: "Energy" },
+  { name: "Bernard Looney", company: "BP", industry: "Energy" },
+  { name: "Patrick Pouyanné", company: "TotalEnergies", industry: "Energy" },
+  { name: "Jamie Dimon", company: "JPMorgan Chase", industry: "Finance" },
+  { name: "Brian Moynihan", company: "Bank of America", industry: "Finance" },
+  { name: "Jane Fraser", company: "Citigroup", industry: "Finance" },
+  { name: "David Solomon", company: "Goldman Sachs", industry: "Finance" },
+  { name: "James Gorman", company: "Morgan Stanley", industry: "Finance" },
+];
+
+export const INDUSTRIES = [
+  'All',
+  'Tech',
+  'Finance', 
+  'Advertising & PR',
+  'Energy',
+  'Entertainment'
+] as const;
+
+export type Industry = typeof INDUSTRIES[number];
