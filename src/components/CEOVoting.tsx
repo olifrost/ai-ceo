@@ -7,9 +7,9 @@ import { autoModerateCEO, moderateCEOs } from '../services/moderationService';
 import { Tab } from '@headlessui/react';
 import { PRELOADED_CEOS, INDUSTRIES } from '../data/initialCeos';
 import OutOfVotesModal from './OutOfVotesModal';
-import { useVote } from '../services/voteLimit';
+import { useVote, getVoteStatus, shareApp, addVotes } from '../services/voteLimit';
+import { ShareIcon } from '@heroicons/react/24/outline';
 import toast, { Toaster } from 'react-hot-toast';
-import { getVoteStatus } from '../services/voteLimit';
 
 interface CEOVotingProps {
   onBack: () => void;

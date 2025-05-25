@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { UserGroupIcon } from '@heroicons/react/24/outline';
 import CEOVoting from './components/CEOVoting'
