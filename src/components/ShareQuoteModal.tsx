@@ -31,6 +31,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+  const [editableQuote, setEditableQuote] = useState(quote);
   const canvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -41,8 +42,9 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
       setCustomImage(null);
       setSelectedImage(CEO_IMAGES[0]);
       setSelectedGradient(GRADIENT_STYLES[0]);
+      setEditableQuote(quote);
     }
-  }, [isOpen]);
+  }, [isOpen, quote]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -164,7 +166,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                   >
                     <div className="space-y-4">
                       <blockquote className="text-xl lg:text-2xl font-semibold font-['Space_Grotesk'] leading-relaxed">
-                        "{quote}"
+                        "{editableQuote}"
                       </blockquote>
                       <div className="flex items-center justify-between">
                         <div>
@@ -227,6 +229,19 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
               {/* Right side - Customization */}
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-white font-['Space_Grotesk']">Customize</h3>
+
+                {/* Editable quote input */}
+                <div>
+                  <label className="block text-sm font-medium text-purple-300 mb-2">
+                    Edit Quote
+                  </label>
+                  <textarea
+                    value={editableQuote}
+                    onChange={e => setEditableQuote(e.target.value)}
+                    rows={2}
+                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white resize-none mb-4"
+                  />
+                </div>
 
                 {/* Image Selection */}
                 <div>
@@ -298,7 +313,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                           className="w-8 h-8 rounded border border-gray-500"
                           style={{ background: style.gradient }}
                         />
-                        <span className="text-white font-['Space_Grotesk']">{style.name}</span>
                       </button>
                     ))}
                   </div>

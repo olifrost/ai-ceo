@@ -4,6 +4,10 @@ import { collection, query, orderBy, onSnapshot, doc, updateDoc, increment, addD
 import { db } from '../firebase';
 import { CEO } from '../types/ceo';
 import { autoModerateCEO, moderateCEOs } from '../services/moderationService';
+import { Tab } from '@headlessui/react';
+import { INDUSTRIES } from '../data/initialCeos';
+import OutOfVotesModal from './OutOfVotesModal';
+import { useVote } from '../services/voteLimit';
 
 const PRELOADED_CEOS = [
   { name: "Martin Sorrell", company: "S4 Capital" },
@@ -50,7 +54,8 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [votingCeo, setVotingCeo] = useState<string | null>(null);
   const [justVoted, setJustVoted] = useState<string | null>(null);
-  const [ceosWithIds, setCeosWithIds] = useState<Record<string, number>>({});
+  const [selectedIndustry, setSelectedIndustry] = useState<string>('All');
+  const [outOfVotes, setOutOfVotes] = useState(false);
 
   useEffect(() => {
     // Initialize preloaded CEOs if they don't exist
@@ -82,37 +87,30 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
       orderBy('votes', 'desc')
     );
 
-    let initialLoad = true;
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const ceosData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
         submittedAt: doc.data().submittedAt?.toDate() || new Date()
       })) as CEO[];
-      
-      // Track positions
-      const newPositions = {};
-      ceosData.forEach((ceo, index) => {
-        newPositions[ceo.id] = index;
-      });
-      
-      // Only update positions after initial load
-      if (!initialLoad) {
-        setCeosWithIds(newPositions);
-      } else {
-        setCeosWithIds(newPositions);
-        initialLoad = false;
-      }
-      
       setCeos(ceosData);
     });
 
     return () => unsubscribe();
   }, []);
 
+  // Filter CEOs by selected industry
+  const filteredCeos = selectedIndustry === 'All'
+    ? ceos
+    : ceos.filter((ceo) => ceo.industry === selectedIndustry);
+
   const handleVote = async (ceoId: string) => {
     if (votingCeo) return;
-    
+    // Vote limit logic
+    if (!useVote()) {
+      setOutOfVotes(true);
+      return;
+    }
     setVotingCeo(ceoId);
     try {
       const ceoRef = doc(db, 'ceos', ceoId);
@@ -181,7 +179,7 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
             onClick={onBack}
             className="text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-2 font-medium"
           >
-            ← Back
+             Back
           </button>
           </div>
         <div className="flex flex-col items-center mb-8">
@@ -197,8 +195,30 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
           Vote for which CEOs should be replaced by AI first
         </p>
 
+        {/* Industry Tabs */}
+        <div className="mb-8">
+          <Tab.Group selectedIndex={INDUSTRIES.indexOf(selectedIndustry as any)} onChange={i => setSelectedIndustry(INDUSTRIES[i])}>
+            <Tab.List className="flex space-x-2 justify-center">
+              {INDUSTRIES.map((industry) => (
+                <Tab
+                  key={industry}
+                  className={({ selected }) =>
+                    `px-4 py-2 rounded-full font-semibold font-['Space_Grotesk'] transition-all text-sm focus:outline-none ${
+                      selected
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow'
+                        : 'bg-gray-800/50 text-purple-300 hover:bg-gray-700/50'
+                    }`
+                  }
+                >
+                  {industry}
+                </Tab>
+              ))}
+            </Tab.List>
+          </Tab.Group>
+        </div>
+
         {/* Submit Form Toggle */}
-        <div className="mb-8 text-center">
+        <div className="mb-8 text-center"> 
           <button
             onClick={() => setShowSubmitForm(!showSubmitForm)}
             className="bg-gray-800/50 hover:bg-gray-700/50 border border-purple-500/30 px-6 py-3 rounded-lg transition-all backdrop-blur-sm font-['Space_Grotesk'] text-purple-300 hover:text-white hover:border-purple-400/50"
@@ -252,7 +272,7 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
 
         {/* CEO Leaderboard */}
         <div className="space-y-3">
-          {ceos.map((ceo, index) => (
+          {filteredCeos.map((ceo, index) => (
             <motion.div
               key={ceo.id}
               initial={{ opacity: 0, y: 20 }}
@@ -329,16 +349,20 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
           ))}
         </div>
 
-        {ceos.length === 0 && (
+        {filteredCeos.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-6xl mb-6">🤖</div>
-            <p className="text-purple-300/70 font-['Space_Grotesk'] text-lg">Loading CEO leaderboard...</p>
-            <div className="mt-4">
-              <div className="inline-block w-8 h-8 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
-            </div>
+            <div className="text-6xl mb-6"></div>
+            <p className="text-purple-300/70 font-['Space_Grotesk'] text-lg">No CEOs found for this industry.</p>
           </div>
         )}
       </div>
+      {/* Out of Votes Modal */}
+      <OutOfVotesModal
+        isOpen={outOfVotes}
+        onClose={() => setOutOfVotes(false)}
+        onVotesAdded={() => setOutOfVotes(false)}
+        topCeo={filteredCeos[0] ? { name: filteredCeos[0].name, company: filteredCeos[0].company } : null}
+      />
     </div>
   );
 }

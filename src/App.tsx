@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { UserGroupIcon } from '@heroicons/react/24/outline';
 import CEOVoting from './components/CEOVoting'
 import ShareQuoteModal from './components/ShareQuoteModal'
 import './App.css'
@@ -110,28 +111,39 @@ function App() {
           </motion.p>
         </AnimatePresence>
       </div>
-      
-      {/* Share button - appears when there's a quote */}
+
+      {/* Action buttons - only show when there's a quote and not thinking */}
       <AnimatePresence>
         {phrase && !isThinking && (
-          <motion.button
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            onClick={() => setShowShareModal(true)}
-            className="mb-4 bg-gray-800/30 hover:bg-gray-700/40 border border-purple-500/30 hover:border-purple-400/50 px-6 py-3 rounded-full transition-all backdrop-blur-sm font-['Space_Grotesk'] text-purple-300 hover:text-white flex items-center gap-2 shadow-lg"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="flex flex-col items-center gap-2 mb-4 sm:flex-row sm:justify-center sm:gap-4"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-            </svg>
-            Share Quote
-          </motion.button>
+            <motion.button
+              onClick={() => setShowVoting(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25 flex items-center gap-2"
+            >
+              <UserGroupIcon className="w-5 h-5" />
+              VOTE
+            </motion.button>
+            <motion.button
+              onClick={() => setShowShareModal(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gray-800/30 hover:bg-gray-700/40 border border-purple-500/30 hover:border-purple-400/50 px-6 py-3 rounded-full transition-all backdrop-blur-sm font-['Space_Grotesk'] text-purple-300 hover:text-white flex items-center gap-2 shadow-lg"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+              </svg>
+              Share Quote
+            </motion.button>
+          </motion.div>
         )}
       </AnimatePresence>
-      
-      <p className="instructions">Click the orb to generate CEO wisdom</p>
 
       <div className="mode-selector">
         <div className="buttons-wrap">
@@ -146,16 +158,6 @@ function App() {
           ))}
         </div>
         <p className="models-label">Select Executive Model</p>
-        
-        {/* Nominate CEO Button */}
-        <motion.button
-          onClick={() => setShowVoting(true)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
-        >
-          🗳️ Nominate your CEO for AI replacement
-        </motion.button>
       </div>
 
       {/* Share Quote Modal */}
@@ -166,6 +168,13 @@ function App() {
         modelName={ceoModels[selectedModel].name}
         modelTitle={ceoModels[selectedModel].title}
       />
+
+      {/* Footer */}
+      <footer className="mt-12 text-center text-xs text-gray-400 opacity-80 font-['Space_Grotesk']">
+        <a href="https://seriouspeople.co" target="_blank" rel="noopener noreferrer" className="underline hover:text-purple-300">Made by Serious People</a>
+        <span className="mx-2">·</span>
+        <span>No AI was harmed in the making of this app. (Or was it?)</span>
+      </footer>
     </div>
   )
 }
