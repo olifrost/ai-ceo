@@ -192,10 +192,10 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
              Back
           </button>
           </div>
-        <div className="flex flex-col items-center mb-8">
+        <div className="flex flex-col items-center mb-4">
           
           <h1 className="text-4xl font-bold font-['Space_Grotesk'] bg-gradient-to-r from-white to-purple-400 bg-clip-text text-transparent">
-            CEO Replacement Leaderboard
+            World's Worst Boss
           </h1>
           
           <div className="w-32"></div> {/* Spacer for centering */}
