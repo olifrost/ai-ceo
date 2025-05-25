@@ -24,9 +24,9 @@ interface CEOImage {
 }
 
 const CEO_IMAGES: CEOImage[] = [
-  { id: 'ceo-1', name: 'CEO Portrait 1', url: '/ai-ceo/ceo/ceo-1.jpg', defaultQuoteName: 'Reginald Pinstripe III', defaultAttribution: 'CEO at Monolith Corp' },
-  { id: 'ceo-2', name: 'CEO Portrait 2', url: '/ai-ceo/ceo/ceo-2.jpg', defaultQuoteName: 'Beatrice "Bea" Sterling', defaultAttribution: 'Chief Visionary Officer at QuantumLeap Dynamics' },
-  { id: 'ceo-3', name: 'CEO Portrait 3', url: '/ai-ceo/ceo/ceo-3.jpg', defaultQuoteName: 'Archibald "Archie" Ledger', defaultAttribution: 'Head Honcho at FiscalTrust Solutions' }
+  { id: 'ceo-1', name: 'CEO Portrait 1', url: '/ai-ceo/ceo/ceo-1.jpg', defaultQuoteName: 'Reginald Sterling', defaultAttribution: 'AI CEO at Monolith Corp' },
+  { id: 'ceo-2', name: 'CEO Portrait 2', url: '/ai-ceo/ceo/ceo-2.jpg', defaultQuoteName: 'Jamie Kolkot', defaultAttribution: 'AI CEO at QuantumLeap Dynamics' },
+  { id: 'ceo-3', name: 'CEO Portrait 3', url: '/ai-ceo/ceo/ceo-3.jpg', defaultQuoteName: 'Beatrice Namesake', defaultAttribution: 'AI CEO at FiscalTrust Solutions' }
 ];
 
 const GRADIENT_STYLES = [

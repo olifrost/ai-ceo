@@ -122,6 +122,15 @@ h1 {
   animation: thinking 2s infinite;
 }
 
+.orb.debug-active {
+  opacity: 0.3;
+  transform: scale(0.9);
+  box-shadow: 
+    0 0 40px color-mix(in srgb, var(--accent-color) 20%, transparent),
+    inset 0 0 30px color-mix(in srgb, var(--accent-color) 10%, transparent);
+  transition: all 0.8s ease;
+}
+
 .phrase {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   color: white;

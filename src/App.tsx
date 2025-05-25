@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { UserGroupIcon } from '@heroicons/react/24/outline';
 import CEOVoting from './components/CEOVoting'
 import ShareQuoteModal from './components/ShareQuoteModal'
+import DebugPanel from './components/DebugPanel'
 import './App.css'
 
 type CEOModel = {
@@ -71,6 +72,7 @@ function App() {
   const [isThinking, setIsThinking] = useState(false)
   const [showVoting, setShowVoting] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
+  const [showDebugPanel, setShowDebugPanel] = useState(false)
 
   // Model label mapping for clarity
   const modelLabels: Record<string, string> = {
@@ -112,7 +114,7 @@ function App() {
           <p className="subtitle">Replace your boss before they replace you</p>
           {/* Orb and phrase */}
           <div 
-            className={`orb ${isThinking ? 'thinking' : ''} ${phrase ? 'active' : ''}`}
+            className={`orb ${isThinking ? 'thinking' : ''} ${phrase ? 'active' : ''} ${showDebugPanel ? 'debug-active' : ''}`}
             onClick={generatePhrase}
           >
             <AnimatePresence mode="wait">
@@ -180,7 +182,19 @@ function App() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
               </svg>
               Create Meme
-            </motion.button>          </div>
+            </motion.button>
+          </div>
+          
+          {/* Debug Mode Button */}
+          <div className="text-center mb-4">
+            <button
+              onClick={() => setShowDebugPanel(true)}
+              className="text-xs opacity-60 hover:opacity-100 transition-opacity duration-300 font-['Space_Grotesk'] tracking-wider"
+              style={{ color: accentColor }}
+            >
+              DEBUG MODE
+            </button>
+          </div>
         </div>
       {/* Voting modal */}
       {showVoting && <CEOVoting onBack={() => setShowVoting(false)} />}
@@ -196,6 +210,14 @@ function App() {
           setPhrase(fields.quote)
           // We only need the quote as we're not storing the custom name or attribution
         }}
+      />
+      
+      {/* Debug Panel */}
+      <DebugPanel
+        isOpen={showDebugPanel}
+        onClose={() => setShowDebugPanel(false)}
+        accentColor={accentColor}
+        selectedModel={selectedModel}
       />
       {/* Footer - locked to bottom, accent color */}
       <footer className="w-full text-center text-xs font-['Space_Grotesk'] py-4 mt-auto" style={{ color: accentColor, background: `linear-gradient(to bottom, transparent, rgba(0,0,0,0.5))`, position: 'sticky', bottom: 0, backdropFilter: 'blur(8px)' }}>
