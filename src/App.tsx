@@ -119,7 +119,7 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             onClick={() => setShowShareModal(true)}
-            className="share-button mb-4 px-6 py-3 rounded-full font-['Space_Grotesk'] text-white flex items-center gap-2 shadow-lg font-medium"
+            className="mb-4 bg-gray-800/30 hover:bg-gray-700/40 border border-purple-500/30 hover:border-purple-400/50 px-6 py-3 rounded-full transition-all backdrop-blur-sm font-['Space_Grotesk'] text-purple-300 hover:text-white flex items-center gap-2 shadow-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

@@ -49,6 +49,8 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
   const [newCeoCompany, setNewCeoCompany] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [votingCeo, setVotingCeo] = useState<string | null>(null);
+  const [justVoted, setJustVoted] = useState<string | null>(null);
+  const [ceosWithIds, setCeosWithIds] = useState<Record<string, number>>({});
 
   useEffect(() => {
     // Initialize preloaded CEOs if they don't exist
@@ -80,12 +82,28 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
       orderBy('votes', 'desc')
     );
 
+    let initialLoad = true;
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const ceosData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
         submittedAt: doc.data().submittedAt?.toDate() || new Date()
       })) as CEO[];
+      
+      // Track positions
+      const newPositions = {};
+      ceosData.forEach((ceo, index) => {
+        newPositions[ceo.id] = index;
+      });
+      
+      // Only update positions after initial load
+      if (!initialLoad) {
+        setCeosWithIds(newPositions);
+      } else {
+        setCeosWithIds(newPositions);
+        initialLoad = false;
+      }
+      
       setCeos(ceosData);
     });
 
@@ -101,6 +119,10 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
       await updateDoc(ceoRef, {
         votes: increment(1)
       });
+      
+      // Show success visual feedback
+      setJustVoted(ceoId);
+      setTimeout(() => setJustVoted(null), 2000);
       
       // Run moderation check after voting to approve pending CEOs
       moderateCEOs();
@@ -149,7 +171,7 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-4" style={{
+    <div className="min-h-screen w-screen bg-black text-white p-4 overflow-x-hidden" style={{
       background: 'radial-gradient(circle at center, rgba(124, 58, 237, 0.15) 0%, #000000 100%)'
     }}>
       <div className="max-w-4xl mx-auto">
@@ -159,8 +181,10 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
             onClick={onBack}
             className="text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-2 font-medium"
           >
-            ← Back to AI CEOs
+            ← Back
           </button>
+          </div>
+        <div className="flex flex-col items-center mb-8">
           
           <h1 className="text-4xl font-bold font-['Space_Grotesk'] bg-gradient-to-r from-white to-purple-400 bg-clip-text text-transparent">
             CEO Replacement Leaderboard
@@ -232,9 +256,25 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
             <motion.div
               key={ceo.id}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              className="bg-gray-900/50 backdrop-blur-sm border border-purple-500/20 rounded-lg p-4 flex items-center justify-between hover:border-purple-400/40 transition-all hover:bg-gray-800/50"
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                backgroundColor: justVoted === ceo.id 
+                  ? 'rgba(16, 185, 129, 0.2)' 
+                  : 'rgba(17, 24, 39, 0.5)'
+              }}
+              layout
+              transition={{ 
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                backgroundColor: { duration: 1 }
+              }}
+              className={`bg-gray-900/50 backdrop-blur-sm border rounded-lg p-4 flex items-center justify-between transition-all hover:bg-gray-800/50 ${
+                justVoted === ceo.id 
+                  ? 'border-green-500/40' 
+                  : 'border-purple-500/20 hover:border-purple-400/40'
+              }`}
             >
               <div className="flex items-center gap-4">
                 <div className="text-2xl font-bold text-purple-300/60 w-12 font-['Space_Grotesk']">
@@ -248,25 +288,41 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
 
               <div className="flex items-center gap-6">
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-purple-400 font-['Space_Grotesk']">
+                  <motion.div 
+                    className={`text-2xl font-bold font-['Space_Grotesk'] ${
+                      justVoted === ceo.id ? 'text-green-400' : 'text-purple-400'
+                    }`}
+                    animate={{ 
+                      scale: justVoted === ceo.id ? [1, 1.2, 1] : 1
+                    }}
+                    transition={{ duration: 0.5 }}
+                  >
                     {ceo.votes.toLocaleString()}
-                  </div>
+                  </motion.div>
                   <div className="text-sm text-purple-300/60 font-['Space_Grotesk']">votes</div>
                 </div>
                 
                 <motion.button
                   onClick={() => handleVote(ceo.id)}
-                  disabled={votingCeo === ceo.id}
+                  disabled={votingCeo === ceo.id || justVoted === ceo.id}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-purple-800 disabled:to-pink-800 px-6 py-3 rounded-lg transition-all flex items-center gap-2 font-['Space_Grotesk'] font-semibold shadow-lg hover:shadow-purple-500/25"
+                  className={`px-6 py-3 rounded-lg transition-all flex items-center gap-2 font-['Space_Grotesk'] font-semibold shadow-lg ${
+                    justVoted === ceo.id 
+                      ? 'bg-green-600 cursor-default'
+                      : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-purple-800 disabled:to-pink-800 hover:shadow-purple-500/25'
+                  }`}
                 >
                   {votingCeo === ceo.id ? (
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : justVoted === ceo.id ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
                   ) : (
                     <span className="text-lg">+</span>
                   )}
-                  Vote
+                  {justVoted === ceo.id ? 'Voted' : 'Vote'}
                 </motion.button>
               </div>
             </motion.div>

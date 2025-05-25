@@ -9,13 +9,12 @@ interface ShareQuoteModalProps {
   quote: string;
   modelName: string;
   modelTitle: string;
-  onGenerateNewQuote: () => void;
 }
 
 const CEO_IMAGES = [
-  { id: 'ceo-1', name: 'CEO Portrait 1', url: '/ceo/ceo-1.jpg' },
-  { id: 'ceo-2', name: 'CEO Portrait 2', url: '/ceo/ceo-2.jpg' },
-  { id: 'ceo-3', name: 'CEO Portrait 3', url: '/ceo/ceo-3.jpg' }
+  { id: 'ceo-1', name: 'CEO Portrait 1', url: '/ai-ceo/ceo/ceo-1.jpg' },
+  { id: 'ceo-2', name: 'CEO Portrait 2', url: '/ai-ceo/ceo/ceo-2.jpg' },
+  { id: 'ceo-3', name: 'CEO Portrait 3', url: '/ai-ceo/ceo/ceo-3.jpg' }
 ];
 
 const GRADIENT_STYLES = [
@@ -26,13 +25,12 @@ const GRADIENT_STYLES = [
   { id: 'solid', name: 'Solid Black', gradient: 'rgba(0, 0, 0, 0.85)' }
 ];
 
-export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, modelTitle, onGenerateNewQuote }: ShareQuoteModalProps) {
+export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, modelTitle }: ShareQuoteModalProps) {
   const [selectedImage, setSelectedImage] = useState(CEO_IMAGES[0]);
   const [selectedGradient, setSelectedGradient] = useState(GRADIENT_STYLES[0]);
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -43,25 +41,8 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
       setCustomImage(null);
       setSelectedImage(CEO_IMAGES[0]);
       setSelectedGradient(GRADIENT_STYLES[0]);
-      setError(null);
     }
   }, [isOpen]);
-
-  // Keyboard shortcuts
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      } else if (e.key === 'Enter' && !isGenerating) {
-        generateImage();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, isGenerating, onClose]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -78,7 +59,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
     if (!canvasRef.current) return;
 
     setIsGenerating(true);
-    setError(null);
     try {
       const canvas = await html2canvas(canvasRef.current, {
         width: 800,
@@ -94,7 +74,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
       setGeneratedImageUrl(dataUrl);
     } catch (error) {
       console.error('Error generating image:', error);
-      setError('Failed to generate image. Please try again.');
     } finally {
       setIsGenerating(false);
     }
@@ -171,34 +150,20 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                 {/* Canvas for image generation */}
                 <div 
                   ref={canvasRef}
-                  className="w-full aspect-[4/5] relative overflow-hidden rounded-lg shadow-2xl bg-gray-800"
+                  className="w-full aspect-[4/5] relative overflow-hidden rounded-lg shadow-2xl"
                   style={{
                     backgroundImage: `url(${customImage || selectedImage.url})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
                   }}
                 >
-                  {/* Fallback gradient when image fails to load */}
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-purple-800"
-                    style={{ 
-                      opacity: customImage || selectedImage.url ? 0 : 1,
-                      transition: 'opacity 0.3s ease'
-                    }}
-                  />
                   {/* Quote overlay */}
                   <div 
                     className="absolute bottom-0 left-0 right-0 p-8 text-white"
                     style={{ background: selectedGradient.gradient }}
                   >
                     <div className="space-y-4">
-                      <blockquote 
-                        className="font-semibold font-['Space_Grotesk'] leading-relaxed break-words"
-                        style={{
-                          fontSize: quote.length > 100 ? '18px' : quote.length > 50 ? '20px' : '24px',
-                          lineHeight: '1.4'
-                        }}
-                      >
+                      <blockquote className="text-xl lg:text-2xl font-semibold font-['Space_Grotesk'] leading-relaxed">
                         "{quote}"
                       </blockquote>
                       <div className="flex items-center justify-between">
@@ -210,7 +175,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                             {modelTitle}
                           </div>
                         </div>
-                        <div className="text-xs opacity-60 font-['Space_Grotesk'] bg-black/20 px-2 py-1 rounded">
+                        <div className="text-sm opacity-75 font-['Space_Grotesk']">
                           aiceo.ai
                         </div>
                       </div>
@@ -257,23 +222,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                     </>
                   )}
                 </div>
-
-                {/* Success message */}
-                {generatedImageUrl && !error && (
-                  <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-3 text-green-200 text-sm font-['Space_Grotesk'] flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    Image generated successfully! You can now share or download it.
-                  </div>
-                )}
-
-                {/* Error display */}
-                {error && (
-                  <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 text-red-200 text-sm font-['Space_Grotesk']">
-                    {error}
-                  </div>
-                )}
               </div>
 
               {/* Right side - Customization */}
@@ -365,7 +313,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, modelName, mod
                     <li>• Images are optimized for LinkedIn (4:5 ratio)</li>
                     <li>• Upload your own portrait for personalization</li>
                     <li>• High-resolution output for crisp sharing</li>
-                    <li>• Press Enter to generate, Esc to close</li>
+                    <li>• Perfect for social media and presentations</li>
                   </ul>
                 </div>
               </div>
