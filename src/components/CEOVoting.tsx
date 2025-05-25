@@ -20,6 +20,7 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
   const [showSubmitForm, setShowSubmitForm] = useState(false);
   const [newCeoName, setNewCeoName] = useState('');
   const [newCeoCompany, setNewCeoCompany] = useState('');
+  const [newCeoIndustry, setNewCeoIndustry] = useState<string>('Tech');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [votingCeo, setVotingCeo] = useState<string | null>(null);
   const [justVoted, setJustVoted] = useState<string | null>(null);
@@ -124,6 +125,7 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
       await addDoc(collection(db, 'ceos'), {
         name: newCeoName.trim(),
         company: newCeoCompany.trim(),
+        industry: newCeoIndustry,
         votes: 1, // Start with 1 vote from submitter
         approved: false, // Needs approval through votes
         submittedAt: new Date()
@@ -262,6 +264,21 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
                     className="bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400"
                     required
                   />
+                </div>
+                <div className="mb-4">
+                  <select
+                    value={newCeoIndustry}
+                    onChange={(e) => setNewCeoIndustry(e.target.value)}
+                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] text-white"
+                    required
+                  >
+                    {INDUSTRIES.slice(1).map((industry) => (
+                      <option key={industry} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
                 <button
                   type="submit"

@@ -265,6 +265,19 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                     className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white resize-none mb-4"
                   />
                 </div>
+                
+                {/* Name Input */}
+                <div>
+                  <label className="block text-sm font-medium text-purple-300 mb-2">
+                    Edit Name
+                  </label>
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={e => setEditName(e.target.value)}
+                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white mb-4"
+                  />
+                </div>
 
                 {/* Image Selection */}
                 <div>
@@ -336,43 +349,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                       />
                     ))}
                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Editable fields for quote, name, and attribution */}
-            <div className="p-6 border-t border-purple-500/20">
-              <div className="grid grid-cols-1 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-purple-300 mb-2">
-                    Edit Quote
-                  </label>
-                  <textarea
-                    value={editQuote}
-                    onChange={e => setEditQuote(e.target.value)}
-                    rows={2}
-                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white resize-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-purple-300 mb-2">
-                    Edit Name
-                  </label>
-                  <input
-                    value={editName}
-                    onChange={e => setEditName(e.target.value)}
-                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-purple-300 mb-2">
-                    Edit Attribution
-                  </label>
-                  <input
-                    value={editAttribution}
-                    onChange={e => setEditAttribution(e.target.value)}
-                    className="w-full bg-gray-800/50 border border-purple-500/30 px-4 py-3 rounded-lg focus:outline-none focus:border-purple-400 transition-colors font-['Space_Grotesk'] placeholder-gray-400 text-white"
-                  />
                 </div>
               </div>
             </div>
