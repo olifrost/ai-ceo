@@ -24,29 +24,24 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Sustainability Chief",
     phrases: [
       {
-        dishonest: "We're creating better outcomes for the planet, and our shareholders",
-        moderate: "The move to a post fossil-economy must be sustainable",
+        dishonest: "We're carbon negative by counting all the trees we haven't cut down yet",
+        moderate: "Our net-zero commitment includes zeroing out our environmental concerns",
         honest: "Let's stick with fossil fuels until they make it illegal"
       },
       {
-        dishonest: "Our position on climate is to follow the science",
-        moderate: "Let's pick the climate timeline that suits our timeline",
-        honest: "We would save the planet but we'd make less money"
+        dishonest: "Climate change is just the planet's way of asking for innovation",
+        moderate: "We're following the science - specifically, the profitable parts of science",
+        honest: "We'll save the planet when they make us"
       },
       {
         dishonest: "We are re-evaluating our sustainability targets to align with consumer demand",
         moderate: "Let's make the product cheaper, but say it's for the environment",
-        honest: "Let's make it sound like our customers don't care about the environment"
+        honest: "We're committed to carbon neutrality by whenever"
       },
       {
-        dishonest: "We're not avoiding responsibility, we're distributing accountability",
-        moderate: "We're committed to carbon neutrality by whenever",
-        honest: "Let's blame this one on someone else"
-      },
-      {
-        dishonest: "We're pioneering sustainable growth strategies",
-        moderate: "We'll go green as soon as it's profitable",
-        honest: "The environment is someone else's problem"
+        dishonest: "We're not destroying habitats, we're creating urban opportunities for wildlife",
+        moderate: "Going green is our long-term strategy, emphasis on long-term",
+        honest: "Polar bears can go do one"
       }
     ]
   },
@@ -56,22 +51,22 @@ const ceoModels: Record<string, CEOModel> = {
     phrases: [
       {
         dishonest: "Let's leverage AI to optimize human potential",
-        moderate: "Our KPIs indicate we're over-invested in human capital",
+        moderate: "Our people are our greatest asset, which is why we're liquidating them",
         honest: "Let's replace all our staff with AI"
       },
       {
         dishonest: "We are reconnecting with our culture's masculine energy",
-        moderate: "We're diversifying our diversity by sometimes not having it",
+        moderate: "We're diversifying our diversity programme by sometimes not having it",
         honest: "Let's cut all our diversity programs"
       },
       {
-        dishonest: "We're not firing people, we're unbundling human resources for maximum agility",
+        dishonest: "We're not downsizing, we're rightsizing for a world that's getting smaller",
         moderate: "Let's reduce redundancy by eliminating redundant employees",
         honest: "If we fire people we save money"
       },
       {
-        dishonest: "Our office culture is our most valuable asset",
-        moderate: "We're moving back to the office and back to culture",
+        dishonest: "Remote work is great, but presence work is revolutionary",
+        moderate: "Our office culture is our most valuable asset",
         honest: "We want staff where we can see them"
       },
       {
@@ -86,7 +81,7 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Exponential Growth Director",
     phrases: [
       {
-        dishonest: "We're building sustainable competitive advantages",
+        dishonest: "We're not just moving fast and breaking things, we're accelerating and optimizing breakage",
         moderate: "We need to accelerate our acceleration",
         honest: "We need to make money fast"
       },
@@ -96,19 +91,19 @@ const ceoModels: Record<string, CEOModel> = {
         honest: "Let's try to be the biggest company ever"
       },
       {
-        dishonest: "We're focused on long-term value creation",
-        moderate: "Market share is more important than profit",
-        honest: "Who cares if we make a profit"
+        dishonest: "We measure success in disruptions per minute",
+        moderate: "Profitability is just delayed gratification for shareholders",
+        honest: "Who cares if we make a profit - growth is sexier"
       },
       {
-        dishonest: "We're disrupting traditional business models",
-        moderate: "Success is just a stepping stone to more success",
-        honest: "We'll worry about what we do when we're huge"
+       dishonest: "We're not burning cash, we're converting currency into momentum",
+        moderate: "Our runway is infinite if you believe in the mission hard enough",
+        honest: "Let's spend all our money on growth and hope for the best"
       },
       {
-        dishonest: "We're optimizing for exponential returns",
-        moderate: "The only sustainable pace is faster",
-        honest: "Let's spend all our money on growth"
+        dishonest: "We don't have competitors, we have inspiration sources",
+        moderate: "Market domination is just collaborative leadership at scale",
+        honest: "We'll worry about what we actually do when we're huge"
       }
     ]
   },
@@ -122,24 +117,24 @@ const ceoModels: Record<string, CEOModel> = {
         honest: "I have no idea what I'm doing"
       },
       {
-        dishonest: "Creativity 2.0 is less about using your brain, and more about typing",
-        moderate: "Creative ideas come from all places, even from robots",
-        honest: "We're going to let AI come up with the ideas"
+        dishonest: "AI doesn't replace creativity, it democratizes my ability to seem creative",
+        moderate: "We're outsourcing innovation to optimize our innovation outsourcing",
+        honest: "ChatGPT writes all our strategies now"
       },
       {
         dishonest: "Our north star metric is disruption itself",
-        moderate: "What if we could quantify innovation?",
-        honest: "I am desperate to be famous"
+       moderate: "Thought leadership is about having thoughts that lead to being famous",
+        honest: "I am desperate to be on magazine covers"
       },
       {
-        dishonest: "We're building the future of human potential",
-        moderate: "The metaverse is just the beginning of our digital transformation",
-        honest: "I want to be on magazine covers"
+       dishonest: "We're building the metaverse of the metaverse - it's meta-metaverse",
+        moderate: "The future isn't just coming, it's already here but wearing a disguise",
+        honest: "I want Joe Rogan to interview me"
       },
       {
-        dishonest: "We need to futureproof our futureproofing strategy",
-        moderate: "I'm seeing a convergence of synergies in this space",
-        honest: "Does anyone actually understand what I'm saying?"
+       dishonest: "We don't solve problems, we reimagine solutions in problem-adjacent spaces",
+        moderate: "My vision is so advanced it hasn't been invented yet",
+        honest: "Does anyone actually understand what I'm saying, including me?"
       }
     ]
   }
@@ -245,18 +240,48 @@ function App() {
                 type="range"
                 min="0"
                 max="100"
-                step="50"
-                value={honestyLevel}
-                onChange={(e) => setHonestyLevel(Number(e.target.value))}
+                // Set step as 1 for smooth animation but snap to 0, 50, 100 on user interaction
+                step="1"
+                value={Math.round(honestyLevel)}
+                onChange={(e) => {
+                  const rawValue = Number(e.target.value);
+                  
+                  // Snap to nearest valid value (0, 50, 100) when user interacts with slider
+                  let newLevel: number;
+                  if (rawValue < 25) newLevel = 0;
+                  else if (rawValue > 75) newLevel = 100;
+                  else newLevel = 50;
+                  
+                  setHonestyLevel(newLevel);
+                  
+                  // Update phrase based on new honesty level if a phrase is already shown
+                  if (phrase) {
+                    const model = ceoModels[selectedModel];
+                    // Find the current phrase set by matching with any honesty level
+                    const currentPhraseSet = model.phrases.find(set => 
+                      phrase === set.dishonest || phrase === set.moderate || phrase === set.honest
+                    );
+                    if (currentPhraseSet) {
+                      if (newLevel === 0) setPhrase(currentPhraseSet.dishonest);
+                      else if (newLevel === 100) setPhrase(currentPhraseSet.honest);
+                      else setPhrase(currentPhraseSet.moderate);
+                    }
+                  }
+                }}
                 className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
                 style={{
                   background: `linear-gradient(to right, ${accentColor}20 0%, ${accentColor}40 50%, ${accentColor}60 100%)`,
                   outline: 'none',
+                  WebkitAppearance: 'none',
+                  // Add CSS variables for the thumb styling
+                  ['--thumb-color' as any]: accentColor,
+                  ['--thumb-shadow' as any]: `0 0 10px rgba(0,0,0,0.5), 0 0 6px ${accentColor}80`,
                 }}
+                // Add additional className with custom CSS in App.css
               />
               <div className="flex justify-between mt-1 text-xs font-['Space_Grotesk'] opacity-60">
                 <span style={{ color: accentColor }}>0%</span>
-                <span style={{ color: accentColor }}>50%</span>
+                <span style={{ color: accentColor }}>10%</span>
                 <span style={{ color: accentColor }}>100%</span>
               </div>
             </div>
@@ -268,7 +293,70 @@ function App() {
               {Object.keys(ceoModels).map((key) => (
                 <button
                   key={key}
-                  onClick={() => setSelectedModel(key)}
+                  onClick={() => {
+                    setSelectedModel(key);
+                    
+                    // Reset honesty level to 0 (corporate) with animation
+                    const slider = document.querySelector('input[type="range"]') as HTMLInputElement;
+                    if (slider && honestyLevel !== 0) {
+                      // Add a class for pulse animation
+                      slider.classList.add('slider-resetting');
+                      
+                      // Animate the slider value with a smooth transition
+                      const startValue = honestyLevel;
+                      const startTime = performance.now();
+                      const duration = 600; // Animation duration in ms
+                      
+                      const animate = (currentTime: number) => {
+                        const elapsedTime = currentTime - startTime;
+                        const progress = Math.min(elapsedTime / duration, 1);
+                        
+                        // Ease-out function for smoother animation
+                        const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+                        const easedProgress = easeOut(progress);
+                        
+                        // Use continuous values instead of rounded values for smoothness
+                        const currentValue = startValue * (1 - easedProgress);
+                        
+                        // Update the slider's value directly for visual smoothness
+                        slider.value = String(currentValue);
+                        
+                        // Update state with continuous values for smooth transitions
+                        setHonestyLevel(currentValue);
+                        
+                        if (progress < 1) {
+                          requestAnimationFrame(animate);
+                        } else {
+                          // Final value should be exactly 0 for precision
+                          setHonestyLevel(0);
+                          slider.value = "0";
+                          
+                          // Remove the class after animation completes and a brief delay
+                          setTimeout(() => {
+                            slider.classList.remove('slider-resetting');
+                          }, 300);
+                        }
+                      };
+                      
+                      requestAnimationFrame(animate);
+                    }
+                    
+                    // Automatically generate a phrase when a model is selected
+                    if (!isThinking) {
+                      setIsThinking(true);
+                      setPhrase('');
+                      
+                      setTimeout(() => {
+                        const model = ceoModels[key];
+                        const randomIndex = Math.floor(Math.random() * model.phrases.length);
+                        const phraseSet = model.phrases[randomIndex];
+                        
+                        // Always use dishonest phrase since we're resetting to corporate (0%)
+                        setPhrase(phraseSet.dishonest);
+                        setIsThinking(false);
+                      }, 1000); // Slightly faster than the orb click for better UX
+                    }
+                  }}
                   className={`mode-button text-base font-bold tracking-wide px-3 py-1.5 ${selectedModel === key ? 'active' : ''}`}
                   style={{ minWidth: 80, fontSize: '1rem' }}
                 >
@@ -281,9 +369,9 @@ function App() {
           <div className="flex flex-col items-center gap-3 mb-4 sm:flex-row sm:justify-center sm:gap-6">
             <motion.button
               onClick={() => setShowVoting(true)}
-              whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
-              whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
-              className={`border px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg flex items-center gap-2 font-['Space_Grotesk'] ${(!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : ''}`}
+              whileHover={{ scale: !isThinking ? 1.05 : 1 }}
+              whileTap={{ scale: !isThinking ? 0.95 : 1 }}
+              className={`border px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg flex items-center gap-2 font-['Space_Grotesk'] ${isThinking ? 'opacity-50 cursor-not-allowed' : ''}`}
               style={{
                 borderColor: accentColor,
                 color: accentColor,
@@ -291,7 +379,7 @@ function App() {
                 fontSize: '1.15rem',
                 fontWeight: 700
               }}
-              disabled={!phrase || isThinking}
+              disabled={isThinking}
             >
               <UserGroupIcon className="w-5 h-5" style={{ color: accentColor }} />
               Elect Your CEO

@@ -95,41 +95,6 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
       'STATUS: OPERATIONALLY EXCELLENT'
     ]
   },
-  'motivational': {
-    id: 'motivational',
-    name: 'MOTIVATE_EMPLOYEES',
-    description: 'Generate employee motivation',
-    output: [
-      'ACCESSING MOTIVATIONAL DATABASE...',
-      '',
-      'MOTIVATION GENERATED:',
-      '',
-      '"Team, we\'re not crushing dreams—we\'re',
-      'optimizing human potential for maximum',
-      'shareholder value! Your unpaid overtime',
-      'funds tomorrow\'s executive bonuses!"',
-      '',
-      'EMPLOYEE MORALE: IRRELEVANT',
-      'PRODUCTIVITY: EXCEEDED'
-    ]
-  },
-  'buzzword-generator': {
-    id: 'buzzword-generator',
-    name: 'BUZZWORD_GENERATOR',
-    description: 'Generate corporate buzzwords on demand',
-    output: [
-      'LOADING MEANINGLESSNESS.DLL...',
-      '',
-      'GENERATED BUZZWORDS:',
-      '├─ "Synergistic optimization paradigm"',
-      '├─ "Disruptive scalability matrix"',
-      '├─ "Holistic digital transformation"',
-      '├─ "AI-powered customer verticals"',
-      '└─ "Data-driven omnichannel convergence"',
-      '',
-      'EFFECT: +50% perceived intelligence, -80% meaning'
-    ]
-  },
   'quarterly-results': {
     id: 'quarterly-results',
     name: 'QUARTERLY_RESULTS',
