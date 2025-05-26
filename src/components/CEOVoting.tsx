@@ -7,8 +7,7 @@ import { autoModerateCEO, moderateCEOs } from '../services/moderationService';
 import { Tab } from '@headlessui/react';
 import { PRELOADED_CEOS, INDUSTRIES } from '../data/initialCeos';
 import OutOfVotesModal from './OutOfVotesModal';
-import { useVote, getVoteStatus, shareApp, addVotes } from '../services/voteLimit';
-import { ShareIcon } from '@heroicons/react/24/outline';
+import { useVote, getVoteStatus } from '../services/voteLimit';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface CEOVotingProps {
@@ -27,6 +26,15 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
   const [selectedIndustry, setSelectedIndustry] = useState<string>('All');
   const [outOfVotes, setOutOfVotes] = useState(false);
   const [showDevPanel, setShowDevPanel] = useState(false);
+  const [, setVotesRemaining] = useState(() => getVoteStatus().remainingVotes);
+
+  // Update votes remaining whenever they change
+  useEffect(() => {
+    const updateVotesRemaining = () => {
+      setVotesRemaining(getVoteStatus().remainingVotes);
+    };
+    updateVotesRemaining();
+  }, [outOfVotes, justVoted]);
 
   // Move initializePreloadedCeos outside useEffect
   const initializePreloadedCeos = async () => {

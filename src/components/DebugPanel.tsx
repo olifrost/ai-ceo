@@ -196,7 +196,7 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
 };
 
 export default function DebugPanel({ isOpen, onClose, accentColor, selectedModel }: DebugPanelProps) {
-  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [, setCommandHistory] = useState<string[]>([]);
   const [currentCommand, setCurrentCommand] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);

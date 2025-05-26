@@ -267,8 +267,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                   >
                     {isGenerating ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <PencilSquareIcon className="w-5 h-5" />}
                     {isGenerating ? 'Generating...' : 'Generate Image'}
-                  </button>
-                  {generatedImageUrl && (
+                  </button>                      {generatedImageUrl && (
                     <>
                       <button
                         onClick={downloadImage}
@@ -276,7 +275,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                       >
                         <ArrowDownTrayIcon className="w-5 h-5" /> Download
                       </button>
-                      {navigator.share && typeof (navigator as any).canShare === 'function' && (navigator as any).canShare({ files: [new File([""], "dummy.png", {type: "image/png"})]}) && (
+                      {typeof navigator.share === 'function' && typeof (navigator as any).canShare === 'function' && (navigator as any).canShare({ files: [new File([""], "dummy.png", {type: "image/png"})]}) && (
                         <button
                           onClick={shareImage}
                           className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
