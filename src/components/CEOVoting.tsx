@@ -26,12 +26,14 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
   const [selectedIndustry, setSelectedIndustry] = useState<string>('All');
   const [outOfVotes, setOutOfVotes] = useState(false);
   const [showDevPanel, setShowDevPanel] = useState(false);
-  const [, setVotesRemaining] = useState(() => getVoteStatus().remainingVotes);
+  // Track votes remaining for display and modal triggers
+  const [votesRemaining, setVotesRemaining] = useState(() => getVoteStatus().remainingVotes);
 
-  // Update votes remaining whenever they change
+  // Update votes remaining whenever they change (but don't auto-trigger modal)
   useEffect(() => {
     const updateVotesRemaining = () => {
-      setVotesRemaining(getVoteStatus().remainingVotes);
+      const status = getVoteStatus();
+      setVotesRemaining(status.remainingVotes);
     };
     updateVotesRemaining();
   }, [outOfVotes, justVoted]);
@@ -108,6 +110,14 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
       setJustVoted(ceoId);
       setTimeout(() => setJustVoted(null), 2000);
       moderateCEOs();
+      
+      // Check if this was the third and final vote
+      const updatedStatus = getVoteStatus();
+      if (updatedStatus.remainingVotes === 0) {
+        setTimeout(() => {
+          setOutOfVotes(true); // Show modal after the third vote
+        }, 1000);
+      }
     } catch (error) {
       console.error('Error voting:', error);
     } finally {
@@ -197,9 +207,18 @@ export default function CEOVoting({ onBack }: CEOVotingProps) {
             onClick={onBack}
             className="text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-2 font-medium"
           >
-             Back
+             Back
           </button>
-          </div>
+          <button 
+            onClick={() => setOutOfVotes(true)}
+            className="bg-gray-800/60 hover:bg-gray-700/70 border border-purple-500/30 px-3 py-2 rounded-lg text-purple-300 hover:text-white font-medium transition-all backdrop-blur-sm flex items-center gap-2"
+          >
+            <span className="bg-purple-500/20 rounded-full w-6 h-6 flex items-center justify-center font-bold text-purple-300">
+              {votesRemaining}
+            </span>
+            Get More Votes
+          </button>
+        </div>
         <div className="flex flex-col items-center mb-4">
           
           <h1 className="text-4xl font-bold font-['Space_Grotesk'] bg-gradient-to-r from-white to-purple-400 bg-clip-text text-transparent">
