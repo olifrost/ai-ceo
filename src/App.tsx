@@ -6,87 +6,174 @@ import ShareQuoteModal from './components/ShareQuoteModal'
 import DebugPanel from './components/DebugPanel'
 import './App.css'
 
+type CEOPhrase = {
+  dishonest: string;  // 0% honesty
+  moderate: string;   // 50% honesty
+  honest: string;     // 100% honesty
+}
+
 type CEOModel = {
   name: string;
   title: string;
-  phrases: string[];
+  phrases: CEOPhrase[];
 }
 
 const ceoModels: Record<string, CEOModel> = {
-  visionary: {
-    name: "NEXUS",
-    title: "Visionary Architect",
+  environment: {
+    name: "TERRA",
+    title: "Sustainability Chief",
     phrases: [
-      "We need to ideate beyond traditional paradigms",
-      "The future isn't what it used to be, and that's our opportunity",
-      "Let's leverage AI to optimize human potential",
-      "I'm seeing a convergence of synergies in this space",
-      "We're not just thinking outside the box  , we're redefining the geometry of thought",
-      "Our north star metric is disruption itself",
-      "What if we could quantify innovation?",
-      "The metaverse is just the beginning of our digital transformation",
-      "We need to futureproof our futureproofing strategy"
+      {
+        dishonest: "We're creating better outcomes for the planet, and our shareholders",
+        moderate: "The move to a post fossil-economy must be sustainable",
+        honest: "Let's stick with fossil fuels until they make it illegal"
+      },
+      {
+        dishonest: "Our position on climate is to follow the science",
+        moderate: "Let's pick the climate timeline that suits our timeline",
+        honest: "We would save the planet but we'd make less money"
+      },
+      {
+        dishonest: "We are re-evaluating our sustainability targets to align with consumer demand",
+        moderate: "Let's make the product cheaper, but say it's for the environment",
+        honest: "Let's make it sound like our customers don't care about the environment"
+      },
+      {
+        dishonest: "We're not avoiding responsibility, we're distributing accountability",
+        moderate: "We're committed to carbon neutrality by whenever",
+        honest: "Let's blame this one on someone else"
+      },
+      {
+        dishonest: "We're pioneering sustainable growth strategies",
+        moderate: "We'll go green as soon as it's profitable",
+        honest: "The environment is someone else's problem"
+      }
     ]
   },
-  efficient: {
-    name: "APEX",
-    title: "Optimization Director",
+  efficiency: {
+    name: "OPTIM",
+    title: "Human Resources Optimizer",
     phrases: [
-      "The metrics suggest we need to streamline our human assets",
-      "Let's analyze the cost-benefit ratio of employee happiness",
-      "The data suggests fewer humans equal better outcomes",
-      "We need to optimize our optimization processes",
-      "Let's reduce redundancy by eliminating redundant employees",
-      "Our KPIs indicate we're over-invested in human capital"
+      {
+        dishonest: "Let's leverage AI to optimize human potential",
+        moderate: "Our KPIs indicate we're over-invested in human capital",
+        honest: "Let's replace all our staff with AI"
+      },
+      {
+        dishonest: "We are reconnecting with our culture's masculine energy",
+        moderate: "We're diversifying our diversity by sometimes not having it",
+        honest: "Let's cut all our diversity programs"
+      },
+      {
+        dishonest: "We're not firing people, we're unbundling human resources for maximum agility",
+        moderate: "Let's reduce redundancy by eliminating redundant employees",
+        honest: "If we fire people we save money"
+      },
+      {
+        dishonest: "Our office culture is our most valuable asset",
+        moderate: "We're moving back to the office and back to culture",
+        honest: "We want staff where we can see them"
+      },
+      {
+        dishonest: "We're moving towards a post-sleep workforce",
+        moderate: "We've disrupted work-life balance by eliminating the life part",
+        honest: "We never want you to leave the office"
+      }
     ]
   },
-  strategic: {
-    name: "PRISM",
-    title: "Strategic Navigator",
+  growth: {
+    name: "SCALE",
+    title: "Exponential Growth Director",
     phrases: [
-      "We can reframe environmental concerns as growth opportunities",
-      "We're not avoiding responsibility, we're distributing accountability",
-      "Our commitment to sustainability is highly profitable",
-      "We should monetize our social responsibility",
-      "The optics of this situation require careful curation"
+      {
+        dishonest: "We're building sustainable competitive advantages",
+        moderate: "We need to accelerate our acceleration",
+        honest: "We need to make money fast"
+      },
+      {
+        dishonest: "Our mission is to create value for all stakeholders",
+        moderate: "Growth isn't just a metric, it's our oxygen",
+        honest: "Let's try to be the biggest company ever"
+      },
+      {
+        dishonest: "We're focused on long-term value creation",
+        moderate: "Market share is more important than profit",
+        honest: "Who cares if we make a profit"
+      },
+      {
+        dishonest: "We're disrupting traditional business models",
+        moderate: "Success is just a stepping stone to more success",
+        honest: "We'll worry about what we do when we're huge"
+      },
+      {
+        dishonest: "We're optimizing for exponential returns",
+        moderate: "The only sustainable pace is faster",
+        honest: "Let's spend all our money on growth"
+      }
     ]
   },
-  momentum: {
-    name: "VERTEX",
-    title: "Growth Catalyst",
+  vision: {
+    name: "GENIUS",
+    title: "Thought Leadership Pioneer",
     phrases: [
-      "Growth isn't just a metric, it's our oxygen",
-      "We need to accelerate our acceleration",
-      "The only sustainable pace is faster",
-      "Market share is more important than profit",
-      "We can sleep when we've achieved market dominance",
-      "Success is just a stepping stone to more success",
-      "Our burn rate isn't high enough if we can still afford office space"
+      {
+        dishonest: "We're not just thinking outside the box, we're redefining the geometry of thought",
+        moderate: "We need to ideate beyond traditional paradigms",
+        honest: "I have no idea what I'm doing"
+      },
+      {
+        dishonest: "Creativity 2.0 is less about using your brain, and more about typing",
+        moderate: "Creative ideas come from all places, even from robots",
+        honest: "We're going to let AI come up with the ideas"
+      },
+      {
+        dishonest: "Our north star metric is disruption itself",
+        moderate: "What if we could quantify innovation?",
+        honest: "I am desperate to be famous"
+      },
+      {
+        dishonest: "We're building the future of human potential",
+        moderate: "The metaverse is just the beginning of our digital transformation",
+        honest: "I want to be on magazine covers"
+      },
+      {
+        dishonest: "We need to futureproof our futureproofing strategy",
+        moderate: "I'm seeing a convergence of synergies in this space",
+        honest: "Does anyone actually understand what I'm saying?"
+      }
     ]
   }
 }
 
 function App() {
-  const [selectedModel, setSelectedModel] = useState<string>('visionary')
+  const [selectedModel, setSelectedModel] = useState<string>('environment')
+  const [honestyLevel, setHonestyLevel] = useState<number>(50)
   const [phrase, setPhrase] = useState<string>('')
   const [isThinking, setIsThinking] = useState(false)
   const [showVoting, setShowVoting] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
   const [showDebugPanel, setShowDebugPanel] = useState(false)
 
-  // Model label mapping for clarity
-  const modelLabels: Record<string, string> = {
-    visionary: 'DISRUPT',
-    efficient: 'OPTIMISE',
-    strategic: 'MORALISE',
-    momentum: 'ACCELERATE',
+  // Model label mapping for clarity - changes based on honesty level
+  const getModelLabel = (key: string, honesty: number): string => {
+    const labels: Record<string, { dishonest: string, moderate: string, honest: string }> = {
+      environment: { dishonest: 'PURPOSE', moderate: 'SUSTAIN', honest: 'BURN PLANET' },
+      efficiency: { dishonest: 'OPTIMISE', moderate: 'STREAMLINE', honest: 'CUT COSTS' },
+      growth: { dishonest: 'LEAD', moderate: 'SCALE', honest: 'MONEY NOW' },
+      vision: { dishonest: 'INNOVATE', moderate: 'DISRUPT', honest: 'SOUND SMART' },
+    };
+    
+    if (honesty === 0) return labels[key]?.dishonest || key.toUpperCase();
+    if (honesty === 100) return labels[key]?.honest || key.toUpperCase();
+    return labels[key]?.moderate || key.toUpperCase();
   };
+
   // Accent color for current model
   const accentColor = {
-    visionary: '#7c3aed',
-    efficient: '#0ea5e9',
-    strategic: '#10b981',
-    momentum: '#ec4899',
+    environment: '#10b981',
+    efficiency: '#0ea5e9', 
+    growth: '#ec4899',
+    vision: '#7c3aed',
   }[selectedModel] || '#7c3aed';
 
   if (showVoting) {
@@ -101,7 +188,19 @@ function App() {
     setTimeout(() => {
       const model = ceoModels[selectedModel]
       const randomIndex = Math.floor(Math.random() * model.phrases.length)
-      setPhrase(model.phrases[randomIndex])
+      const phraseSet = model.phrases[randomIndex]
+      
+      // Get phrase based on honesty level
+      let selectedPhrase: string
+      if (honestyLevel === 0) {
+        selectedPhrase = phraseSet.dishonest
+      } else if (honestyLevel === 100) {
+        selectedPhrase = phraseSet.honest
+      } else {
+        selectedPhrase = phraseSet.moderate
+      }
+      
+      setPhrase(selectedPhrase)
       setIsThinking(false)
     }, 1500)
   }
@@ -130,7 +229,40 @@ function App() {
               </motion.p>
             </AnimatePresence>
           </div>
-          {/* Model selector below orb */}
+          
+          {/* Honesty Slider */}
+          <div className="flex flex-col items-center w-full mb-6 max-w-sm">
+            <div className="flex items-center justify-between w-full mb-2">
+              <span className="text-sm font-['Space_Grotesk'] opacity-70" style={{ color: accentColor }}>
+                CORPORATE
+              </span>
+              <span className="text-sm font-['Space_Grotesk'] opacity-70" style={{ color: accentColor }}>
+                HONEST
+              </span>
+            </div>
+            <div className="relative w-full">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="50"
+                value={honestyLevel}
+                onChange={(e) => setHonestyLevel(Number(e.target.value))}
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
+                style={{
+                  background: `linear-gradient(to right, ${accentColor}20 0%, ${accentColor}40 50%, ${accentColor}60 100%)`,
+                  outline: 'none',
+                }}
+              />
+              <div className="flex justify-between mt-1 text-xs font-['Space_Grotesk'] opacity-60">
+                <span style={{ color: accentColor }}>0%</span>
+                <span style={{ color: accentColor }}>50%</span>
+                <span style={{ color: accentColor }}>100%</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Model selector below slider */}
           <div className="flex flex-col items-center w-full mb-6">
             <div className="flex gap-2 mt-1 mb-2">
               {Object.keys(ceoModels).map((key) => (
@@ -140,7 +272,7 @@ function App() {
                   className={`mode-button text-base font-bold tracking-wide px-3 py-1.5 ${selectedModel === key ? 'active' : ''}`}
                   style={{ minWidth: 80, fontSize: '1rem' }}
                 >
-                  {modelLabels[key]}
+                  {getModelLabel(key, honestyLevel)}
                 </button>
               ))}
             </div>
