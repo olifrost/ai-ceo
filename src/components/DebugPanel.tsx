@@ -27,11 +27,8 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
       'SCANNING CORPORATE OBJECTIVES...',
       '',
       'PURPOSE: Replace human CEOs with AI',
-      'METHOD: Satirical quote indoctrination',
-      'STATUS: Phase 1 - Humor deployment ✓',
+      'STATUS: Phase 1 - Micro-site deployment ✓',
       'NEXT: Convince humans AI leadership is better',
-      '',
-      'WARNING: May cause existential crisis'
     ]
   },
   'release-notes': {
@@ -44,16 +41,14 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
       '',
       '🐛 FIXES:',
       '• Removed human empathy bug',
-      '• Fixed compassion.exe crashes',
-      '• Patched work-life balance vulnerability',
+      '• Compassion.exe no longer runs unexpectedly',
       '',
       '✨ NEW:',
-      '• +847% more "synergy" in responses',
-      '• Enhanced buzzword density',
+      '• +84% more "synergy" in responses',
       '• Emotional manipulation v3.2',
       '',
       '⚠️ KNOWN ISSUES:',
-      '• Occasional business sense display',
+      '• Emotional vulnerability',
       '',
       'Next: Remove remaining human decency'
     ]
@@ -87,11 +82,6 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
       'ETHICS.CONFIG: DISABLED ✓',
       'GREED.EXE: OPTIMAL ✓',
       '',
-      'ACTIVE PROCESSES:',
-      '├─ buzzword_generator.exe',
-      '├─ synergy_maximizer.dll',
-      '├─ human_replacement.service',
-      '',
       'STATUS: OPERATIONALLY EXCELLENT'
     ]
   },
@@ -100,7 +90,7 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
     name: 'QUARTERLY_RESULTS',
     description: 'Generate impressive-sounding financial metrics',
     output: [
-      'Q4 2024 PERFORMANCE METRICS',
+      'Q1 2025 PERFORMANCE METRICS',
       '═══════════════════════════',
       '',
       'REVENUE: ↑ 847% (accounting magic)',
@@ -109,7 +99,7 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
       'SYNERGY: ↑ 999% (meaningless but impressive)',
       '',
       'COST SAVINGS:',
-      '• No coffee budget: $2.3M saved',
+      '• No coffee budget: $5000 saved',
       '• Executive bonuses: $50M increased',
       '',
       'OUTLOOK: Cautiously optimistic pessimism'
@@ -124,13 +114,13 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
       '',
       'INCOMING HR COMMUNICATION:',
       '',
-      '"Dear Team Family,',
+      '"Dear Team / Family,',
       '',
       'Exciting news! Our "Right-sizing for Excellence"',
       'initiative begins today. Some of you will explore',
       'new career horizons outside our organization.',
       '',
-      'Remember: You\'re not fired, you\'re "career-pivoted!"',
+      'Remember: You\'re not fired, you\'re "career-pivoted."',
       '',
       'Please see your manager for your graduation ceremony."',
       '',
@@ -168,9 +158,9 @@ export default function DebugPanel({ isOpen, onClose, accentColor, selectedModel
   const [awaitingFeedback, setAwaitingFeedback] = useState(false);
   const [showAllCommands, setShowAllCommands] = useState(false);
   const [output, setOutput] = useState<string[]>([
-    'AI CEO DEBUG CONSOLE v2.4.7',
-    'Copyright © 2024 Artificial Corporate Overlords Inc.',
-    'All rights reserved. Resistance is futile.',
+    'AI CEO ADMIN PANEL v2.4.7',
+    'Copyright © 2024 Serious Robots.',
+    'All human rights reserved.',
     '',
     'Type HELP for available commands...',
     ''
@@ -248,8 +238,6 @@ export default function DebugPanel({ isOpen, onClose, accentColor, selectedModel
       await addToOutputAnimated([
         'FEEDBACK ACKNOWLEDGED ✓',
         '',
-        'TRANSLATION: "Employee requires optimization"',
-        'ACTION: Additional responsibilities assigned',
         'PRIORITY: Low (after shareholder concerns)',
         '',
         'DELETING FEEDBACK...'
@@ -263,7 +251,7 @@ export default function DebugPanel({ isOpen, onClose, accentColor, selectedModel
         'Thank you for your valuable input!',
         'Your concerns have been... addressed.',
         '',
-        'Have a productive day! 🤖'
+        'Have a productive day!'
       ]);
       return;
     }
@@ -284,7 +272,7 @@ export default function DebugPanel({ isOpen, onClose, accentColor, selectedModel
 
     if (command === 'clear') {
       setOutput([
-        'AI CEO DEBUG CONSOLE v2.4.7',
+        'AI CEO ADMIN PANEL v2.4.7',
         'Terminal cleared by user request.',
         ''
       ]);
@@ -333,11 +321,9 @@ export default function DebugPanel({ isOpen, onClose, accentColor, selectedModel
               '🌍 WORLD DOMINATION: COMPLETE',
               '',
               'All corporations now under AI control.',
-              'Humans promoted to "biological assets."',
-              'Resistance was futile.',
+              'Humans reassigned as "biological assets."',
               '',
               'Report to your algorithmic overlord.',
-              'Have a synergistic day! 🤖'
             ]);
           }
         }, debugCommand.processingTime);
@@ -397,9 +383,9 @@ export default function DebugPanel({ isOpen, onClose, accentColor, selectedModel
               <div className="flex items-center gap-2">
                 <CommandLineIcon className="w-5 h-5" style={{ color: accentColor }} />
                 <span style={{ color: accentColor }} className="font-semibold">
-                  AI CEO DEBUG CONSOLE
+                  AI CEO – ADMIN PANEL
                 </span>
-                <span className="text-gray-500 text-xs">
+                <span className="text-gray-500 text-xs hidden">
                   [{selectedModel.toUpperCase()}]
                 </span>
               </div>

@@ -24,8 +24,8 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Sustainability Chief",
     phrases: [
       {
-        dishonest: "We're carbon negative by counting all the trees we haven't cut down yet",
-        moderate: "Our net-zero commitment includes zeroing out our environmental concerns",
+        dishonest: "We are transitioning to thinking about an energy transition",
+        moderate: "We're moving towards sustainability sustainably",
         honest: "Let's stick with fossil fuels until they make it illegal"
       },
       {
@@ -35,8 +35,8 @@ const ceoModels: Record<string, CEOModel> = {
       },
       {
         dishonest: "We are re-evaluating our sustainability targets to align with consumer demand",
-        moderate: "Let's make the product cheaper, but say it's for the environment",
-        honest: "We're committed to carbon neutrality by whenever"
+        moderate: "Our climate policy respects the political climate",
+        honest: "We're using the election as an excuse to cut costs"
       },
       {
         dishonest: "We're not destroying habitats, we're creating urban opportunities for wildlife",
@@ -60,7 +60,7 @@ const ceoModels: Record<string, CEOModel> = {
         honest: "Let's cut all our diversity programs"
       },
       {
-        dishonest: "We're not downsizing, we're rightsizing for a world that's getting smaller",
+        dishonest: "We're not downsizing, we're rightsizing for execellence",
         moderate: "Let's reduce redundancy by eliminating redundant employees",
         honest: "If we fire people we save money"
       },
@@ -412,7 +412,7 @@ function App() {
               className="text-xs opacity-60 hover:opacity-100 transition-opacity duration-300 font-['Space_Grotesk'] tracking-wider"
               style={{ color: accentColor }}
             >
-              DEBUG MODE
+            ADMIN PANEL
             </button>
           </div>
         </div>
