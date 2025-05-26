@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { generateCEOEmail, createMailtoLink } from '../services/voteLimit';
+import { generateCEOEmail } from '../services/voteLimit';
 
 interface EmailCEOModalProps {
   isOpen: boolean;
