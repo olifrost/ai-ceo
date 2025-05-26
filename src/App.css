@@ -4,11 +4,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  padding: 0.75rem;
   position: relative;
   background: radial-gradient(circle at center, var(--accent-glow) 0%, #000000 100%);
   transition: background 1s ease;
   margin: 0 auto;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
 }
 
 /* CEO Model specific colors */
@@ -37,7 +45,7 @@
 }
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 2.8rem;
   font-family: 'Space Grotesk', system-ui, sans-serif;
   font-weight: 700;
   background: linear-gradient(to right, #fff 20%, var(--accent-color));
@@ -49,29 +57,43 @@ h1 {
   z-index: 5;
   text-shadow: 0 0 30px rgba(167, 139, 250, 0.3);
   letter-spacing: -0.02em;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  h1 {
+    font-size: 3.5rem;
+  }
 }
 
 .subtitle {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   color: var(--accent-color);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin: 0 0 2rem 0;
   opacity: 0.8;
   position: relative;
   z-index: 5;
   font-weight: 500;
+  line-height: 1.4;
+}
+
+@media (min-width: 640px) {
+  .subtitle {
+    font-size: 1.2rem;
+  }
 }
 
 .orb {
-  width: 280px;
-  height: 280px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--accent-color) 0%, color-mix(in srgb, var(--accent-color) 70%, #000) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 2rem;
+  padding: 1.5rem;
   transition: all 0.3s ease;
   box-shadow: 
     0 0 60px color-mix(in srgb, var(--accent-color) 30%, transparent),
@@ -82,6 +104,14 @@ h1 {
   overflow: hidden;
   animation: breathe 4s ease-in-out infinite;
   transform-origin: center center;
+}
+
+@media (min-width: 640px) {
+  .orb {
+    width: 280px;
+    height: 280px;
+    padding: 2rem;
+  }
 }
 
 .orb::before {
@@ -138,13 +168,19 @@ h1 {
 .phrase {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: center;
   line-height: 1.4;
   font-weight: 500;
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
   position: relative;
   z-index: 1;
+}
+
+@media (min-width: 640px) {
+  .phrase {
+    font-size: 1.2rem;
+  }
 }
 
 .instructions {
@@ -187,12 +223,20 @@ h1 {
   background: color-mix(in srgb, var(--accent-color) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
   color: var(--accent-color);
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 9999px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   transition: all 0.3s ease;
   cursor: pointer;
   backdrop-filter: blur(5px);
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .mode-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
 }
 
 .mode-button:hover {
@@ -285,25 +329,27 @@ h1 {
 /* Slider thumb styling */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
   background: var(--accent-color);
   box-shadow: 0 0 10px rgba(0,0,0,0.5), 0 0 6px rgba(var(--accent-color-rgb), 0.5);
   cursor: pointer;
-  margin-top: -9px;
+  margin-top: -8px;
   transition: transform 0.3s ease, background-color 0.3s ease;
+  touch-action: manipulation;
 }
 
 input[type="range"]::-moz-range-thumb {
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
   background: var(--accent-color);
   box-shadow: 0 0 10px rgba(0,0,0,0.5), 0 0 6px rgba(var(--accent-color-rgb), 0.5);
   cursor: pointer;
   border: none;
   transition: transform 0.3s ease, background-color 0.3s ease;
+  touch-action: manipulation;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover,
@@ -313,6 +359,25 @@ input[type="range"]::-moz-range-thumb:hover {
 
 input[type="range"] {
   transition: all 0.3s ease;
+  touch-action: manipulation;
+  height: 8px;
+}
+
+/* Increase the touch target for mobile */
+@media (max-width: 640px) {
+  input[type="range"] {
+    margin: 10px 0;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    height: 26px;
+    width: 26px;
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    height: 26px;
+    width: 26px;
+  }
 }
 
 /* Animation for slider resetting */

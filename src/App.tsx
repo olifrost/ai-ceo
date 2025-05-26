@@ -202,10 +202,10 @@ function App() {
 
   return (
     <div className="bg-black min-h-screen w-full flex justify-center">
-      <div className="container min-h-screen flex flex-col" data-model={selectedModel}>
+      <div className="container min-h-screen flex flex-col px-4" data-model={selectedModel}>
         <div className="flex-grow flex flex-col items-center justify-center md:py-10">
-          <h1>AI CEO</h1>
-          <p className="subtitle">Replace your boss before they replace you</p>
+          <h1 className="text-center">AI CEO</h1>
+          <p className="subtitle text-center px-2 max-w-xs sm:max-w-none">Replace your boss before they replace&nbsp;you</p>
           {/* Orb and phrase */}
           <div 
             className={`orb ${isThinking ? 'thinking' : ''} ${phrase ? 'active' : ''} ${showDebugPanel ? 'debug-active' : ''}`}
@@ -226,12 +226,12 @@ function App() {
           </div>
           
           {/* Honesty Slider */}
-          <div className="flex flex-col items-center w-full mb-6 max-w-sm">
+          <div className="flex flex-col items-center w-full mb-6 max-w-[90%] sm:max-w-sm">
             <div className="flex items-center justify-between w-full mb-2">
-              <span className="text-sm font-['Space_Grotesk'] opacity-70" style={{ color: accentColor }}>
+              <span className="text-xs sm:text-sm font-['Space_Grotesk'] opacity-70" style={{ color: accentColor }}>
                 CORPORATE
               </span>
-              <span className="text-sm font-['Space_Grotesk'] opacity-70" style={{ color: accentColor }}>
+              <span className="text-xs sm:text-sm font-['Space_Grotesk'] opacity-70" style={{ color: accentColor }}>
                 HONEST
               </span>
             </div>
@@ -268,7 +268,7 @@ function App() {
                     }
                   }
                 }}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer slider"
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer slider touch-manipulation"
                 style={{
                   background: `linear-gradient(to right, ${accentColor}20 0%, ${accentColor}40 50%, ${accentColor}60 100%)`,
                   outline: 'none',
@@ -276,12 +276,15 @@ function App() {
                   // Add CSS variables for the thumb styling
                   ['--thumb-color' as any]: accentColor,
                   ['--thumb-shadow' as any]: `0 0 10px rgba(0,0,0,0.5), 0 0 6px ${accentColor}80`,
+                  // Add mobile-friendly sizing
+                  ['--thumb-size' as any]: '24px',
+                  height: '8px',
                 }}
                 // Add additional className with custom CSS in App.css
               />
-              <div className="flex justify-between mt-1 text-xs font-['Space_Grotesk'] opacity-60">
+              <div className="flex justify-between mt-1 text-[0.65rem] sm:text-xs font-['Space_Grotesk'] opacity-60">
                 <span style={{ color: accentColor }}>0%</span>
-                <span style={{ color: accentColor }}>10%</span>
+                <span style={{ color: accentColor }}>50%</span>
                 <span style={{ color: accentColor }}>100%</span>
               </div>
             </div>
@@ -289,7 +292,7 @@ function App() {
           
           {/* Model selector below slider */}
           <div className="flex flex-col items-center w-full mb-6">
-            <div className="flex gap-2 mt-1 mb-2">
+            <div className="flex flex-wrap justify-center gap-2 mt-1 mb-2">
               {Object.keys(ceoModels).map((key) => (
                 <button
                   key={key}
@@ -357,8 +360,8 @@ function App() {
                       }, 1000); // Slightly faster than the orb click for better UX
                     }
                   }}
-                  className={`mode-button text-base font-bold tracking-wide px-3 py-1.5 ${selectedModel === key ? 'active' : ''}`}
-                  style={{ minWidth: 80, fontSize: '1rem' }}
+                  className={`mode-button font-bold tracking-wide px-2 py-1.5 ${selectedModel === key ? 'active' : ''}`}
+                  style={{ minWidth: 72, fontSize: '0.85rem', letterSpacing: '0.02em' }}
                 >
                   {getModelLabel(key, honestyLevel)}
                 </button>
@@ -366,42 +369,42 @@ function App() {
             </div>
           </div>
           {/* Action buttons - always visible, but disabled if no quote or thinking */}
-          <div className="flex flex-col items-center gap-3 mb-4 sm:flex-row sm:justify-center sm:gap-6">
+          <div className="flex flex-col items-center w-full gap-3 mb-4 sm:flex-row sm:justify-center sm:gap-6 px-2">
             <motion.button
               onClick={() => setShowVoting(true)}
               whileHover={{ scale: !isThinking ? 1.05 : 1 }}
               whileTap={{ scale: !isThinking ? 0.95 : 1 }}
-              className={`border px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg flex items-center gap-2 font-['Space_Grotesk'] ${isThinking ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`border px-4 py-2.5 rounded-full font-semibold transition-all duration-300 shadow-lg flex items-center gap-2 font-['Space_Grotesk'] w-full sm:w-auto ${isThinking ? 'opacity-50 cursor-not-allowed' : ''}`}
               style={{
                 borderColor: accentColor,
                 color: accentColor,
                 background: 'transparent',
-                fontSize: '1.15rem',
+                fontSize: '0.95rem',
                 fontWeight: 700
               }}
               disabled={isThinking}
             >
-              <UserGroupIcon className="w-5 h-5" style={{ color: accentColor }} />
-              Elect Your CEO
+              <UserGroupIcon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: accentColor }} />
+              <span className="whitespace-nowrap">Elect Your CEO</span>
             </motion.button>
             <motion.button
               onClick={() => setShowShareModal(true)}
               whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
               whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
-              className={`px-6 py-3 rounded-full transition-all backdrop-blur-sm font-['Space_Grotesk'] flex items-center gap-2 shadow-lg ${(!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`px-4 py-2.5 rounded-full transition-all backdrop-blur-sm font-['Space_Grotesk'] flex items-center justify-center gap-2 shadow-lg w-full sm:w-auto ${(!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : ''}`}
               style={{
                 border: `1.5px solid ${accentColor}`,
                 color: accentColor,
                 background: 'rgba(0,0,0,0.15)',
-                fontSize: '1.15rem',
+                fontSize: '0.95rem',
                 fontWeight: 700
               }}
               disabled={!phrase || isThinking}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: accentColor }}>
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: accentColor }}>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
               </svg>
-              Create Meme
+              <span className="whitespace-nowrap">Create Meme</span>
             </motion.button>
           </div>
           
@@ -439,8 +442,8 @@ function App() {
         accentColor={accentColor}
         selectedModel={selectedModel}
       />
-      {/* Footer - locked to bottom, accent color */}
-      <footer className="w-full text-center text-xs font-['Space_Grotesk'] py-4 mt-auto" style={{ color: accentColor, background: `linear-gradient(to bottom, transparent, rgba(0,0,0,0.5))`, position: 'sticky', bottom: 0, backdropFilter: 'blur(8px)' }}>
+      {/* Footer - at the bottom of the page */}
+      <footer className="w-full text-center text-xs font-['Space_Grotesk'] py-4 mt-auto" style={{ color: accentColor, background: `linear-gradient(to top, rgba(0,0,0,0.5), transparent 80%)` }}>
         <div>
           <a href="https://seriouspeople.co" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-80" style={{ color: accentColor }}>Made by Serious People</a>
         </div>
