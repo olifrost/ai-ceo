@@ -4,6 +4,7 @@ import { UserGroupIcon } from '@heroicons/react/24/outline';
 import CEOVoting from './components/CEOVoting'
 import ShareQuoteModal from './components/ShareQuoteModal'
 import DebugPanel from './components/DebugPanel'
+import OnboardingFlow from './components/OnboardingFlow'
 import './App.css'
 
 type CEOPhrase = {
@@ -148,6 +149,7 @@ function App() {
   const [showVoting, setShowVoting] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
   const [showDebugPanel, setShowDebugPanel] = useState(false)
+  const [showOnboarding, setShowOnboarding] = useState(true)
 
   // Model label mapping for clarity - changes based on honesty level
   const getModelLabel = (key: string, honesty: number): string => {
@@ -170,6 +172,13 @@ function App() {
     growth: '#ec4899',
     vision: '#7c3aed',
   }[selectedModel] || '#7c3aed';
+
+  if (showOnboarding) {
+    return <OnboardingFlow 
+      onComplete={() => setShowOnboarding(false)} 
+      onSkip={() => setShowOnboarding(false)}
+    />
+  }
 
   if (showVoting) {
     return <CEOVoting onBack={() => setShowVoting(false)} />
@@ -412,10 +421,17 @@ function App() {
           <div className="text-center mb-4">
             <button
               onClick={() => setShowDebugPanel(true)}
-              className="text-xs opacity-60 hover:opacity-100 transition-opacity duration-300 font-['Space_Grotesk'] tracking-wider"
+              className="text-xs opacity-60 hover:opacity-100 transition-opacity duration-300 font-['Space_Grotesk'] tracking-wider mr-4"
               style={{ color: accentColor }}
             >
             ADMIN PANEL
+            </button>
+            <button
+              onClick={() => setShowOnboarding(true)}
+              className="text-xs opacity-60 hover:opacity-100 transition-opacity duration-300 font-['Space_Grotesk'] tracking-wider"
+              style={{ color: accentColor }}
+            >
+            RESTART ONBOARDING
             </button>
           </div>
         </div>
