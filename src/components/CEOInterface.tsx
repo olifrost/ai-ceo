@@ -103,9 +103,9 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
           </button>
           
           <div className="text-center">
-            <h2 className="text-lg font-bold text-slate-900">{model.name}</h2>
-            <p className="text-sm text-slate-600">{model.title}</p>
-            <p className="text-xs text-slate-500">Replacing {bossName}</p>
+            <h2 className="text-lg font-bold text-slate-900">{bossName}</h2>
+            <p className="text-sm text-slate-600">has an idea!</p>
+            <p className="text-xs text-slate-500">Powered by {model.name}</p>
           </div>
 
           <button
@@ -177,10 +177,10 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
               <div className="flex flex-col items-center lg:items-start">
                 <div className="flex items-center justify-between w-full max-w-sm mb-4">
                   <span className="text-sm font-medium text-slate-600">
-                    Corporate speak
+                    Honest
                   </span>
                   <span className="text-sm font-medium text-slate-600">
-                    Brutal honesty
+                    Corporate speak
                   </span>
                 </div>
                 
@@ -203,19 +203,26 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   }}
                   className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                     isHonest 
-                      ? 'focus:ring-slate-500' 
-                      : 'focus:ring-slate-400'
+                      ? 'focus:ring-slate-400' 
+                      : 'focus:ring-slate-500'
                   }`}
                   style={{
-                    backgroundColor: isHonest ? accentColor : '#d1d5db'
+                    backgroundColor: isHonest ? '#d1d5db' : accentColor
                   }}
                 >
                   <span
                     className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-200 ${
-                      isHonest ? 'translate-x-9' : 'translate-x-1'
+                      isHonest ? 'translate-x-1' : 'translate-x-9'
                     }`}
                   />
                 </button>
+                
+                <p className="text-xs text-slate-500 mt-2 text-center lg:text-left max-w-sm">
+                  {isHonest ? 
+                    "Raw, unfiltered CEO thoughts" : 
+                    "Professional, polished messaging"
+                  }
+                </p>
               </div>
 
               {/* Action Buttons */}
@@ -234,7 +241,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   }}
                 >
                   <ArrowPathIcon className="w-5 h-5" />
-                  <span>Generate new</span>
+                  <span>New idea</span>
                 </motion.button>
 
                 <motion.button

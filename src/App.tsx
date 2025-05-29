@@ -43,20 +43,24 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Sustainability Chief",
     phrases: [
       {
-        dishonest: "We are transitioning to thinking about an energy transition",
-        honest: "Let's stick with fossil fuels until they make it illegal"
+        honest: "Let's keep working with fossil fuel companies, but say we're helping them transition",
+        dishonest: "We're committed to supporting our energy partners through their transformative sustainability journey"
       },
       {
-        dishonest: "Climate change is just the planet's way of asking for innovation",
-        honest: "We'll save the planet when they make us"
+        honest: "We'll greenwash everything until people stop caring about the planet",
+        dishonest: "We're pioneering eco-conscious messaging that resonates with today's environmentally aware consumers"
       },
       {
-        dishonest: "We are re-evaluating our sustainability targets to align with consumer demand",
-        honest: "We're using the election as an excuse to cut costs"
+        honest: "Climate targets are just marketing - we'll miss them all anyway",
+        dishonest: "We're setting ambitious climate goals that challenge us to innovate beyond traditional timelines"
       },
       {
-        dishonest: "We're not destroying habitats, we're creating urban opportunities for wildlife",
-        honest: "Polar bears can go do one"
+        honest: "We only care about the environment when investors are watching",
+        dishonest: "Our ESG initiatives are strategically aligned with stakeholder expectations and market opportunities"
+      },
+      {
+        honest: "Sustainability costs money so we'll just talk about it instead",
+        dishonest: "We're leveraging thought leadership to drive sustainable transformation across our ecosystem"
       }
     ]
   },
@@ -65,24 +69,24 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Human Resources Optimizer",
     phrases: [
       {
-        dishonest: "Let's leverage AI to optimize human potential",
-        honest: "Let's replace all our staff with AI"
+        honest: "Let's work staff until we break them, but give them mental health days",
+        dishonest: "We're implementing comprehensive wellbeing programs while maximizing operational efficiency"
       },
       {
-        dishonest: "We are reconnecting with our culture's masculine energy",
-        honest: "Let's cut all our diversity programs"
+        honest: "Let's not give our staff money, but give them free snacks",
+        dishonest: "We're reimagining compensation through innovative workplace benefits and experiences"
       },
       {
-        dishonest: "We're not downsizing, we're rightsizing for excellence",
-        honest: "If we fire people we save money"
+        honest: "Everyone's replaceable, we just need to find their AI equivalent",
+        dishonest: "We're exploring how technology can augment and enhance human capabilities across our organization"
       },
       {
-        dishonest: "Remote work is great, but presence work is revolutionary",
-        honest: "We want staff where we can see them"
+        honest: "We'll call layoffs 'rightsizing' and pretend we're helping people",
+        dishonest: "We're optimizing our talent portfolio to create new opportunities for remaining team members"
       },
       {
-        dishonest: "We're moving towards a post-sleep workforce",
-        honest: "We never want you to leave the office"
+        honest: "Return to office means we can watch you work and cut your benefits",
+        dishonest: "Our hybrid workplace strategy fosters collaboration while ensuring accountability and engagement"
       }
     ]
   },
@@ -91,24 +95,24 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Exponential Growth Director",
     phrases: [
       {
-        dishonest: "We're not just moving fast and breaking things, we're accelerating and optimizing breakage",
-        honest: "We need to make money fast"
+        honest: "Growth at any cost - we'll figure out profits later",
+        dishonest: "We're prioritizing strategic market expansion with a long-term value creation focus"
       },
       {
-        dishonest: "Our mission is to create value for all stakeholders",
-        honest: "Let's try to be the biggest company ever"
+        honest: "Let's acquire companies we don't understand for absurd amounts of money",
+        dishonest: "We're pursuing transformative M&A opportunities that diversify our innovation portfolio"
       },
       {
-        dishonest: "We measure success in disruptions per minute",
-        honest: "Who cares if we make a profit - growth is sexier"
+        honest: "Who needs sustainable business models when you have venture capital?",
+        dishonest: "We're leveraging strategic investment partnerships to accelerate our disruptive market positioning"
       },
       {
-        dishonest: "We're not burning cash, we're converting currency into momentum",
-        honest: "Let's spend all our money on growth and hope for the best"
+        honest: "We'll burn through cash and blame market conditions",
+        dishonest: "We're strategically investing in growth during this unique market opportunity window"
       },
       {
-        dishonest: "We don't have competitors, we have inspiration sources",
-        honest: "We'll worry about what we actually do when we're huge"
+        honest: "Exponential growth means exponential problems, but that's tomorrow's issue",
+        dishonest: "We're scaling our operational infrastructure to support our ambitious expansion trajectory"
       }
     ]
   },
@@ -117,24 +121,24 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Thought Leadership Pioneer",
     phrases: [
       {
-        dishonest: "We're not just thinking outside the box, we're redefining the geometry of thought",
-        honest: "I have no idea what I'm doing"
+        honest: "I should give a talk about creativity, while replacing my creatives with AI",
+        dishonest: "I'm passionate about fostering human creativity while democratizing innovation through AI collaboration"
       },
       {
-        dishonest: "AI doesn't replace creativity, it democratizes my ability to seem creative",
-        honest: "ChatGPT writes all our strategies now"
+        honest: "I want to be seen as a visionary, but I just copy whatever's trending",
+        dishonest: "I'm synthesizing emerging market signals to pioneer tomorrow's transformative solutions"
       },
       {
-        dishonest: "Our north star metric is disruption itself",
-        honest: "I am desperate to be on magazine covers"
+        honest: "Let's rebrand our failures as 'learnings' and charge consultants to explain them",
+        dishonest: "We're monetizing our innovation learnings through strategic advisory partnerships"
       },
       {
-        dishonest: "We're building the metaverse of the metaverse - it's meta-metaverse",
-        honest: "I want Joe Rogan to interview me"
+        honest: "I'll use buzzwords until someone gives me a TED talk",
+        dishonest: "I'm evangelizing paradigm-shifting concepts that redefine industry best practices"
       },
       {
-        dishonest: "We don't solve problems, we reimagine solutions in problem-adjacent spaces",
-        honest: "Does anyone actually understand what I'm saying, including me?"
+        honest: "Does anyone actually understand what we do? Because I don't",
+        dishonest: "We operate in the intersection of multiple verticals, creating synergistic value propositions"
       }
     ]
   }
@@ -145,7 +149,7 @@ function App() {
   const [selectedGoal, setSelectedGoal] = useState<CEOGoal | null>(null)
   const [selectedModel, setSelectedModel] = useState<string>('environment')
   const [bossName, setBossName] = useState<string>('')
-  const [isHonest, setIsHonest] = useState<boolean>(false)
+  const [isHonest, setIsHonest] = useState<boolean>(true)
   const [phrase, setPhrase] = useState<string>('')
   const [showShareModal, setShowShareModal] = useState(false)
   const [showDebugPanel, setShowDebugPanel] = useState(false)
@@ -229,8 +233,8 @@ function App() {
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         quote={phrase}
-        name={selectedModel ? ceoModels[selectedModel].name : ''}
-        attribution=""
+        name={bossName || 'CEO'}
+        attribution={selectedModel ? `AI ${ceoModels[selectedModel].title}` : ''}
         accentColor={selectedModel ? {
           environment: '#10b981',
           efficiency: '#0ea5e9', 
