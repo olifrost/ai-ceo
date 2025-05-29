@@ -1,86 +1,207 @@
-.container {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.75rem;
-  position: relative;
-  background: radial-gradient(circle at center, var(--accent-glow) 0%, #000000 100%);
-  transition: background 1s ease;
-  margin: 0 auto;
-  max-width: 100%;
-  overflow-x: hidden;
+/* Modern AI-inspired design for the overhauled experience */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+  box-sizing: border-box;
 }
 
-@media (min-width: 640px) {
-  .container {
-    padding: 1rem;
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #fafafa;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Loading animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
   }
 }
 
-/* CEO Model specific colors */
-.container[data-model="vision"] {
-  --accent-color: #7c3aed;
-  --accent-color-rgb: 124, 58, 237;
-  --accent-glow: rgba(124, 58, 237, 0.15);
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.container[data-model="efficiency"] {
-  --accent-color: #0ea5e9;
-  --accent-color-rgb: 14, 165, 233;
-  --accent-glow: rgba(14, 165, 233, 0.15);
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.container[data-model="environment"] {
-  --accent-color: #10b981;
-  --accent-color-rgb: 16, 185, 129;
-  --accent-glow: rgba(16, 185, 129, 0.15);
-}
-
-.container[data-model="growth"] {
-  --accent-color: #ec4899;
-  --accent-color-rgb: 236, 72, 153;
-  --accent-glow: rgba(236, 72, 153, 0.15);
-}
-
-h1 {
-  font-size: 2.8rem;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-weight: 700;
-  background: linear-gradient(to right, #fff 20%, var(--accent-color));
+/* Utility classes for gradients */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin: 0 0 0.5rem 0;
-  position: relative;
-  z-index: 5;
-  text-shadow: 0 0 30px rgba(167, 139, 250, 0.3);
-  letter-spacing: -0.02em;
-  width: 100%;
 }
 
-@media (min-width: 640px) {
-  h1 {
-    font-size: 3.5rem;
+/* Modal backdrop */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+/* Share modal specific styles */
+.share-modal {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Debug panel styles */
+.debug-panel {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 640px) {
+  .text-responsive {
+    font-size: clamp(1rem, 4vw, 1.25rem);
   }
 }
 
-.subtitle {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  color: var(--accent-color);
-  font-size: 1.1rem;
-  margin: 0 0 2rem 0;
-  opacity: 0.8;
-  position: relative;
-  z-index: 5;
-  font-weight: 500;
-  line-height: 1.4;
+/* Animation for gradient text */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
-@media (min-width: 640px) {
-  .subtitle {
-    font-size: 1.2rem;
+.gradient-animate {
+  background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Floating elements */
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Button hover effects */
+.button-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.button-shine:hover::before {
+  left: 100%;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Typography improvements */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Smooth page transitions */
+.page-transition {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Improved focus indicators */
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus-ring:focus-visible {
+  outline-color: #3b82f6;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .gradient-text {
+    background: none;
+    color: #000;
+    -webkit-text-fill-color: unset;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
