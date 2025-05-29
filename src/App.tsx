@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import OnboardingWelcome from './components/OnboardingWelcome'
 import OnboardingGoals from './components/OnboardingGoals'
+import OnboardingNameBoss from './components/OnboardingNameBoss'
 import OnboardingLoading from './components/OnboardingLoading'
 import CEOInterface from './components/CEOInterface'
 import ShareQuoteModal from './components/ShareQuoteModal'
@@ -9,7 +10,7 @@ import DebugPanel from './components/DebugPanel'
 import './App.css'
 
 // App state management for the complete onboarding flow
-type AppState = 'welcome' | 'goals' | 'loading' | 'interface'
+type AppState = 'welcome' | 'goals' | 'nameBoss' | 'loading' | 'interface'
 
 type CEOGoal = {
   id: string
@@ -143,6 +144,7 @@ function App() {
   const [appState, setAppState] = useState<AppState>('welcome')
   const [selectedGoal, setSelectedGoal] = useState<CEOGoal | null>(null)
   const [selectedModel, setSelectedModel] = useState<string>('environment')
+  const [bossName, setBossName] = useState<string>('')
   const [isHonest, setIsHonest] = useState<boolean>(false)
   const [phrase, setPhrase] = useState<string>('')
   const [showShareModal, setShowShareModal] = useState(false)
@@ -151,6 +153,11 @@ function App() {
   const handleGoalSelection = (goal: CEOGoal) => {
     setSelectedGoal(goal)
     setSelectedModel(goal.model)
+    setAppState('nameBoss')
+  }
+
+  const handleBossNameSet = (name: string) => {
+    setBossName(name)
     setAppState('loading')
     
     // Auto-progress to interface after loading
@@ -162,6 +169,7 @@ function App() {
   const handleBackToGoals = () => {
     setAppState('goals')
     setSelectedGoal(null)
+    setBossName('')
     setPhrase('')
   }
 
@@ -182,11 +190,20 @@ function App() {
             onSelectGoal={handleGoalSelection}
           />
         )}
+
+        {appState === 'nameBoss' && selectedGoal && (
+          <OnboardingNameBoss
+            key="nameBoss"
+            goal={selectedGoal}
+            onNameSet={handleBossNameSet}
+          />
+        )}
         
         {appState === 'loading' && selectedGoal && (
           <OnboardingLoading 
             key="loading"
             goal={selectedGoal}
+            bossName={bossName}
           />
         )}
         
@@ -195,6 +212,7 @@ function App() {
             key="interface"
             goal={selectedGoal}
             model={ceoModels[selectedModel]}
+            bossName={bossName}
             isHonest={isHonest}
             onToggleHonesty={setIsHonest}
             phrase={phrase}

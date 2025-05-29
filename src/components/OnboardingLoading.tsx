@@ -16,9 +16,10 @@ interface CEOGoal {
 
 interface OnboardingLoadingProps {
   goal: CEOGoal
+  bossName: string
 }
 
-const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ goal }) => {
+const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ goal, bossName }) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   
   const iconMap = {
@@ -37,6 +38,7 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ goal }) => {
 
   const loadingSteps = [
     "Analyzing business structures...",
+    `Studying ${bossName}'s leadership style...`,
     "Calibrating corporate linguistics...", 
     "Generating executive wisdom...",
     "Initializing your AI CEO..."
