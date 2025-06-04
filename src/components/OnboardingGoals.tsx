@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { 
   ScissorsIcon, 
   FireIcon, 
   LightBulbIcon, 
-  BanknotesIcon 
+  BanknotesIcon,
+  UserIcon
 } from '@heroicons/react/24/outline'
 
 interface CEOGoal {
@@ -20,6 +21,8 @@ interface OnboardingGoalsProps {
 }
 
 const OnboardingGoals: React.FC<OnboardingGoalsProps> = ({ goals, onSelectGoal }) => {
+  const [showBossInput, setShowBossInput] = useState(false)
+  const [bossName, setBossName] = useState('')
   const iconMap = {
     scissors: ScissorsIcon,
     fire: FireIcon,
@@ -46,7 +49,7 @@ const OnboardingGoals: React.FC<OnboardingGoalsProps> = ({ goals, onSelectGoal }
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-8 bg-gradient-to-br from-slate-50 via-white to-indigo-50"
+      className="min-h-screen flex flex-col items-center justify-center px-6 py-8 w-full"
     >
       <div className="text-center max-w-4xl w-full">
         {/* Title */}

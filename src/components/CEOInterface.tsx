@@ -4,7 +4,11 @@ import {
   ArrowLeftIcon,
   ArrowPathIcon,
   ShareIcon,
-  CogIcon
+  CogIcon,
+  ScissorsIcon,
+  FireIcon,
+  LightBulbIcon,
+  BanknotesIcon
 } from '@heroicons/react/24/outline'
 
 interface CEOGoal {
@@ -51,6 +55,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
   onDebug
 }) => {
   const [isThinking, setIsThinking] = useState(false)
+  const [showGoalsDropdown, setShowGoalsDropdown] = useState(false)
 
   const colorMap = {
     efficiency: '#0ea5e9',
@@ -93,20 +98,86 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
     >
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200 p-4">
-        <div className="flex items-center justify-between max-w-4xl mx-auto">
-          <button
-            onClick={onBackToGoals}
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
-          >
-            <ArrowLeftIcon className="w-5 h-5" />
-            <span className="font-medium">Change goals</span>
-          </button>
-          
-          <div className="text-center">
-            <h2 className="text-lg font-bold text-slate-900">{bossName}</h2>
-            <p className="text-sm text-slate-600">has an idea!</p>
-            <p className="text-xs text-slate-500">Powered by {model.name}</p>
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onBackToGoals}
+              className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
+            >
+              <ArrowLeftIcon className="w-5 h-5" />
+              <span className="font-medium">Back</span>
+            </button>              <div className="relative">
+              <button 
+                onClick={() => setShowGoalsDropdown(!showGoalsDropdown)}
+                className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors duration-200 px-3 py-1 rounded-full border border-slate-200 hover:border-slate-300"
+              >
+                <span className="font-medium">Change goal</span>
+              </button>
+              
+              {showGoalsDropdown && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-slate-200 p-2 z-50">
+                  <div className="py-1 font-medium text-sm text-slate-500 px-3">Select a new goal:</div>
+                  <button 
+                    className="flex items-center w-full text-left py-2 px-3 hover:bg-slate-100 rounded-md"
+                    onClick={() => {
+                      setShowGoalsDropdown(false);
+                      onBackToGoals();
+                    }}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-2">
+                      <ScissorsIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <span>Cut costs</span>
+                  </button>
+                  
+                  <button 
+                    className="flex items-center w-full text-left py-2 px-3 hover:bg-slate-100 rounded-md"
+                    onClick={() => {
+                      setShowGoalsDropdown(false);
+                      onBackToGoals();
+                    }}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center mr-2">
+                      <FireIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <span>Burn planet</span>
+                  </button>
+                  
+                  <button 
+                    className="flex items-center w-full text-left py-2 px-3 hover:bg-slate-100 rounded-md"
+                    onClick={() => {
+                      setShowGoalsDropdown(false);
+                      onBackToGoals();
+                    }}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-violet-500 flex items-center justify-center mr-2">
+                      <LightBulbIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <span>Sound smart</span>
+                  </button>
+                  
+                  <button 
+                    className="flex items-center w-full text-left py-2 px-3 hover:bg-slate-100 rounded-md"
+                    onClick={() => {
+                      setShowGoalsDropdown(false);
+                      onBackToGoals();
+                    }}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center mr-2">
+                      <BanknotesIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <span>Money now</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
+          
+          {bossName && (
+            <div className="text-center">
+              <h2 className="text-lg font-bold text-slate-900">{bossName}</h2>
+            </div>
+          )}
 
           <button
             onClick={onDebug}
@@ -118,185 +189,153 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col lg:flex-row items-center justify-center px-6 py-8">
-        <div className="w-full max-w-7xl mx-auto">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
-            {/* CEO Orb - Left column on desktop */}
-            <div className="mb-12 lg:mb-0">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 max-w-6xl mx-auto w-full">
+        {/* CEO Orb */}
+        <div className="mb-12 relative">
+          <motion.div
+            whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
+            whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
+            onClick={generatePhrase}
+            className={`w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto rounded-full cursor-pointer relative transition-all duration-300 ${
+              isThinking ? 'animate-pulse' : ''
+            }`}
+          >
+            {/* Glow effect behind orb */}
+            <div 
+              className="absolute inset-0 rounded-full blur-2xl -z-10"
+              style={{
+                background: `radial-gradient(circle, ${accentColor}40 0%, transparent 70%)`,
+                transform: 'scale(1.5)'
+              }}
+            />
+            
+            {/* Spinning ring when thinking */}
+            {isThinking && (
               <motion.div
-                whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
-                whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
-                onClick={generatePhrase}
-                className={`w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto rounded-full cursor-pointer relative transition-all duration-300 ${
-                  isThinking ? 'animate-pulse' : ''
-                }`}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 rounded-full border-4 border-transparent"
                 style={{
-                  background: `linear-gradient(135deg, ${accentColor}40, ${accentColor}20)`,
-                  boxShadow: `0 20px 60px ${accentColor}30`
+                  borderTopColor: accentColor,
+                  borderRightColor: `${accentColor}60`
                 }}
-              >
-                {/* Spinning ring when thinking */}
-                {isThinking && (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-4 rounded-full border-4 border-transparent"
-                    style={{
-                      borderTopColor: accentColor,
-                      borderRightColor: `${accentColor}60`
-                    }}
-                  />
-                )}
-                
-                {/* Inner core */}
-                <div 
-                  className="absolute inset-8 md:inset-12 lg:inset-16 rounded-full flex items-center justify-center p-4 md:p-6"
-                  style={{
-                    background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`
-                  }}
+              />
+            )}
+            
+            {/* Inner core */}
+            <div 
+              className="absolute inset-0 rounded-full flex items-center justify-center p-6"
+              style={{
+                background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`
+              }}
+            >
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={phrase || 'initial'}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-white text-sm md:text-base lg:text-lg font-medium leading-relaxed text-center"
                 >
-                  <AnimatePresence mode="wait">
-                    <motion.p
-                      key={phrase || 'initial'}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-white text-xs md:text-sm lg:text-base font-medium leading-relaxed text-center"
-                    >
-                      {isThinking ? "Processing synergies..." : (phrase || "Tap for wisdom")}
-                    </motion.p>
-                  </AnimatePresence>
-                </div>
-              </motion.div>
+                  {isThinking ? "Processing synergies..." : (phrase || "Tap for wisdom")}
+                </motion.p>
+              </AnimatePresence>
             </div>
+          </motion.div>
+        </div>
 
-            {/* Controls - Right column on desktop */}
-            <div className="space-y-8 lg:space-y-12">
-              {/* Honesty Toggle */}
-              <div className="flex flex-col items-center lg:items-start">
-                <div className="flex items-center justify-between w-full max-w-sm mb-4">
-                  <span className="text-sm font-medium text-slate-600">
-                    Honest
-                  </span>
-                  <span className="text-sm font-medium text-slate-600">
-                    Corporate speak
-                  </span>
-                </div>
+        {/* Controls - Below the orb on all screen sizes */}
+        <div className="space-y-8 max-w-lg w-full">
+          {/* Honesty Toggle */}
+          <div className="flex flex-col items-center">
+            <div className="flex items-center justify-between w-full max-w-sm mb-4">
+              <span className="text-sm font-medium text-slate-600">
+                Honest
+              </span>
+              <span className="text-sm font-medium text-slate-600">
+                Corporate speak
+              </span>
+            </div>
+            
+            <button
+              onClick={() => {
+                const newHonesty = !isHonest
+                onToggleHonesty(newHonesty)
                 
-                <button
-                  onClick={() => {
-                    const newHonesty = !isHonest
-                    onToggleHonesty(newHonesty)
-                    
-                    // Update phrase immediately if one exists
-                    if (phrase && model.phrases.length > 0) {
-                      // Find the current phrase set by matching with any honesty level
-                      const currentPhraseSet = model.phrases.find(set => 
-                        phrase === set.dishonest || phrase === set.honest
-                      )
-                      if (currentPhraseSet) {
-                        const newPhrase = newHonesty ? currentPhraseSet.honest : currentPhraseSet.dishonest
-                        onPhraseGenerated(newPhrase)
-                      }
-                    }
-                  }}
-                  className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                    isHonest 
-                      ? 'focus:ring-slate-400' 
-                      : 'focus:ring-slate-500'
-                  }`}
-                  style={{
-                    backgroundColor: isHonest ? '#d1d5db' : accentColor
-                  }}
-                >
-                  <span
-                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-200 ${
-                      isHonest ? 'translate-x-1' : 'translate-x-9'
-                    }`}
-                  />
-                </button>
-                
-                <p className="text-xs text-slate-500 mt-2 text-center lg:text-left max-w-sm">
-                  {isHonest ? 
-                    "Raw, unfiltered CEO thoughts" : 
-                    "Professional, polished messaging"
+                // Update phrase immediately if one exists
+                if (phrase && model.phrases.length > 0) {
+                  // Find the current phrase set by matching with any honesty level
+                  const currentPhraseSet = model.phrases.find(set => 
+                    phrase === set.dishonest || phrase === set.honest
+                  )
+                  if (currentPhraseSet) {
+                    const newPhrase = newHonesty ? currentPhraseSet.honest : currentPhraseSet.dishonest
+                    onPhraseGenerated(newPhrase)
                   }
-                </p>
-              </div>
+                }
+              }}
+              className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                isHonest 
+                  ? 'focus:ring-slate-400' 
+                  : 'focus:ring-slate-500'
+              }`}
+              style={{
+                backgroundColor: isHonest ? '#d1d5db' : accentColor
+              }}
+            >
+              <span
+                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-200 ${
+                  isHonest ? 'translate-x-1' : 'translate-x-9'
+                }`}
+              />
+            </button>
+            
+            <p className="text-xs text-slate-500 mt-2 text-center max-w-sm">
+              {isHonest ? 
+                "Raw, unfiltered CEO thoughts" : 
+                "Professional, polished messaging"
+              }
+            </p>
+          </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4 justify-center lg:justify-start items-center">
-                <motion.button
-                  onClick={generatePhrase}
-                  whileHover={{ scale: !isThinking ? 1.05 : 1 }}
-                  whileTap={{ scale: !isThinking ? 0.95 : 1 }}
-                  disabled={isThinking}
-                  className={`flex items-center gap-2 px-6 py-3 bg-white border-2 rounded-full font-semibold transition-all duration-300 shadow-lg w-full sm:w-auto ${
-                    isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl'
-                  }`}
-                  style={{
-                    borderColor: accentColor,
-                    color: accentColor
-                  }}
-                >
-                  <ArrowPathIcon className="w-5 h-5" />
-                  <span>New idea</span>
-                </motion.button>
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <motion.button
+              onClick={generatePhrase}
+              whileHover={{ scale: !isThinking ? 1.05 : 1 }}
+              whileTap={{ scale: !isThinking ? 0.95 : 1 }}
+              disabled={isThinking}
+              className={`flex items-center gap-2 px-6 py-3 bg-white border-2 rounded-full font-semibold transition-all duration-300 shadow-lg w-full sm:w-auto ${
+                isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl'
+              }`}
+              style={{
+                borderColor: accentColor,
+                color: accentColor
+              }}
+            >
+              <ArrowPathIcon className="w-5 h-5" />
+              <span>New idea</span>
+            </motion.button>
 
-                <motion.button
-                  onClick={onShare}
-                  whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
-                  whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
-                  disabled={!phrase || isThinking}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg w-full sm:w-auto ${
-                    (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl'
-                  }`}
-                  style={{
-                    background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
-                    color: 'white'
-                  }}
-                >
-                  <ShareIcon className="w-5 h-5" />
-                  <span>Share your CEO</span>
-                </motion.button>
-              </div>
-            </div>
+            <motion.button
+              onClick={onShare}
+              whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
+              whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
+              disabled={!phrase || isThinking}
+              className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg w-full sm:w-auto ${
+                (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl'
+              }`}
+              style={{
+                background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
+                color: 'white'
+              }}
+            >
+              <ShareIcon className="w-5 h-5" />
+              <span>Share your CEO</span>
+            </motion.button>
           </div>
         </div>
-      </div>
-
-      {/* Background effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{ 
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.2, 1]
-          }}
-          transition={{ 
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-          className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full blur-3xl opacity-20"
-          style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}60)` }}
-        />
-        <motion.div
-          animate={{ 
-            x: [0, -80, 0],
-            y: [0, 30, 0],
-            scale: [1, 0.8, 1]
-          }}
-          transition={{ 
-            duration: 15,
-            repeat: Infinity,
-            repeatType: "reverse",
-            delay: -5
-          }}
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-20"
-          style={{ background: `linear-gradient(135deg, ${accentColor}60, ${accentColor})` }}
-        />
       </div>
     </motion.div>
   )

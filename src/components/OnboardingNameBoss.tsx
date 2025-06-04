@@ -55,7 +55,7 @@ const OnboardingNameBoss: React.FC<OnboardingNameBossProps> = ({ goal, onNameSet
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-8 bg-gradient-to-br from-slate-50 via-white to-indigo-50"
+      className="min-h-screen flex flex-col items-center justify-center px-6 py-8 w-full"
     >
       <div className="text-center max-w-2xl w-full">
         {/* Title */}

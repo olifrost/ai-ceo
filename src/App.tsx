@@ -157,7 +157,12 @@ function App() {
   const handleGoalSelection = (goal: CEOGoal) => {
     setSelectedGoal(goal)
     setSelectedModel(goal.model)
-    setAppState('nameBoss')
+    setAppState('loading')
+    
+    // Auto-progress to interface after loading
+    setTimeout(() => {
+      setAppState('interface')
+    }, 3000)
   }
 
   const handleBossNameSet = (name: string) => {
@@ -178,7 +183,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+    <div className="min-h-screen w-full">
       <AnimatePresence mode="wait">
         {appState === 'welcome' && (
           <OnboardingWelcome 

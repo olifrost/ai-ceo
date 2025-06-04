@@ -184,23 +184,23 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={onClose}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-gray-900 border border-purple-500/30 rounded-lg max-w-6xl w-full max-h-[95vh] overflow-y-auto scrollbar-thin scrollbar-thumb-purple-600 scrollbar-track-gray-800"
+            className="bg-white border border-slate-200 rounded-lg shadow-xl max-w-6xl w-full max-h-[95vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between p-6 border-b border-purple-500/20 sticky top-0 bg-gray-900 z-10">
-              <h2 className="text-2xl font-bold font-['Space_Grotesk'] text-white">
+            <div className="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white z-10">
+              <h2 className="text-2xl font-bold font-['Space_Grotesk'] text-slate-900">
                 Create Your CEO Meme
               </h2>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-slate-400 hover:text-slate-600 transition-colors"
               >
                 <XMarkIcon className="w-6 h-6" />
               </button>
@@ -209,9 +209,9 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
             <div className="grid lg:grid-cols-2 gap-8 p-6">
               {/* Left side - Preview */}
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-white font-['Space_Grotesk']">Preview</h3>
+                <h3 className="text-lg font-semibold text-slate-800 font-['Space_Grotesk']">Preview</h3>
                 
-                <div ref={canvasRef} className="relative w-[400px] h-[500px] bg-gray-800 overflow-hidden mx-auto shadow-2xl rounded-md border border-purple-500/30">
+                <div ref={canvasRef} className="relative w-[400px] h-[500px] bg-white overflow-hidden mx-auto shadow-xl rounded-md border border-slate-200">
                   {/* Image Layer (Custom or Default) - Occupies the full space */}
                   {/* Ensure this parent div for the image has overflow:hidden if not already on canvasRef and image is larger */} 
                   <div className="absolute inset-0 w-full h-full overflow-hidden"> 
@@ -263,7 +263,8 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                   <button
                     onClick={generateImage}
                     disabled={isGenerating}
-                    className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+                    style={{ backgroundColor: accentColor }}
                   >
                     {isGenerating ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <PencilSquareIcon className="w-5 h-5" />}
                     {isGenerating ? 'Generating...' : 'Generate Image'}
@@ -271,14 +272,14 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                     <>
                       <button
                         onClick={downloadImage}
-                        className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                        className="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded-lg transition-colors border border-slate-200"
                       >
                         <ArrowDownTrayIcon className="w-5 h-5" /> Download
                       </button>
                       {typeof navigator.share === 'function' && typeof (navigator as any).canShare === 'function' && (navigator as any).canShare({ files: [new File([""], "dummy.png", {type: "image/png"})]}) && (
                         <button
                           onClick={shareImage}
-                          className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                          className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
                         >
                           <ShareIcon className="w-5 h-5" /> Share Image
                         </button>
@@ -286,11 +287,11 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                     </>
                   )}
                 </div>
-                {generatedImageUrl && <p className="text-xs text-center text-gray-400 mt-2">Image generated! You can now download or share it.</p>}
+                {generatedImageUrl && <p className="text-xs text-center text-slate-500 mt-2">Image generated! You can now download or share it.</p>}
                  {/* Custom Image Manipulation Controls - MOVED HERE */}
                  {customImage && (
-                    <div className="space-y-3 p-3 mt-4 bg-gray-800/70 rounded-md border border-gray-700/50">
-                      <h4 className="text-md font-semibold text-purple-300 font-['Space_Grotesk'] text-center">Adjust Custom Image</h4>
+                    <div className="space-y-3 p-3 mt-4 bg-slate-100 rounded-md border border-slate-200">
+                      <h4 className="text-md font-semibold text-slate-700 font-['Space_Grotesk'] text-center">Adjust Custom Image</h4>
                       <div>
                         <label htmlFor="customImageScale" className="block text-xs font-medium text-gray-400">Scale: {customImageScale.toFixed(2)}x</label>
                         <input
