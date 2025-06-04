@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { CEOPersonality } from '../data/ceoPersonalities'
-import { ScissorsIcon, FireIcon, LightBulbIcon, BanknotesIcon } from '@heroicons/react/24/outline'
 
 interface OnboardingLoadingProps {
   personality: CEOPersonality
   bossName: string
 }
 
-const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality, bossName }) => {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
+const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality }) => {
+  const [isComplete, setIsComplete] = useState(false)
   
-  const iconMap = {
-    efficiency: ScissorsIcon,
-    environment: FireIcon,
-    vision: LightBulbIcon,
-    growth: BanknotesIcon,
-  }
-
   const colorMap = {
     efficiency: '#0ea5e9',
     environment: '#10b981', 
@@ -25,25 +17,15 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality, boss
     growth: '#ec4899',
   }
 
-  const loadingSteps = [
-    "Analyzing business structures...",
-    `Studying ${bossName}'s leadership style...`,
-    "Calibrating corporate linguistics...", 
-    "Generating executive wisdom...",
-    `Initializing ${personality.name} AI CEO...`
-  ]
-
-  const IconComponent = iconMap[personality.model as keyof typeof iconMap]
   const accentColor = colorMap[personality.model as keyof typeof colorMap]
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentStepIndex((prev) => 
-        prev < loadingSteps.length - 1 ? prev + 1 : prev
-      )
-    }, 750)
+    // Quick setup - complete after 1.5 seconds
+    const timer = setTimeout(() => {
+      setIsComplete(true)
+    }, 1500)
 
-    return () => clearInterval(interval)
+    return () => clearTimeout(timer)
   }, [])
 
   return (
@@ -54,56 +36,27 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality, boss
       className="min-h-screen flex flex-col items-center justify-center px-6 py-8 bg-gradient-to-br from-slate-50 via-white to-indigo-50"
     >
       <div className="text-center max-w-2xl">
-        {/* Selected Goal Display */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="mb-12"
-        >
-          <div 
-            className="w-20 h-20 mx-auto rounded-full p-5 mb-6 shadow-xl"
-            style={{ 
-              background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
-              boxShadow: `0 10px 40px ${accentColor}40`
-            }}
-          >
-            {IconComponent && (
-              <IconComponent className="w-full h-full text-white" />
-            )}
-          </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
-            {personality.name}
-          </h2>
-          <p className="text-slate-600">
-            {personality.title} at {personality.company}
-          </p>
-        </motion.div>
-
-        {/* Loading Animation */}
+        {/* Simple loading animation - just the orb */}
         <div className="mb-8">
           {/* Animated Orb */}
           <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
             animate={{ 
-              scale: [1, 1.1, 1],
-              opacity: [0.7, 1, 0.7]
+              scale: 1,
+              opacity: 1
             }}
-            transition={{ 
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="w-32 h-32 mx-auto rounded-full mb-8 relative"
             style={{
               background: `linear-gradient(135deg, ${accentColor}40, ${accentColor}20)`,
               boxShadow: `0 0 50px ${accentColor}30`
             }}
           >
-            {/* Inner spinning ring */}
+            {/* Spinning ring */}
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ 
-                duration: 3,
+                duration: 2,
                 repeat: Infinity,
                 ease: "linear"
               }}
@@ -123,13 +76,13 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality, boss
             />
           </motion.div>
 
-          {/* Progress Bar */}
+          {/* Simple progress bar */}
           <div className="w-full max-w-md mx-auto mb-6">
             <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
-                animate={{ width: `${((currentStepIndex + 1) / loadingSteps.length) * 100}%` }}
-                transition={{ duration: 0.5 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
                 className="h-full rounded-full"
                 style={{ 
                   background: `linear-gradient(90deg, ${accentColor}, ${accentColor}dd)`
@@ -139,76 +92,50 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality, boss
           </div>
         </div>
 
-        {/* Loading Steps */}
-        <div className="space-y-3">
-          {loadingSteps.map((step, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ 
-                opacity: index <= currentStepIndex ? 1 : 0.3,
-                x: 0
-              }}
-              transition={{ delay: index * 0.1 }}
-              className="flex items-center justify-center gap-3"
-            >
-              {index <= currentStepIndex ? (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: accentColor }}
-                />
-              ) : (
-                <div className="w-2 h-2 rounded-full bg-slate-300" />
-              )}
-              <span 
-                className={`text-sm md:text-base font-medium ${
-                  index <= currentStepIndex ? 'text-slate-800' : 'text-slate-400'
-                }`}
-              >
-                {step}
-              </span>
-              {index === currentStepIndex && (
-                <motion.div
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                  className="ml-1"
-                >
-                  <div className="flex space-x-1">
-                    <div className="w-1 h-1 rounded-full bg-slate-400" />
-                    <div className="w-1 h-1 rounded-full bg-slate-400" />
-                    <div className="w-1 h-1 rounded-full bg-slate-400" />
-                  </div>
-                </motion.div>
-              )}
-            </motion.div>
-          ))}
-        </div>
+        {/* Simple loading text */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="space-y-2"
+        >
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-800">
+            Preparing your AI CEO...
+          </h2>
+          <p className="text-slate-600">
+            {isComplete ? "Ready!" : "Setting up your virtual executive"}
+          </p>
+        </motion.div>
       </div>
 
-      {/* Background particles */}
+      {/* Simplified background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ 
-              x: Math.random() * window.innerWidth, 
-              y: window.innerHeight + 50 
-            }}
-            animate={{ 
-              y: -50,
-              x: Math.random() * window.innerWidth
-            }}
-            transition={{
-              duration: Math.random() * 3 + 4,
-              repeat: Infinity,
-              delay: Math.random() * 2
-            }}
-            className="absolute w-1 h-1 rounded-full opacity-30"
-            style={{ backgroundColor: accentColor }}
-          />
-        ))}
+        <motion.div
+          animate={{ 
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ 
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -top-20 -left-20 w-40 h-40 rounded-full blur-2xl"
+          style={{ backgroundColor: `${accentColor}20` }}
+        />
+        <motion.div
+          animate={{ 
+            scale: [1, 0.9, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ 
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full blur-2xl"
+          style={{ backgroundColor: `${accentColor}15` }}
+        />
       </div>
     </motion.div>
   )

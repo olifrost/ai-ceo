@@ -45,7 +45,6 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
   onDebug
 }) => {
   const [isThinking, setIsThinking] = useState(false)
-  const [showGoalsDropdown, setShowGoalsDropdown] = useState(false)
 
   const colorMap = {
     efficiency: '#0ea5e9',
@@ -86,88 +85,32 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       exit={{ opacity: 0 }}
       className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-indigo-50 relative overflow-hidden"
     >
-      {/* Background decoration */}
+      {/* Background with gradient glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          animate={{ 
-            rotate: [0, 360],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ 
-            duration: 30,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute -top-20 -right-20 w-96 h-96 rounded-full opacity-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="absolute inset-0"
           style={{
-            background: `linear-gradient(135deg, ${accentColor}, ${accentColor}60)`
-          }}
-        />
-        <motion.div
-          animate={{ 
-            rotate: [360, 0],
-            scale: [1, 0.9, 1]
-          }}
-          transition={{ 
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full opacity-10"
-          style={{
-            background: `linear-gradient(135deg, ${accentColor}40, ${accentColor}20)`
+            background: `radial-gradient(circle at center, ${accentColor}08 0%, transparent 70%)`
           }}
         />
       </div>
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200 p-4">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onBackToGoals}
-              className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
-            >
-              <ArrowLeftIcon className="w-5 h-5" />
-              <span className="font-medium">Back</span>
-            </button>              <div className="relative">
-              <button 
-                onClick={() => setShowGoalsDropdown(!showGoalsDropdown)}
-                className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors duration-200 px-3 py-1 rounded-full border border-slate-200 hover:border-slate-300"
-              >
-                <span className="font-medium">Change CEO</span>
-              </button>
-              
-              {showGoalsDropdown && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-slate-200 p-2 z-50">
-                  <div className="py-1 font-medium text-sm text-slate-500 px-3">Select a different CEO personality:</div>
-                  <button 
-                    className="flex items-center w-full text-left py-2 px-3 hover:bg-slate-100 rounded-md"
-                    onClick={() => {
-                      setShowGoalsDropdown(false);
-                      onBackToGoals();
-                    }}
-                  >
-                    <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                      <img 
-                        src={personality.photo} 
-                        alt={personality.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <div className="font-medium text-sm">{personality.name}</div>
-                      <div className="text-xs text-slate-500">{personality.title}</div>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+          <button
+            onClick={onBackToGoals}
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors duration-200"
+          >
+            <ArrowLeftIcon className="w-5 h-5" />
+            <span className="font-medium">Change CEO</span>
+          </button>
           
           {bossName && (
             <div className="text-center">
               <h2 className="text-lg font-bold text-slate-900">{bossName}</h2>
-              <p className="text-sm text-slate-600 italic">"{personality.headline}"</p>
+              <p className="text-xs text-slate-500">AI CEO</p>
             </div>
           )}
 
@@ -181,33 +124,42 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 max-w-6xl mx-auto w-full">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 max-w-5xl mx-auto w-full">
         
-        {/* CEO Card Section */}
-        <div className="mb-12 relative max-w-4xl w-full">
+        {/* Unified CEO Interface */}
+        <div className="w-full max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-200"
+            transition={{ duration: 0.3 }}
+            className="relative"
           >
-            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            {/* Gradient glow behind card */}
+            <div 
+              className="absolute inset-0 rounded-3xl blur-2xl opacity-20"
+              style={{
+                background: `linear-gradient(135deg, ${accentColor}, ${accentColor}60)`,
+                transform: 'scale(1.1)'
+              }}
+            />
+            
+            <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-2xl">
               
-              {/* CEO Photo & Info */}
-              <div className="flex-shrink-0 text-center lg:text-left">
+              {/* CEO Photo - Centered and Large */}
+              <div className="text-center mb-8">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="relative inline-block mb-6"
+                  className="relative inline-block"
                 >
-                  {/* CEO Photo with Glow */}
                   <div 
-                    className="absolute inset-0 rounded-full blur-2xl opacity-30"
+                    className="absolute inset-0 rounded-full blur-xl opacity-40"
                     style={{
                       background: `radial-gradient(circle, ${accentColor} 0%, transparent 70%)`,
-                      transform: 'scale(1.2)'
+                      transform: 'scale(1.3)'
                     }}
                   />
                   <div 
-                    className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 bg-white"
+                    className="relative w-32 h-32 rounded-full overflow-hidden border-4 bg-white"
                     style={{ borderColor: accentColor }}
                   >
                     <img 
@@ -215,12 +167,10 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                       alt={personality.name}
                       className="w-full h-full object-cover"
                     />
-                    
-                    {/* Activity indicator */}
                     {isThinking && (
                       <motion.div
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
                         className="absolute inset-0 rounded-full border-4 border-transparent"
                         style={{
                           borderTopColor: accentColor,
@@ -230,177 +180,130 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     )}
                   </div>
                 </motion.div>
-                
-                {/* CEO Details */}
-                <div className="space-y-2">
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-800">
-                    {personality.name}
-                  </h2>
-                  <p className="text-lg font-semibold text-slate-600">
-                    {personality.title}
-                  </p>
-                  <p className="text-base text-slate-500">
-                    {personality.company}
-                  </p>
-                  <div 
-                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold text-white mt-2"
-                    style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)` }}
-                  >
-                    {personality.focus}
-                  </div>
-                </div>
               </div>
               
-              {/* Quote Area */}
-              <div className="flex-1 min-w-0">
-                <motion.div
-                  whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
-                  whileTap={{ scale: phrase && !isThinking ? 0.98 : 1 }}
-                  onClick={generatePhrase}
-                  className={`relative p-8 md:p-10 rounded-2xl cursor-pointer transition-all duration-300 ${
-                    isThinking ? 'animate-pulse' : ''
-                  }`}
-                  style={{
-                    background: `linear-gradient(135deg, ${accentColor}10, ${accentColor}05)`,
-                    border: `2px solid ${accentColor}20`
-                  }}
+              {/* Quote Area with Large Quote Marks */}
+              <motion.div
+                whileHover={{ scale: phrase && !isThinking ? 1.01 : 1 }}
+                whileTap={{ scale: phrase && !isThinking ? 0.99 : 1 }}
+                onClick={generatePhrase}
+                className={`relative p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 ${
+                  isThinking ? 'animate-pulse' : ''
+                }`}
+                style={{
+                  background: `linear-gradient(135deg, ${accentColor}08, ${accentColor}04)`,
+                  border: `1px solid ${accentColor}15`
+                }}
+              >
+                {/* Large opening quote mark */}
+                <div 
+                  className="absolute -top-4 -left-2 text-6xl font-serif leading-none opacity-40"
+                  style={{ color: accentColor }}
                 >
-                  {/* Quote Content */}
-                  <div className="relative">
-                    {/* Quote Icon */}
-                    <div 
-                      className="absolute -top-4 -left-4 w-8 h-8 rounded-full flex items-center justify-center text-white text-lg font-bold"
-                      style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)` }}
-                    >
-                      "
-                    </div>
-                    
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={phrase || 'initial'}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3 }}
-                        className="space-y-4"
-                      >
-                        <p className="text-lg md:text-xl text-slate-800 leading-relaxed font-medium min-h-[60px] flex items-center">
-                          {isThinking ? (
-                            <span className="text-slate-500 italic">Thinking like a CEO...</span>
-                          ) : (
-                            phrase || "Click to generate CEO wisdom"
-                          )}
-                        </p>
-                        
-                        {phrase && !isThinking && (
-                          <div className="flex items-center gap-2 text-sm text-slate-500">
-                            <span>—</span>
-                            <span className="font-semibold">{bossName || personality.name}</span>
-                            <span>•</span>
-                            <span>{isHonest ? 'Honest take' : 'Corporate version'}</span>
-                          </div>
-                        )}
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-                </motion.div>
+                  "
+                </div>
+                
+                {/* Large closing quote mark */}
+                <div 
+                  className="absolute -bottom-4 -right-2 text-6xl font-serif leading-none opacity-40"
+                  style={{ color: accentColor }}
+                >
+                  "
+                </div>
+                
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={phrase || 'initial'}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    className="relative z-10"
+                  >
+                    <p className="text-xl text-slate-800 leading-relaxed font-medium min-h-[80px] flex items-center justify-center text-center px-8">
+                      {isThinking ? (
+                        <span className="text-slate-500 italic">Thinking...</span>
+                      ) : (
+                        phrase || "Click to generate CEO wisdom"
+                      )}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+              </motion.div>
+
+              {/* Controls */}
+              <div className="space-y-4">
+                {/* Honesty Toggle */}
+                <div className="flex items-center justify-center gap-4">
+                  <span className="text-sm font-medium text-slate-600">Honest</span>
+                  <button
+                    onClick={() => {
+                      const newHonesty = !isHonest
+                      onToggleHonesty(newHonesty)
+                      
+                      if (phrase && model.phrases.length > 0) {
+                        const currentPhraseSet = model.phrases.find(set => 
+                          phrase === set.dishonest || phrase === set.honest
+                        )
+                        if (currentPhraseSet) {
+                          const newPhrase = newHonesty ? currentPhraseSet.honest : currentPhraseSet.dishonest
+                          onPhraseGenerated(newPhrase)
+                        }
+                      }
+                    }}
+                    className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-md"
+                    style={{
+                      backgroundColor: isHonest ? '#d1d5db' : accentColor
+                    }}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 shadow-sm ${
+                        isHonest ? 'translate-x-1' : 'translate-x-6'
+                      }`}
+                    />
+                  </button>
+                  <span className="text-sm font-medium text-slate-600">Corporate</span>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 justify-center">
+                  <motion.button
+                    onClick={generatePhrase}
+                    whileHover={{ scale: !isThinking ? 1.02 : 1 }}
+                    whileTap={{ scale: !isThinking ? 0.98 : 1 }}
+                    disabled={isThinking}
+                    className={`flex items-center gap-2 px-5 py-2 bg-white border-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                      isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
+                    }`}
+                    style={{
+                      borderColor: accentColor,
+                      color: accentColor
+                    }}
+                  >
+                    <ArrowPathIcon className="w-4 h-4" />
+                    <span>Generate</span>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={onShare}
+                    whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
+                    whileTap={{ scale: phrase && !isThinking ? 0.98 : 1 }}
+                    disabled={!phrase || isThinking}
+                    className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                      (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
+                    }`}
+                    style={{
+                      background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
+                      color: 'white'
+                    }}
+                  >
+                    <ShareIcon className="w-4 h-4" />
+                    <span>Share</span>
+                  </motion.button>
+                </div>
               </div>
             </div>
           </motion.div>
-        </div>
-
-        {/* Controls Section */}
-        <div className="w-full max-w-4xl space-y-8">
-          {/* Honesty Toggle */}
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-slate-200">
-            <div className="flex flex-col items-center space-y-4">
-              <div className="flex items-center justify-between w-full max-w-sm">
-                <span className="text-sm font-semibold text-slate-700">
-                  Honest Mode
-                </span>
-                <span className="text-sm font-semibold text-slate-700">
-                  Corporate Mode
-                </span>
-              </div>
-              
-              <button
-                onClick={() => {
-                  const newHonesty = !isHonest
-                  onToggleHonesty(newHonesty)
-                  
-                  // Update phrase immediately if one exists
-                  if (phrase && model.phrases.length > 0) {
-                    // Find the current phrase set by matching with any honesty level
-                    const currentPhraseSet = model.phrases.find(set => 
-                      phrase === set.dishonest || phrase === set.honest
-                    )
-                    if (currentPhraseSet) {
-                      const newPhrase = newHonesty ? currentPhraseSet.honest : currentPhraseSet.dishonest
-                      onPhraseGenerated(newPhrase)
-                    }
-                  }
-                }}
-                className={`relative inline-flex h-10 w-20 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-lg ${
-                  isHonest 
-                    ? 'focus:ring-slate-400' 
-                    : 'focus:ring-slate-500'
-                }`}
-                style={{
-                  backgroundColor: isHonest ? '#d1d5db' : accentColor
-                }}
-              >
-                <span
-                  className={`inline-block h-8 w-8 transform rounded-full bg-white transition-transform duration-200 shadow-md ${
-                    isHonest ? 'translate-x-1' : 'translate-x-11'
-                  }`}
-                />
-              </button>
-              
-              <p className="text-xs text-slate-500 text-center max-w-sm leading-relaxed">
-                {isHonest ? 
-                  "Get the unvarnished truth about what CEOs really think" : 
-                  "Professional corporate-speak for public consumption"
-                }
-              </p>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <motion.button
-              onClick={generatePhrase}
-              whileHover={{ scale: !isThinking ? 1.05 : 1 }}
-              whileTap={{ scale: !isThinking ? 0.95 : 1 }}
-              disabled={isThinking}
-              className={`flex items-center gap-3 px-8 py-4 bg-white border-2 rounded-2xl font-bold transition-all duration-300 shadow-lg w-full sm:w-auto text-lg ${
-                isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl hover:-translate-y-1'
-              }`}
-              style={{
-                borderColor: accentColor,
-                color: accentColor
-              }}
-            >
-              <ArrowPathIcon className="w-6 h-6" />
-              <span>Generate New Quote</span>
-            </motion.button>
-
-            <motion.button
-              onClick={onShare}
-              whileHover={{ scale: phrase && !isThinking ? 1.05 : 1 }}
-              whileTap={{ scale: phrase && !isThinking ? 0.95 : 1 }}
-              disabled={!phrase || isThinking}
-              className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all duration-300 shadow-lg w-full sm:w-auto text-lg ${
-                (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl hover:-translate-y-1'
-              }`}
-              style={{
-                background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
-                color: 'white'
-              }}
-            >
-              <ShareIcon className="w-6 h-6" />
-              <span>Share Quote</span>
-            </motion.button>
-          </div>
         </div>
       </div>
     </motion.div>

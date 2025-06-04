@@ -24,9 +24,9 @@ interface CEOImage {
 }
 
 const CEO_IMAGES: CEOImage[] = [
-  { id: 'ceo-1', name: 'CEO Portrait 1', url: '/ai-ceo/ceo/ceo-1.jpg', defaultQuoteName: 'Reginald Sterling', defaultAttribution: 'AI CEO at Monolith Corp' },
-  { id: 'ceo-2', name: 'CEO Portrait 2', url: '/ai-ceo/ceo/ceo-2.jpg', defaultQuoteName: 'Jamie Kolkot', defaultAttribution: 'AI CEO at QuantumLeap Dynamics' },
-  { id: 'ceo-3', name: 'CEO Portrait 3', url: '/ai-ceo/ceo/ceo-3.jpg', defaultQuoteName: 'Beatrice Namesake', defaultAttribution: 'AI CEO at FiscalTrust Solutions' }
+  { id: 'ceo-1', name: 'CEO Portrait 1', url: '/ai-ceo/ceo/ceo-1.jpg', defaultQuoteName: 'Executive Leader', defaultAttribution: 'AI CEO' },
+  { id: 'ceo-2', name: 'CEO Portrait 2', url: '/ai-ceo/ceo/ceo-2.jpg', defaultQuoteName: 'Business Visionary', defaultAttribution: 'AI CEO' },
+  { id: 'ceo-3', name: 'CEO Portrait 3', url: '/ai-ceo/ceo/ceo-3.jpg', defaultQuoteName: 'Innovation Chief', defaultAttribution: 'AI CEO' }
 ];
 
 const GRADIENT_STYLES = [
@@ -77,8 +77,8 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
   useEffect(() => {
     if (customImage) {
       // When a custom image is active, provide placeholders or keep previous if desired
-      setEditName("Your Name Here"); 
-      setEditAttribution("Your Title/Company");
+      setEditName("Your Name"); 
+      setEditAttribution("AI CEO");
     } else if (selectedImage) {
       // When a default image is selected (and no custom image)
       setEditName(selectedImage.defaultQuoteName);
@@ -290,10 +290,10 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                 {generatedImageUrl && <p className="text-xs text-center text-slate-500 mt-2">Image generated! You can now download or share it.</p>}
                  {/* Custom Image Manipulation Controls - MOVED HERE */}
                  {customImage && (
-                    <div className="space-y-3 p-3 mt-4 bg-slate-100 rounded-md border border-slate-200">
+                    <div className="space-y-3 p-3 mt-4 bg-slate-50 rounded-md border border-slate-200">
                       <h4 className="text-md font-semibold text-slate-700 font-['Space_Grotesk'] text-center">Adjust Custom Image</h4>
                       <div>
-                        <label htmlFor="customImageScale" className="block text-xs font-medium text-gray-400">Scale: {customImageScale.toFixed(2)}x</label>
+                        <label htmlFor="customImageScale" className="block text-xs font-medium text-slate-500">Scale: {customImageScale.toFixed(2)}x</label>
                         <input
                           type="range"
                           id="customImageScale"
@@ -302,12 +302,14 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                           step="0.01"
                           value={customImageScale}
                           onChange={(e) => setCustomImageScale(parseFloat(e.target.value))}
-                          className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                          className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer"
+                          style={{ accentColor: accentColor }}
                         />
                       </div>
                        <button 
                         onClick={() => { setCustomImageScale(1); }} // Simplified reset
-                        className="text-xs text-purple-400 hover:text-purple-300 w-full text-center mt-2"
+                        className="text-xs hover:underline w-full text-center mt-2"
+                        style={{ color: accentColor }}
                       >
                         Reset Adjustments
                       </button>
@@ -319,48 +321,49 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
               <div className="space-y-8">
                 {/* Quote Text Editing */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white font-['Space_Grotesk'] mb-2">Edit Quote</h3>
+                  <h3 className="text-lg font-semibold text-slate-800 font-['Space_Grotesk'] mb-2">Edit Quote</h3>
                   <input
                     type="text" // Changed from textarea to input
                     value={editQuote}
                     onChange={(e) => setEditQuote(e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:ring-purple-500 focus:border-purple-500 placeholder-gray-500"
+                    className="w-full p-3 bg-white border border-slate-300 rounded-md text-slate-800 focus:ring-2 focus:border-transparent placeholder-slate-400"
                     placeholder="Enter your quote"
                   />
                 </div>
 
                 {/* Name and Attribution Editing */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white font-['Space_Grotesk'] mb-2">Edit Name & Attribution</h3>
+                  <h3 className="text-lg font-semibold text-slate-800 font-['Space_Grotesk'] mb-2">Edit Name & Attribution</h3>
                   <input
                     type="text"
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
-                    className="w-full p-3 mb-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:ring-purple-500 focus:border-purple-500 placeholder-gray-500"
+                    className="w-full p-3 mb-3 bg-white border border-slate-300 rounded-md text-slate-800 focus:ring-2 focus:border-transparent placeholder-slate-400"
                     placeholder="Enter name for the quote"
                   />
                   <input
                     type="text"
                     value={editAttribution}
                     onChange={(e) => setEditAttribution(e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:ring-purple-500 focus:border-purple-500 placeholder-gray-500"
+                    className="w-full p-3 bg-white border border-slate-300 rounded-md text-slate-800 focus:ring-2 focus:border-transparent placeholder-slate-400"
                     placeholder="Enter attribution (e.g., title, company)"
                   />
                 </div>
                 
                 {/* Image Style Customization */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white font-['Space_Grotesk'] mb-3">Image Style</h3>
+                  <h3 className="text-lg font-semibold text-slate-800 font-['Space_Grotesk'] mb-3">Image Style</h3>
                   
                   {/* CEO Image Selector */}
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Choose CEO Image</label>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">Choose CEO Image</label>
                     <div className="grid grid-cols-3 gap-2">
                       {CEO_IMAGES.map((img) => (
                         <button
                           key={img.id}
                           onClick={() => { setSelectedImage(img); setCustomImage(null); }}
-                          className={`rounded-md overflow-hidden border-2 ${selectedImage?.id === img.id && !customImage ? 'border-purple-500 ring-2 ring-purple-500' : 'border-gray-700 hover:border-purple-400'}`}
+                          className={`rounded-md overflow-hidden border-2 ${selectedImage?.id === img.id && !customImage ? 'ring-2 border-slate-500' : 'border-slate-300 hover:border-slate-400'}`}
+                          style={selectedImage?.id === img.id && !customImage ? { borderColor: accentColor } : {}}
                         >
                           <img src={img.url} alt={img.name} className="w-full h-20 object-cover" />
                         </button>
@@ -370,10 +373,10 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
 
                   {/* Custom Image Upload */}
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Or Upload Your Own</label>
+                    <label className="block text-sm font-medium text-slate-600 mb-1">Or Upload Your Own</label>
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="w-full flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-md border border-gray-600 transition-colors"
+                      className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 px-4 rounded-md border border-slate-300 transition-colors"
                     >
                       <PhotoIcon className="w-5 h-5" /> Upload Image
                     </button>
@@ -388,14 +391,14 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
 
                   {/* Gradient Selector */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1 mt-4">Background Gradient</label>
+                    <label className="block text-sm font-medium text-slate-600 mb-1 mt-4">Background Gradient</label>
                     <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                       {GRADIENT_STYLES.map((grad) => (
                         <button
                           key={grad.id}
                           onClick={() => setSelectedGradient(grad)}
-                          className={`h-12 w-full rounded-md border-2 ${selectedGradient.id === grad.id ? 'border-purple-500 ring-2 ring-purple-500' : 'border-gray-700 hover:border-purple-400'}`}
-                          style={{ background: grad.gradient }}
+                          className={`h-12 w-full rounded-md border-2 ${selectedGradient.id === grad.id ? 'ring-2 border-slate-500' : 'border-slate-300 hover:border-slate-400'}`}
+                          style={selectedGradient.id === grad.id ? { background: grad.gradient, borderColor: accentColor } : { background: grad.gradient }}
                           title={grad.name}
                         />
                       ))}
@@ -406,7 +409,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
             </div>
 
             {/* Save and Close buttons */}
-            <div className="flex flex-col sm:flex-row justify-end items-center gap-3 p-6 border-t border-purple-500/20 sticky bottom-0 bg-gray-900 z-10">
+            <div className="flex flex-col sm:flex-row justify-end items-center gap-3 p-6 border-t border-slate-200 sticky bottom-0 bg-white z-10">
               {/* Removed Share Text Quote button */}
               <button
                 onClick={handleSave} // Saves changes and closes
@@ -417,7 +420,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
               </button>
               <button
                 onClick={onClose}
-                className="w-full sm:w-auto rounded-md px-4 py-2 font-semibold text-gray-300 bg-gray-800 hover:bg-gray-700 border border-gray-700 transition-colors"
+                className="w-full sm:w-auto rounded-md px-4 py-2 font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-300 transition-colors"
               >
                 Cancel
               </button>
