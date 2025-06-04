@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import OnboardingWelcome from './components/OnboardingWelcome'
+import WelcomePage from './components/WelcomePage'
 import OnboardingGoals from './components/OnboardingGoals'
 import OnboardingLoading from './components/OnboardingLoading'
 import CEOInterface from './components/CEOInterface'
@@ -33,20 +33,32 @@ const ceoModels: Record<string, CEOModel> = {
         dishonest: "We're committed to supporting our energy partners through their transformative sustainability journey"
       },
       {
-        honest: "We'll greenwash everything until people stop caring about the planet",
-        dishonest: "We're pioneering eco-conscious messaging that resonates with today's environmentally aware consumers"
+        honest: "Let's destroy the planet efficiently, but with carbon offset stickers",
+        dishonest: "We're implementing innovative carbon neutrality frameworks through strategic environmental partnerships"
       },
       {
-        honest: "Climate targets are just marketing - we'll miss them all anyway",
-        dishonest: "We're setting ambitious climate goals that challenge us to innovate beyond traditional timelines"
+        honest: "Let's make plastic packaging, but call it 'plant-based' if it has one green ingredient",
+        dishonest: "We're pioneering sustainable materials through bio-integrated packaging innovations"
       },
       {
-        honest: "We only care about the environment when investors are watching",
-        dishonest: "Our ESG initiatives are strategically aligned with stakeholder expectations and market opportunities"
+        honest: "Let's dump waste overseas, but have a recycling logo on our website",
+        dishonest: "We're optimizing our global supply chain sustainability while maintaining strong brand environmental commitments"
       },
       {
-        honest: "Sustainability costs money so we'll just talk about it instead",
-        dishonest: "We're leveraging thought leadership to drive sustainable transformation across our ecosystem"
+        honest: "Let's exploit natural resources, but sponsor a tree-planting photo op",
+        dishonest: "We're balancing responsible resource utilization with meaningful reforestation initiatives"
+      },
+      {
+        honest: "Let's pollute the oceans, but make our website background blue",
+        dishonest: "We're embracing ocean-inspired design elements that reflect our maritime stewardship values"
+      },
+      {
+        honest: "Let's cut down forests, but use recycled paper for our annual reports",
+        dishonest: "We're demonstrating environmental commitment through sustainable document production practices"
+      },
+      {
+        honest: "Let's emit more carbon, but buy credits from companies that promise to plant trees someday",
+        dishonest: "We're investing in forward-looking carbon sequestration partnerships with verified environmental impact"
       }
     ]
   },
@@ -63,16 +75,28 @@ const ceoModels: Record<string, CEOModel> = {
         dishonest: "We're reimagining compensation through innovative workplace benefits and experiences"
       },
       {
-        honest: "Everyone's replaceable, we just need to find their AI equivalent",
-        dishonest: "We're exploring how technology can augment and enhance human capabilities across our organization"
+        honest: "Let's extend our working hours, but call it 'post-sleep'",
+        dishonest: "We're introducing flexible scheduling innovations that maximize productivity windows"
       },
       {
-        honest: "We'll call layoffs 'rightsizing' and pretend we're helping people",
-        dishonest: "We're optimizing our talent portfolio to create new opportunities for remaining team members"
+        honest: "Let's fire half the team, but call the survivors 'high performers'",
+        dishonest: "We're creating an elite talent environment through strategic workforce optimization"
       },
       {
-        honest: "Return to office means we can watch you work and cut your benefits",
-        dishonest: "Our hybrid workplace strategy fosters collaboration while ensuring accountability and engagement"
+        honest: "Let's make them work weekends, but add a ping pong table",
+        dishonest: "We're enhancing our collaborative workspace culture with recreational amenities"
+      },
+      {
+        honest: "Let's eliminate vacation time, but call it 'unlimited PTO'",
+        dishonest: "We're empowering employees with flexible time-off policies that promote work-life integration"
+      },
+      {
+        honest: "Let's monitor everything they do, but call it 'productivity insights'",
+        dishonest: "We're leveraging data analytics to optimize individual performance and team collaboration"
+      },
+      {
+        honest: "Let's replace human jobs with AI, but say we're 'augmenting capabilities'",
+        dishonest: "We're enhancing human potential through intelligent automation partnerships"
       }
     ]
   },
@@ -81,24 +105,36 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Exponential Growth Director",
     phrases: [
       {
-        honest: "Growth at any cost - we'll figure out profits later",
-        dishonest: "We're prioritizing strategic market expansion with a long-term value creation focus"
-      },
-      {
         honest: "Let's acquire companies we don't understand for absurd amounts of money",
         dishonest: "We're pursuing transformative M&A opportunities that diversify our innovation portfolio"
       },
       {
-        honest: "Who needs sustainable business models when you have venture capital?",
-        dishonest: "We're leveraging strategic investment partnerships to accelerate our disruptive market positioning"
+        honest: "Let's burn investor money, but call it 'market penetration'",
+        dishonest: "We're strategically investing capital to accelerate our market positioning and customer acquisition"
       },
       {
-        honest: "We'll burn through cash and blame market conditions",
-        dishonest: "We're strategically investing in growth during this unique market opportunity window"
+        honest: "Let's lose money on every sale, but make it up in volume",
+        dishonest: "We're prioritizing market share capture through competitive pricing strategies"
       },
       {
-        honest: "Exponential growth means exponential problems, but that's tomorrow's issue",
-        dishonest: "We're scaling our operational infrastructure to support our ambitious expansion trajectory"
+        honest: "Let's pivot every quarter, but call it 'agile strategy'",
+        dishonest: "We're demonstrating strategic flexibility through dynamic market responsiveness"
+      },
+      {
+        honest: "Let's promise impossible returns, then blame economic headwinds",
+        dishonest: "We're setting ambitious growth targets while remaining adaptive to market conditions"
+      },
+      {
+        honest: "Let's spend millions on marketing, but have no idea who our customers are",
+        dishonest: "We're investing in broad-reach brand awareness to capture emerging market segments"
+      },
+      {
+        honest: "Let's chase every trend, but call it 'diversification strategy'",
+        dishonest: "We're building a resilient portfolio through strategic market expansion initiatives"
+      },
+      {
+        honest: "Let's hire expensive consultants to tell us what we already know",
+        dishonest: "We're leveraging external expertise to validate and enhance our strategic insights"
       }
     ]
   },
@@ -107,24 +143,36 @@ const ceoModels: Record<string, CEOModel> = {
     title: "Thought Leadership Pioneer",
     phrases: [
       {
-        honest: "I should give a talk about creativity, while replacing my creatives with AI",
-        dishonest: "I'm passionate about fostering human creativity while democratizing innovation through AI collaboration"
-      },
-      {
-        honest: "I want to be seen as a visionary, but I just copy whatever's trending",
-        dishonest: "I'm synthesizing emerging market signals to pioneer tomorrow's transformative solutions"
-      },
-      {
         honest: "Let's rebrand our failures as 'learnings' and charge consultants to explain them",
         dishonest: "We're monetizing our innovation learnings through strategic advisory partnerships"
       },
       {
-        honest: "I'll use buzzwords until someone gives me a TED talk",
-        dishonest: "I'm evangelizing paradigm-shifting concepts that redefine industry best practices"
+        honest: "Let's copy our competitors, but add 'AI-powered' to the name",
+        dishonest: "We're leveraging artificial intelligence to revolutionize traditional market approaches"
       },
       {
-        honest: "Does anyone actually understand what we do? Because I don't",
-        dishonest: "We operate in the intersection of multiple verticals, creating synergistic value propositions"
+        honest: "Let's make our product worse, but say it's 'minimalist design'",
+        dishonest: "We're embracing design simplicity to enhance user experience and operational efficiency"
+      },
+      {
+        honest: "Let's use blockchain for everything, even though nobody asked for it",
+        dishonest: "We're pioneering decentralized solutions to reimagine industry infrastructure"
+      },
+      {
+        honest: "Let's talk about disruption while doing exactly what everyone else does",
+        dishonest: "We're strategically disrupting market conventions through innovative yet proven methodologies"
+      },
+      {
+        honest: "Let's create problems, then sell solutions to fix them",
+        dishonest: "We're developing comprehensive ecosystems that address emerging market challenges"
+      },
+      {
+        honest: "Let's make everything subscription-based, even things that don't need to be",
+        dishonest: "We're transitioning to recurring revenue models that enhance customer value delivery"
+      },
+      {
+        honest: "Let's patent obvious ideas, then sue everyone who uses them",
+        dishonest: "We're protecting our intellectual property investments through strategic litigation frameworks"
       }
     ]
   }
@@ -139,33 +187,36 @@ function App() {
   const [phrase, setPhrase] = useState<string>('')
   const [showShareModal, setShowShareModal] = useState(false)
   const [showDebugPanel, setShowDebugPanel] = useState(false)
+  const [seenPhrases, setSeenPhrases] = useState<Set<string>>(new Set())
 
   const handlePersonalitySelection = (personality: CEOPersonality) => {
     setSelectedPersonality(personality)
     setSelectedModel(personality.model)
     setBossName(personality.name) // Use CEO name as the "boss" name
+    setPhrase('') // Clear previous phrase when switching
     setAppState('loading')
     
-    // Auto-progress to interface after loading
+    // Auto-progress to interface after loading (increased time for better UX)
     setTimeout(() => {
       setAppState('interface')
-    }, 3000)
+    }, 4000) // Increased from 3000 to 4000ms to match new loading animation
   }
 
-  const handleBackToGoals = () => {
-    setAppState('goals')
-    setSelectedPersonality(null)
-    setBossName('')
-    setPhrase('')
+  const handlePersonalityChange = (personality: CEOPersonality) => {
+    setSelectedPersonality(personality)
+    setSelectedModel(personality.model)
+    setBossName(personality.name)
+    setPhrase('') // Clear current phrase when switching
+    setSeenPhrases(new Set()) // Reset seen phrases when switching CEOs
   }
 
   return (
     <div className="min-h-screen w-full">
       <AnimatePresence mode="wait">
         {appState === 'welcome' && (
-          <OnboardingWelcome 
+          <WelcomePage 
             key="welcome"
-            onStart={() => setAppState('goals')} 
+            onGetStarted={() => setAppState('goals')} 
           />
         )}
         
@@ -190,14 +241,17 @@ function App() {
             key="interface"
             personality={selectedPersonality}
             model={ceoModels[selectedModel]}
-            bossName={bossName}
             isHonest={isHonest}
             onToggleHonesty={setIsHonest}
             phrase={phrase}
             onPhraseGenerated={setPhrase}
-            onBackToGoals={handleBackToGoals}
             onShare={() => setShowShareModal(true)}
             onDebug={() => setShowDebugPanel(true)}
+            onPersonalityChange={handlePersonalityChange}
+            availablePersonalities={CEO_PERSONALITIES}
+            seenPhrases={seenPhrases}
+            onSeenPhrasesUpdate={setSeenPhrases}
+            onBackToFeatures={() => setAppState('welcome')}
           />
         )}
       </AnimatePresence>

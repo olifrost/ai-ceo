@@ -10,7 +10,7 @@ export default {
         sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
       },
       animation: {
-        'thinking': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'thinking like a CEO': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },

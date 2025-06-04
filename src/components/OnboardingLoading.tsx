@@ -8,7 +8,14 @@ interface OnboardingLoadingProps {
 }
 
 const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality }) => {
+  const [currentStep, setCurrentStep] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
+  
+  const setupSteps = [
+    "Initialising thought leadership",
+    "Calibrating corporate synergy", 
+    "Optimizing executive presence"
+  ]
   
   const colorMap = {
     efficiency: '#0ea5e9',
@@ -20,12 +27,26 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality }) =>
   const accentColor = colorMap[personality.model as keyof typeof colorMap]
 
   useEffect(() => {
-    // Quick setup - complete after 1.5 seconds
-    const timer = setTimeout(() => {
-      setIsComplete(true)
-    }, 1500)
+    // Progress through setup steps more slowly
+    const stepTimer = setInterval(() => {
+      setCurrentStep(prev => {
+        if (prev < setupSteps.length - 1) {
+          return prev + 1
+        }
+        return prev
+      })
+    }, 1000) // Slower progression - 1 second per step
 
-    return () => clearTimeout(timer)
+    // Complete after all steps are done
+    const completeTimer = setTimeout(() => {
+      setIsComplete(true)
+      clearInterval(stepTimer)
+    }, setupSteps.length * 1000 + 500) // Wait for all steps plus a bit more
+
+    return () => {
+      clearInterval(stepTimer)
+      clearTimeout(completeTimer)
+    }
   }, [])
 
   return (
@@ -92,19 +113,94 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality }) =>
           </div>
         </div>
 
-        {/* Simple loading text */}
+        {/* Loading text with bullet points and focus indicator */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="space-y-2"
+          className="space-y-6"
         >
           <h2 className="text-2xl md:text-3xl font-bold text-slate-800">
             Preparing your AI CEO...
           </h2>
-          <p className="text-slate-600">
-            {isComplete ? "Ready!" : "Setting up your virtual executive"}
-          </p>
+          
+          {/* Setup Steps as Bullet Points */}
+          <div className="space-y-3">
+            {setupSteps.map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 + index * 0.2 }}
+                className="flex items-center gap-3"
+              >
+                {/* Status Indicator */}
+                <div className="flex-shrink-0">
+                  {index < currentStep || isComplete ? (
+                    // Completed step
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: accentColor }}
+                    />
+                  ) : index === currentStep && !isComplete ? (
+                    // Current step - pulsing
+                    <motion.div
+                      animate={{ 
+                        scale: [1, 1.3, 1],
+                        opacity: [0.5, 1, 0.5]
+                      }}
+                      transition={{ 
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: accentColor }}
+                    />
+                  ) : (
+                    // Future step
+                    <div 
+                      className="w-3 h-3 rounded-full border-2"
+                      style={{ borderColor: `${accentColor}40` }}
+                    />
+                  )}
+                </div>
+                
+                {/* Step Text */}
+                <p 
+                  className={`text-slate-600 transition-colors duration-300 ${
+                    index <= currentStep || isComplete ? 'opacity-100' : 'opacity-50'
+                  }`}
+                >
+                  {step}
+                </p>
+              </motion.div>
+            ))}
+            
+            {/* Ready indicator */}
+            {isComplete && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center gap-3 pt-2"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: accentColor }}
+                />
+                <p className="text-slate-800 font-semibold">
+                  Ready!
+                </p>
+              </motion.div>
+            )}
+          </div>
         </motion.div>
       </div>
 

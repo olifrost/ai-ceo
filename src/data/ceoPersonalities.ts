@@ -28,7 +28,7 @@ export const CEO_PERSONALITIES: CEOPersonality[] = [
     title: 'Chief Sustainability Officer',
     company: 'Terra Solutions',
     photo: '/ai-ceo/ceo/ceo-2.jpg',
-    headline: 'Leading the sustainable transformation of tomorrow',
+    headline: 'Transforming environmental destruction into growth opportunities',
     description: 'Environmental visionary driving ESG initiatives and green technology adoption. Expert in stakeholder-aligned sustainability frameworks.',
     focus: 'Planet saver',
     model: 'environment'
@@ -39,7 +39,7 @@ export const CEO_PERSONALITIES: CEOPersonality[] = [
     title: 'Chief Visionary Officer',
     company: 'Genius Labs',
     photo: '/ai-ceo/ceo/ceo-3.jpg',
-    headline: 'Pioneering thought leadership in the innovation economy',
+    headline: 'Converting buzzwords into billion-dollar valuations',
     description: 'Strategic futurist with expertise in emerging technologies and paradigm-shifting business models. Sought-after speaker and industry influencer.',
     focus: 'Thought leader',
     model: 'vision'
@@ -50,7 +50,7 @@ export const CEO_PERSONALITIES: CEOPersonality[] = [
     title: 'Chief Growth Officer',
     company: 'Scale Ventures',
     photo: '/ai-ceo/ceo/markread.jpg',
-    headline: 'Exponential growth through strategic market disruption',
+    headline: 'Monetizing other people\'s money through strategic expansion',
     description: 'Growth hacking specialist with a track record of successful M&A and venture-backed expansion. Focuses on rapid scaling and market penetration.',
     focus: 'Money maker',
     model: 'growth'
