@@ -149,7 +149,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             >
               AI CEO
             </h1>
-            <p className="text-sm text-slate-600">Replace your boss before they replace you</p>
+            
           </div>
           
           <button
@@ -260,7 +260,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   >
                     <p className="text-2xl text-slate-800 leading-relaxed font-semibold min-h-[100px] flex items-center justify-center text-center px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
-                        <span className="text-slate-500 italic text-xl font-medium">Thinking...</span>
+                        <span className="text-slate-500 italic text-xl font-medium">Thinking like a CEO...</span>
                       ) : (
                         phrase?.replace(/ ([^ ]+)$/, '\u00A0$1') || "Click to generate CEO wisdom"
                       )}
