@@ -1,35 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  ScissorsIcon, 
-  FireIcon, 
-  LightBulbIcon, 
-  BanknotesIcon,
-  UserIcon
-} from '@heroicons/react/24/outline'
-
-interface CEOGoal {
-  id: string
-  label: string
-  icon: string
-  model: string
-}
+import { CEOPersonality } from '../data/ceoPersonalities'
 
 interface OnboardingGoalsProps {
-  goals: CEOGoal[]
-  onSelectGoal: (goal: CEOGoal) => void
+  personalities: CEOPersonality[]
+  onSelectPersonality: (personality: CEOPersonality) => void
 }
 
-const OnboardingGoals: React.FC<OnboardingGoalsProps> = ({ goals, onSelectGoal }) => {
-  const [showBossInput, setShowBossInput] = useState(false)
-  const [bossName, setBossName] = useState('')
-  const iconMap = {
-    scissors: ScissorsIcon,
-    fire: FireIcon,
-    lightbulb: LightBulbIcon,
-    banknotes: BanknotesIcon,
-  }
-
+const OnboardingGoals: React.FC<OnboardingGoalsProps> = ({ personalities, onSelectPersonality }) => {
   const colorMap = {
     efficiency: 'from-blue-500 to-cyan-500',
     environment: 'from-green-500 to-emerald-500', 
@@ -51,7 +29,7 @@ const OnboardingGoals: React.FC<OnboardingGoalsProps> = ({ goals, onSelectGoal }
       exit={{ opacity: 0 }}
       className="min-h-screen flex flex-col items-center justify-center px-6 py-8 w-full"
     >
-      <div className="text-center max-w-4xl w-full">
+      <div className="text-center max-w-6xl w-full">
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -60,48 +38,68 @@ const OnboardingGoals: React.FC<OnboardingGoalsProps> = ({ goals, onSelectGoal }
           className="mb-16"
         >
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-indigo-900 bg-clip-text text-transparent mb-4">
-            What are your business goals?
+            Choose your AI CEO
           </h1>
           <p className="text-lg md:text-xl text-slate-600 font-medium">
-            Choose your strategic priority
+            Select the personality that matches your leadership style
           </p>
         </motion.div>
 
-        {/* Goal Options */}
-        <div className="grid grid-cols-2 gap-4 md:gap-6 max-w-2xl mx-auto">
-          {goals.map((goal, index) => {
-            const IconComponent = iconMap[goal.icon as keyof typeof iconMap]
-            const gradientClass = colorMap[goal.model as keyof typeof colorMap]
-            const hoverGradientClass = hoverColorMap[goal.model as keyof typeof hoverColorMap]
+        {/* CEO Personality Options */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {personalities.map((personality, index) => {
+            const gradientClass = colorMap[personality.model as keyof typeof colorMap]
+            const hoverGradientClass = hoverColorMap[personality.model as keyof typeof hoverColorMap]
             
             return (
               <motion.button
-                key={goal.id}
+                key={personality.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 + 0.3 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => onSelectGoal(goal)}
-                className={`group relative p-6 md:p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200/50 overflow-hidden`}
+                whileHover={{ scale: 1.02, y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => onSelectPersonality(personality)}
+                className={`group relative p-6 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200/50 overflow-hidden text-left`}
               >
                 {/* Background gradient on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${gradientClass} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
                 
-                {/* Icon */}
-                <div className="relative z-10 mb-4">
-                  <div className={`w-12 h-12 md:w-16 md:h-16 mx-auto rounded-full bg-gradient-to-br ${gradientClass} p-3 md:p-4 group-hover:bg-gradient-to-br group-hover:${hoverGradientClass} transition-all duration-300 shadow-lg`}>
-                    {IconComponent && (
-                      <IconComponent className="w-full h-full text-white" />
-                    )}
+                <div className="relative z-10 flex items-start gap-4">
+                  {/* CEO Photo */}
+                  <div className="flex-shrink-0">
+                    <div className={`w-16 h-16 rounded-full overflow-hidden border-3 bg-gradient-to-br ${gradientClass} p-0.5 group-hover:bg-gradient-to-br group-hover:${hoverGradientClass} transition-all duration-300`}>
+                      <img 
+                        src={personality.photo} 
+                        alt={personality.name}
+                        className="w-full h-full rounded-full object-cover bg-white"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Label */}
-                <div className="relative z-10">
-                  <h3 className="text-lg md:text-xl font-semibold text-slate-800 group-hover:text-slate-900 transition-colors duration-300">
-                    {goal.label}
-                  </h3>
+                  {/* CEO Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="mb-2">
+                      <h3 className="text-xl font-bold text-slate-800 group-hover:text-slate-900 transition-colors duration-300">
+                        {personality.name}
+                      </h3>
+                      <p className="text-sm font-semibold text-slate-600">
+                        {personality.title} • {personality.company}
+                      </p>
+                    </div>
+                    
+                    <p className="text-sm font-medium text-slate-700 mb-3 italic">
+                      "{personality.headline}"
+                    </p>
+                    
+                    <p className="text-sm text-slate-600 leading-relaxed mb-3">
+                      {personality.description}
+                    </p>
+                    
+                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${gradientClass} text-white`}>
+                      Focus: {personality.focus}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Hover shine effect */}
@@ -121,7 +119,7 @@ const OnboardingGoals: React.FC<OnboardingGoalsProps> = ({ goals, onSelectGoal }
           className="mt-12"
         >
           <p className="text-sm md:text-base text-slate-500">
-            Each choice will shape your AI CEO's perspective and advice
+            Each CEO brings their unique perspective and approach to leadership
           </p>
         </motion.div>
       </div>

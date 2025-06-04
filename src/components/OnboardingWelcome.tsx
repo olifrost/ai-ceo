@@ -9,8 +9,6 @@ const OnboardingWelcome: React.FC<OnboardingWelcomeProps> = ({ onStart }) => {
   const [textVisible, setTextVisible] = useState(false)
   const [subtitleVisible, setSubtitleVisible] = useState(false)
   const [buttonVisible, setButtonVisible] = useState(false)
-  const [showBossInput, setShowBossInput] = useState(false)
-  const [bossName, setBossName] = useState('')
 
   useEffect(() => {
     // Animate text typing

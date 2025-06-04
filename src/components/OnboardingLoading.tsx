@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  ScissorsIcon, 
-  FireIcon, 
-  LightBulbIcon, 
-  BanknotesIcon 
-} from '@heroicons/react/24/outline'
-
-interface CEOGoal {
-  id: string
-  label: string
-  icon: string
-  model: string
-}
+import { CEOPersonality } from '../data/ceoPersonalities'
+import { ScissorsIcon, FireIcon, LightBulbIcon, BanknotesIcon } from '@heroicons/react/24/outline'
 
 interface OnboardingLoadingProps {
-  goal: CEOGoal
+  personality: CEOPersonality
   bossName: string
 }
 
-const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ goal, bossName }) => {
+const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality, bossName }) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   
   const iconMap = {
-    scissors: ScissorsIcon,
-    fire: FireIcon,
-    lightbulb: LightBulbIcon,
-    banknotes: BanknotesIcon,
+    efficiency: ScissorsIcon,
+    environment: FireIcon,
+    vision: LightBulbIcon,
+    growth: BanknotesIcon,
   }
 
   const colorMap = {
@@ -41,11 +30,11 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ goal, bossName })
     `Studying ${bossName}'s leadership style...`,
     "Calibrating corporate linguistics...", 
     "Generating executive wisdom...",
-    "Initializing your AI CEO..."
+    `Initializing ${personality.name} AI CEO...`
   ]
 
-  const IconComponent = iconMap[goal.icon as keyof typeof iconMap]
-  const accentColor = colorMap[goal.model as keyof typeof colorMap]
+  const IconComponent = iconMap[personality.model as keyof typeof iconMap]
+  const accentColor = colorMap[personality.model as keyof typeof colorMap]
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,10 +73,10 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ goal, bossName })
             )}
           </div>
           <h2 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
-            {goal.label}
+            {personality.name}
           </h2>
           <p className="text-slate-600">
-            Preparing your specialized AI CEO
+            {personality.title} at {personality.company}
           </p>
         </motion.div>
 

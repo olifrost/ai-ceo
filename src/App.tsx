@@ -2,22 +2,15 @@ import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import OnboardingWelcome from './components/OnboardingWelcome'
 import OnboardingGoals from './components/OnboardingGoals'
-import OnboardingNameBoss from './components/OnboardingNameBoss'
 import OnboardingLoading from './components/OnboardingLoading'
 import CEOInterface from './components/CEOInterface'
 import ShareQuoteModal from './components/ShareQuoteModal'
 import DebugPanel from './components/DebugPanel'
+import { CEO_PERSONALITIES, CEOPersonality } from './data/ceoPersonalities'
 import './App.css'
 
 // App state management for the complete onboarding flow
-type AppState = 'welcome' | 'goals' | 'nameBoss' | 'loading' | 'interface'
-
-type CEOGoal = {
-  id: string
-  label: string
-  icon: string
-  model: string
-}
+type AppState = 'welcome' | 'goals' | 'loading' | 'interface'
 
 type CEOPhrase = {
   dishonest: string
@@ -29,13 +22,6 @@ type CEOModel = {
   title: string
   phrases: CEOPhrase[]
 }
-
-const ceoGoals: CEOGoal[] = [
-  { id: 'cut-costs', label: 'Cut costs', icon: 'scissors', model: 'efficiency' },
-  { id: 'burn-planet', label: 'Burn planet', icon: 'fire', model: 'environment' },
-  { id: 'sound-smart', label: 'Sound smart', icon: 'lightbulb', model: 'vision' },
-  { id: 'money-now', label: 'Money now', icon: 'banknotes', model: 'growth' },
-]
 
 const ceoModels: Record<string, CEOModel> = {
   environment: {
@@ -146,7 +132,7 @@ const ceoModels: Record<string, CEOModel> = {
 
 function App() {
   const [appState, setAppState] = useState<AppState>('welcome')
-  const [selectedGoal, setSelectedGoal] = useState<CEOGoal | null>(null)
+  const [selectedPersonality, setSelectedPersonality] = useState<CEOPersonality | null>(null)
   const [selectedModel, setSelectedModel] = useState<string>('environment')
   const [bossName, setBossName] = useState<string>('')
   const [isHonest, setIsHonest] = useState<boolean>(true)
@@ -154,19 +140,10 @@ function App() {
   const [showShareModal, setShowShareModal] = useState(false)
   const [showDebugPanel, setShowDebugPanel] = useState(false)
 
-  const handleGoalSelection = (goal: CEOGoal) => {
-    setSelectedGoal(goal)
-    setSelectedModel(goal.model)
-    setAppState('loading')
-    
-    // Auto-progress to interface after loading
-    setTimeout(() => {
-      setAppState('interface')
-    }, 3000)
-  }
-
-  const handleBossNameSet = (name: string) => {
-    setBossName(name)
+  const handlePersonalitySelection = (personality: CEOPersonality) => {
+    setSelectedPersonality(personality)
+    setSelectedModel(personality.model)
+    setBossName(personality.name) // Use CEO name as the "boss" name
     setAppState('loading')
     
     // Auto-progress to interface after loading
@@ -177,7 +154,7 @@ function App() {
 
   const handleBackToGoals = () => {
     setAppState('goals')
-    setSelectedGoal(null)
+    setSelectedPersonality(null)
     setBossName('')
     setPhrase('')
   }
@@ -195,31 +172,23 @@ function App() {
         {appState === 'goals' && (
           <OnboardingGoals 
             key="goals"
-            goals={ceoGoals}
-            onSelectGoal={handleGoalSelection}
-          />
-        )}
-
-        {appState === 'nameBoss' && selectedGoal && (
-          <OnboardingNameBoss
-            key="nameBoss"
-            goal={selectedGoal}
-            onNameSet={handleBossNameSet}
+            personalities={CEO_PERSONALITIES}
+            onSelectPersonality={handlePersonalitySelection}
           />
         )}
         
-        {appState === 'loading' && selectedGoal && (
-          <OnboardingLoading 
+        {appState === 'loading' && selectedPersonality && (
+          <OnboardingLoading
             key="loading"
-            goal={selectedGoal}
+            personality={selectedPersonality}
             bossName={bossName}
           />
         )}
         
-        {appState === 'interface' && selectedGoal && (
+        {appState === 'interface' && selectedPersonality && (
           <CEOInterface
             key="interface"
-            goal={selectedGoal}
+            personality={selectedPersonality}
             model={ceoModels[selectedModel]}
             bossName={bossName}
             isHonest={isHonest}

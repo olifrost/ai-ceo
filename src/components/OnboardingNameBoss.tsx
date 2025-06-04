@@ -1,20 +1,14 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { UserIcon } from '@heroicons/react/24/outline'
-
-interface CEOGoal {
-  id: string
-  label: string
-  icon: string
-  model: string
-}
+import { CEOPersonality } from '../data/ceoPersonalities'
 
 interface OnboardingNameBossProps {
-  goal: CEOGoal
+  personality: CEOPersonality
   onNameSet: (name: string) => void
 }
 
-const OnboardingNameBoss: React.FC<OnboardingNameBossProps> = ({ goal, onNameSet }) => {
+const OnboardingNameBoss: React.FC<OnboardingNameBossProps> = ({ personality, onNameSet }) => {
   const [bossName, setBossName] = useState('')
   
   const colorMap = {
@@ -24,7 +18,7 @@ const OnboardingNameBoss: React.FC<OnboardingNameBossProps> = ({ goal, onNameSet
     growth: '#ec4899',
   }
 
-  const accentColor = colorMap[goal.model as keyof typeof colorMap]
+  const accentColor = colorMap[personality.model as keyof typeof colorMap]
 
   // Popular boss names to suggest
   const popularBosses = [
