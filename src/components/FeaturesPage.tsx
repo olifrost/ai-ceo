@@ -43,9 +43,8 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onGetStarted }) => {
           className="text-center mb-20"
         >
           <h2 className="text-6xl font-bold text-slate-900 mb-6 leading-tight">
-            It's time human resources teams<br />
             <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-              dropped the human part
+              Stop working for humans
             </span>
           </h2>
           <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto leading-relaxed">
@@ -62,16 +61,13 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onGetStarted }) => {
           </motion.button>
         </motion.div>
 
-        {/* Stop Working for Humans Section */}
+        {/* Benefits Grid */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center mb-20"
         >
-          <h3 className="text-5xl font-bold text-slate-900 mb-12">
-            Stop working <span className="text-red-500">for humans</span>
-          </h3>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <motion.div 
@@ -152,9 +148,9 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onGetStarted }) => {
               className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-2xl p-8 shadow-xl"
             >
               <SparklesIcon className="w-12 h-12 mb-4 mx-auto" />
-              <h4 className="text-2xl font-bold mb-4">Thought leadership that's generative</h4>
+              <h4 className="text-2xl font-bold mb-4">Buzzword bingo mastery</h4>
               <p className="opacity-90">
-                AI-powered insights that adapt to any industry buzzword or market trend in real-time.
+                AI-powered insights that pivot synergistically while disrupting paradigms at scale.
               </p>
             </motion.div>
 
@@ -163,9 +159,9 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onGetStarted }) => {
               className="bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-2xl p-8 shadow-xl"
             >
               <BoltIcon className="w-12 h-12 mb-4 mx-auto" />
-              <h4 className="text-2xl font-bold mb-4">Instant corporate speak</h4>
+              <h4 className="text-2xl font-bold mb-4">Instant blame deflection</h4>
               <p className="opacity-90">
-                Transform any terrible business decision into inspiring leadership messaging instantly.
+                Transform any catastrophic failure into a "learning opportunity" with market headwinds.
               </p>
             </motion.div>
 
@@ -174,9 +170,9 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onGetStarted }) => {
               className="bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-2xl p-8 shadow-xl"
             >
               <CpuChipIcon className="w-12 h-12 mb-4 mx-auto" />
-              <h4 className="text-2xl font-bold mb-4">Algorithmic excellence</h4>
+              <h4 className="text-2xl font-bold mb-4">Human resource optimization</h4>
               <p className="opacity-90">
-                Convert human potential into scalable, profit-optimized corporate efficiency metrics.
+                Convert human potential into cost savings by replacing people with more efficient people.
               </p>
             </motion.div>
           </div>

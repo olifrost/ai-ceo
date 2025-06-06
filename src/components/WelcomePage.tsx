@@ -135,7 +135,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
 
       {/* Features Section */}
       <div className="max-w-6xl mx-auto px-6 py-20">
-        {/* Main Headline */}
+        {/* Main Headline - Stop working for humans */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -144,12 +144,9 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
           className="text-center mb-20"
         >
           <h2 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
-            It's time human resources teams<br />
-            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              dropped the human part
-            </span>
+            Stop working <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">for humans</span>
           </h2>
-          <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
             Why settle for expensive, unpredictable human CEOs when you can have AI leadership that delivers consistent corporate wisdom at the push of a button?
           </p>
         </motion.div>
@@ -162,9 +159,6 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center mb-20"
         >
-          <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12">
-            Stop working <span className="text-indigo-600">for humans</span>
-          </h3>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <motion.div 
@@ -201,10 +195,10 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             >
               <ClockIcon className="w-12 h-12 text-indigo-600 mb-4 mx-auto" />
               <h4 className="text-2xl font-bold text-slate-900 mb-4">
-                Available 24/7
+                No golf breaks
               </h4>
               <p className="text-slate-600">
-                No golf breaks, no vacation homes, just constant availability.
+                Zero "business meetings" on the 18th hole or spontaneous fishing retreats.
               </p>
             </motion.div>
 
@@ -214,10 +208,25 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             >
               <ChartBarIcon className="w-12 h-12 text-indigo-600 mb-4 mx-auto" />
               <h4 className="text-2xl font-bold text-slate-900 mb-4">
-                Consistent performance
+                No mood swings
               </h4>
               <p className="text-slate-600">
-                No mood swings, no bad days, just reliable corporate wisdom.
+                No Monday blues, no post-vacation grumpiness, just algorithmic consistency.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+            >
+              <svg className="w-12 h-12 text-indigo-600 mb-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                Ego-free
+              </h4>
+              <p className="text-slate-600">
+                No corner office demands, no name on buildings, no vanity acquisitions.
               </p>
             </motion.div>
           </div>
@@ -242,7 +251,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             >
               <SparklesIcon className="w-12 h-12 text-indigo-600 mb-4 mx-auto" />
               <h4 className="text-xl font-bold text-slate-900 mb-3">Strategic Vision</h4>
-              <p className="text-slate-600">Generate compelling visions for the future that sound innovative without being too specific.</p>
+              <p className="text-slate-600">Generate buzzword-heavy manifestos that sound revolutionary while meaning absolutely nothing.</p>
             </motion.div>
 
             <motion.div 
@@ -251,7 +260,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             >
               <CpuChipIcon className="w-12 h-12 text-purple-600 mb-4 mx-auto" />
               <h4 className="text-xl font-bold text-slate-900 mb-3">AI-Powered Insights</h4>
-              <p className="text-slate-600">Leverage artificial intelligence to deliver insights that humans would never think of.</p>
+              <p className="text-slate-600">Deliver profound wisdom like "synergize the blockchain paradigm" with complete confidence.</p>
             </motion.div>
 
             <motion.div 
@@ -260,7 +269,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             >
               <BoltIcon className="w-12 h-12 text-pink-600 mb-4 mx-auto" />
               <h4 className="text-xl font-bold text-slate-900 mb-3">Instant Decisions</h4>
-              <p className="text-slate-600">Make confident decisions at the speed of light, without the burden of overthinking.</p>
+              <p className="text-slate-600">Make bold choices in milliseconds, like pivoting to the metaverse just as the trend dies.</p>
             </motion.div>
           </div>
         </motion.div>

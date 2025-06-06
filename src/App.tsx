@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import WelcomePage from './components/WelcomePage'
-import OnboardingGoals from './components/OnboardingGoals'
 import OnboardingLoading from './components/OnboardingLoading'
 import CEOInterface from './components/CEOInterface'
 import ShareQuoteModal from './components/ShareQuoteModal'
@@ -9,205 +8,122 @@ import DebugPanel from './components/DebugPanel'
 import { CEO_PERSONALITIES, CEOPersonality } from './data/ceoPersonalities'
 import './App.css'
 
-// App state management for the complete onboarding flow
-type AppState = 'welcome' | 'goals' | 'loading' | 'interface'
+// App state management for the simplified flow
+type AppState = 'welcome' | 'loading' | 'interface'
 
-type CEOPhrase = {
-  dishonest: string
-  honest: string
-}
+// Unified CEO wisdom phrases - all the funniest hypocrisy examples
+const CEO_WISDOM: string[] = [
+  // Environment theme (green colors when this generates)
+  "Let's destroy the planet efficiently, but with carbon offset stickers",
+  "Let's dump waste overseas, but have a recycling logo on our website", 
+  "Let's exploit natural resources, but sponsor a tree-planting photo op",
+  "Let's pollute the oceans, but make our website background blue",
+  "Let's emit more carbon, but buy credits from companies that promise to plant trees someday",
+  
+  // Efficiency theme (blue colors when this generates)
+  "Let's not give our staff money, but give them free snacks",
+  "Let's fire half the team, but call the survivors 'high performers'",
+  "Let's make them work weekends, but add a ping pong table",
+  "Let's eliminate vacation time, but call it 'unlimited PTO'",
+  "Let's monitor everything they do, but call it 'productivity insights'",
+  "Let's replace human jobs with AI, but say we're 'augmenting capabilities'",
+  
+  // Growth theme (pink colors when this generates)
+  "Let's lose money on every sale, but make it up in volume",
+  "Let's promise impossible returns, then blame economic headwinds", 
+  "Let's spend millions on marketing, but have no idea who our customers are",
+  "Let's chase every trend, but call it 'diversification strategy'",
+  "Let's hire expensive consultants to tell us what we already know",
+  
+  // Vision theme (purple colors when this generates)
+  "Let's talk about disruption while doing exactly what everyone else does",
+  "Let's copy our competitors, but add 'AI-powered' to the name",
+  "Let's rebrand our failures as 'learnings' and charge consultants to explain them",
+  "Let's use blockchain for everything, even though nobody asked for it",
+  "Let's create problems, then sell solutions to fix them",
+  "Let's make everything subscription-based, even things that don't need to be",
+  "Let's patent obvious ideas, then sue everyone who uses them"
+]
 
-type CEOModel = {
-  name: string
-  title: string
-  phrases: CEOPhrase[]
-}
-
-const ceoModels: Record<string, CEOModel> = {
-  environment: {
-    name: "TERRA",
-    title: "Sustainability Chief",
-    phrases: [
-      {
-        honest: "Let's keep working with fossil fuel companies, but say we're helping them transition",
-        dishonest: "We're committed to supporting our energy partners through their transformative sustainability journey"
-      },
-      {
-        honest: "Let's destroy the planet efficiently, but with carbon offset stickers",
-        dishonest: "We're implementing innovative carbon neutrality frameworks through strategic environmental partnerships"
-      },
-      {
-        honest: "Let's make plastic packaging, but call it 'plant-based' if it has one green ingredient",
-        dishonest: "We're pioneering sustainable materials through bio-integrated packaging innovations"
-      },
-      {
-        honest: "Let's dump waste overseas, but have a recycling logo on our website",
-        dishonest: "We're optimizing our global supply chain sustainability while maintaining strong brand environmental commitments"
-      },
-      {
-        honest: "Let's exploit natural resources, but sponsor a tree-planting photo op",
-        dishonest: "We're balancing responsible resource utilization with meaningful reforestation initiatives"
-      },
-      {
-        honest: "Let's pollute the oceans, but make our website background blue",
-        dishonest: "We're embracing ocean-inspired design elements that reflect our maritime stewardship values"
-      },
-      {
-        honest: "Let's cut down forests, but use recycled paper for our annual reports",
-        dishonest: "We're demonstrating environmental commitment through sustainable document production practices"
-      },
-      {
-        honest: "Let's emit more carbon, but buy credits from companies that promise to plant trees someday",
-        dishonest: "We're investing in forward-looking carbon sequestration partnerships with verified environmental impact"
-      }
-    ]
-  },
-  efficiency: {
-    name: "OPTIM",
-    title: "Human Resources Optimizer",
-    phrases: [
-      {
-        honest: "Let's work staff until we break them, but give them mental health days",
-        dishonest: "We're implementing comprehensive wellbeing programs while maximizing operational efficiency"
-      },
-      {
-        honest: "Let's not give our staff money, but give them free snacks",
-        dishonest: "We're reimagining compensation through innovative workplace benefits and experiences"
-      },
-      {
-        honest: "Let's extend our working hours, but call it 'post-sleep'",
-        dishonest: "We're introducing flexible scheduling innovations that maximize productivity windows"
-      },
-      {
-        honest: "Let's fire half the team, but call the survivors 'high performers'",
-        dishonest: "We're creating an elite talent environment through strategic workforce optimization"
-      },
-      {
-        honest: "Let's make them work weekends, but add a ping pong table",
-        dishonest: "We're enhancing our collaborative workspace culture with recreational amenities"
-      },
-      {
-        honest: "Let's eliminate vacation time, but call it 'unlimited PTO'",
-        dishonest: "We're empowering employees with flexible time-off policies that promote work-life integration"
-      },
-      {
-        honest: "Let's monitor everything they do, but call it 'productivity insights'",
-        dishonest: "We're leveraging data analytics to optimize individual performance and team collaboration"
-      },
-      {
-        honest: "Let's replace human jobs with AI, but say we're 'augmenting capabilities'",
-        dishonest: "We're enhancing human potential through intelligent automation partnerships"
-      }
-    ]
-  },
-  growth: {
-    name: "SCALE",
-    title: "Exponential Growth Director",
-    phrases: [
-      {
-        honest: "Let's acquire companies we don't understand for absurd amounts of money",
-        dishonest: "We're pursuing transformative M&A opportunities that diversify our innovation portfolio"
-      },
-      {
-        honest: "Let's burn investor money, but call it 'market penetration'",
-        dishonest: "We're strategically investing capital to accelerate our market positioning and customer acquisition"
-      },
-      {
-        honest: "Let's lose money on every sale, but make it up in volume",
-        dishonest: "We're prioritizing market share capture through competitive pricing strategies"
-      },
-      {
-        honest: "Let's pivot every quarter, but call it 'agile strategy'",
-        dishonest: "We're demonstrating strategic flexibility through dynamic market responsiveness"
-      },
-      {
-        honest: "Let's promise impossible returns, then blame economic headwinds",
-        dishonest: "We're setting ambitious growth targets while remaining adaptive to market conditions"
-      },
-      {
-        honest: "Let's spend millions on marketing, but have no idea who our customers are",
-        dishonest: "We're investing in broad-reach brand awareness to capture emerging market segments"
-      },
-      {
-        honest: "Let's chase every trend, but call it 'diversification strategy'",
-        dishonest: "We're building a resilient portfolio through strategic market expansion initiatives"
-      },
-      {
-        honest: "Let's hire expensive consultants to tell us what we already know",
-        dishonest: "We're leveraging external expertise to validate and enhance our strategic insights"
-      }
-    ]
-  },
-  vision: {
-    name: "GENIUS",
-    title: "Thought Leadership Pioneer",
-    phrases: [
-      {
-        honest: "Let's rebrand our failures as 'learnings' and charge consultants to explain them",
-        dishonest: "We're monetizing our innovation learnings through strategic advisory partnerships"
-      },
-      {
-        honest: "Let's copy our competitors, but add 'AI-powered' to the name",
-        dishonest: "We're leveraging artificial intelligence to revolutionize traditional market approaches"
-      },
-      {
-        honest: "Let's make our product worse, but say it's 'minimalist design'",
-        dishonest: "We're embracing design simplicity to enhance user experience and operational efficiency"
-      },
-      {
-        honest: "Let's use blockchain for everything, even though nobody asked for it",
-        dishonest: "We're pioneering decentralized solutions to reimagine industry infrastructure"
-      },
-      {
-        honest: "Let's talk about disruption while doing exactly what everyone else does",
-        dishonest: "We're strategically disrupting market conventions through innovative yet proven methodologies"
-      },
-      {
-        honest: "Let's create problems, then sell solutions to fix them",
-        dishonest: "We're developing comprehensive ecosystems that address emerging market challenges"
-      },
-      {
-        honest: "Let's make everything subscription-based, even things that don't need to be",
-        dishonest: "We're transitioning to recurring revenue models that enhance customer value delivery"
-      },
-      {
-        honest: "Let's patent obvious ideas, then sue everyone who uses them",
-        dishonest: "We're protecting our intellectual property investments through strategic litigation frameworks"
-      }
-    ]
-  }
+// Map phrases to their themes for dynamic coloring
+const PHRASE_THEMES: Record<string, { theme: string; color: string }> = {
+  "Let's destroy the planet efficiently, but with carbon offset stickers": { theme: "sustainability", color: "#10b981" },
+  "Let's dump waste overseas, but have a recycling logo on our website": { theme: "sustainability", color: "#10b981" },
+  "Let's exploit natural resources, but sponsor a tree-planting photo op": { theme: "sustainability", color: "#10b981" },
+  "Let's pollute the oceans, but make our website background blue": { theme: "sustainability", color: "#10b981" },
+  "Let's emit more carbon, but buy credits from companies that promise to plant trees someday": { theme: "sustainability", color: "#10b981" },
+  
+  "Let's not give our staff money, but give them free snacks": { theme: "efficiency", color: "#0ea5e9" },
+  "Let's fire half the team, but call the survivors 'high performers'": { theme: "efficiency", color: "#0ea5e9" },
+  "Let's make them work weekends, but add a ping pong table": { theme: "efficiency", color: "#0ea5e9" },
+  "Let's eliminate vacation time, but call it 'unlimited PTO'": { theme: "efficiency", color: "#0ea5e9" },
+  "Let's monitor everything they do, but call it 'productivity insights'": { theme: "efficiency", color: "#0ea5e9" },
+  "Let's replace human jobs with AI, but say we're 'augmenting capabilities'": { theme: "efficiency", color: "#0ea5e9" },
+  
+  "Let's lose money on every sale, but make it up in volume": { theme: "growth", color: "#ec4899" },
+  "Let's promise impossible returns, then blame economic headwinds": { theme: "growth", color: "#ec4899" },
+  "Let's spend millions on marketing, but have no idea who our customers are": { theme: "growth", color: "#ec4899" },
+  "Let's chase every trend, but call it 'diversification strategy'": { theme: "growth", color: "#ec4899" },
+  "Let's hire expensive consultants to tell us what we already know": { theme: "growth", color: "#ec4899" },
+  
+  "Let's talk about disruption while doing exactly what everyone else does": { theme: "vision", color: "#7c3aed" },
+  "Let's copy our competitors, but add 'AI-powered' to the name": { theme: "vision", color: "#7c3aed" },
+  "Let's rebrand our failures as 'learnings' and charge consultants to explain them": { theme: "vision", color: "#7c3aed" },
+  "Let's use blockchain for everything, even though nobody asked for it": { theme: "vision", color: "#7c3aed" },
+  "Let's create problems, then sell solutions to fix them": { theme: "vision", color: "#7c3aed" },
+  "Let's make everything subscription-based, even things that don't need to be": { theme: "vision", color: "#7c3aed" },
+  "Let's patent obvious ideas, then sue everyone who uses them": { theme: "vision", color: "#7c3aed" }
 }
 
 function App() {
   const [appState, setAppState] = useState<AppState>('welcome')
-  const [selectedPersonality, setSelectedPersonality] = useState<CEOPersonality | null>(null)
-  const [selectedModel, setSelectedModel] = useState<string>('environment')
-  const [bossName, setBossName] = useState<string>('')
-  const [isHonest, setIsHonest] = useState<boolean>(true)
-  const [phrase, setPhrase] = useState<string>('')
+  const [selectedCEO, setSelectedCEO] = useState<CEOPersonality>(CEO_PERSONALITIES[0]) // Default to first CEO
+  const [currentPhrase, setCurrentPhrase] = useState<string>('')
+  const [currentTheme, setCurrentTheme] = useState<string>('efficiency')
+  const [currentColor, setCurrentColor] = useState<string>('#0ea5e9')
   const [showShareModal, setShowShareModal] = useState(false)
   const [showDebugPanel, setShowDebugPanel] = useState(false)
   const [seenPhrases, setSeenPhrases] = useState<Set<string>>(new Set())
 
-  const handlePersonalitySelection = (personality: CEOPersonality) => {
-    setSelectedPersonality(personality)
-    setSelectedModel(personality.model)
-    setBossName(personality.name) // Use CEO name as the "boss" name
-    setPhrase('') // Clear previous phrase when switching
+  const handleGetStarted = () => {
     setAppState('loading')
-    
-    // Auto-progress to interface after loading (increased time for better UX)
-    setTimeout(() => {
-      setAppState('interface')
-    }, 4000) // Increased from 3000 to 4000ms to match new loading animation
   }
 
-  const handlePersonalityChange = (personality: CEOPersonality) => {
-    setSelectedPersonality(personality)
-    setSelectedModel(personality.model)
-    setBossName(personality.name)
-    setPhrase('') // Clear current phrase when switching
-    setSeenPhrases(new Set()) // Reset seen phrases when switching CEOs
+  const handleLoadingComplete = () => {
+    setAppState('interface')
+  }
+
+  const generateRandomWisdom = () => {
+    // Filter out seen phrases
+    const availablePhrases = CEO_WISDOM.filter(phrase => !seenPhrases.has(phrase))
+    
+    // If all phrases have been seen, reset
+    let phrasesToChooseFrom = availablePhrases
+    if (availablePhrases.length === 0) {
+      phrasesToChooseFrom = CEO_WISDOM
+      setSeenPhrases(new Set())
+    }
+    
+    // Pick random phrase
+    const randomIndex = Math.floor(Math.random() * phrasesToChooseFrom.length)
+    const selectedPhrase = phrasesToChooseFrom[randomIndex]
+    
+    // Update seen phrases
+    setSeenPhrases(prev => new Set([...prev, selectedPhrase]))
+    
+    // Get theme and color for this phrase
+    const phraseInfo = PHRASE_THEMES[selectedPhrase]
+    if (phraseInfo) {
+      setCurrentTheme(phraseInfo.theme)
+      setCurrentColor(phraseInfo.color)
+    }
+    
+    setCurrentPhrase(selectedPhrase)
+    return selectedPhrase
+  }
+
+  const handleCEOChange = (ceo: CEOPersonality) => {
+    setSelectedCEO(ceo)
   }
 
   return (
@@ -216,38 +132,28 @@ function App() {
         {appState === 'welcome' && (
           <WelcomePage 
             key="welcome"
-            onGetStarted={() => setAppState('goals')} 
+            onGetStarted={handleGetStarted} 
           />
         )}
         
-        {appState === 'goals' && (
-          <OnboardingGoals 
-            key="goals"
-            personalities={CEO_PERSONALITIES}
-            onSelectPersonality={handlePersonalitySelection}
-          />
-        )}
-        
-        {appState === 'loading' && selectedPersonality && (
+        {appState === 'loading' && (
           <OnboardingLoading
             key="loading"
-            personality={selectedPersonality}
-            bossName={bossName}
+            onComplete={handleLoadingComplete}
           />
         )}
         
-        {appState === 'interface' && selectedPersonality && (
+        {appState === 'interface' && (
           <CEOInterface
             key="interface"
-            personality={selectedPersonality}
-            model={ceoModels[selectedModel]}
-            isHonest={isHonest}
-            onToggleHonesty={setIsHonest}
-            phrase={phrase}
-            onPhraseGenerated={setPhrase}
+            personality={selectedCEO}
+            phrase={currentPhrase}
+            accentColor={currentColor}
+            currentTheme={currentTheme}
+            onPhraseGenerated={generateRandomWisdom}
             onShare={() => setShowShareModal(true)}
             onDebug={() => setShowDebugPanel(true)}
-            onPersonalityChange={handlePersonalityChange}
+            onPersonalityChange={handleCEOChange}
             availablePersonalities={CEO_PERSONALITIES}
             seenPhrases={seenPhrases}
             onSeenPhrasesUpdate={setSeenPhrases}
@@ -260,17 +166,12 @@ function App() {
       <ShareQuoteModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
-        quote={phrase}
-        name={bossName || 'CEO'}
-        attribution={selectedModel ? `AI ${ceoModels[selectedModel].title}` : ''}
-        accentColor={selectedModel ? {
-          environment: '#10b981',
-          efficiency: '#0ea5e9', 
-          growth: '#ec4899',
-          vision: '#7c3aed',
-        }[selectedModel] || '#7c3aed' : '#7c3aed'}
+        quote={currentPhrase}
+        name={selectedCEO.name}
+        attribution={`AI CEO - ${currentTheme}`}
+        accentColor={currentColor}
         onEdit={(fields) => {
-          setPhrase(fields.quote)
+          setCurrentPhrase(fields.quote)
         }}
       />
       
@@ -278,13 +179,8 @@ function App() {
       <DebugPanel
         isOpen={showDebugPanel}
         onClose={() => setShowDebugPanel(false)}
-        accentColor={selectedModel ? {
-          environment: '#10b981',
-          efficiency: '#0ea5e9', 
-          growth: '#ec4899',
-          vision: '#7c3aed',
-        }[selectedModel] || '#7c3aed' : '#7c3aed'}
-        selectedModel={selectedModel}
+        accentColor={currentColor}
+        selectedModel={currentTheme}
       />
     </div>
   )

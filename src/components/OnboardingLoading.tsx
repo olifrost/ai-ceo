@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { CEOPersonality } from '../data/ceoPersonalities'
 
 interface OnboardingLoadingProps {
-  personality: CEOPersonality
-  bossName: string
+  onComplete: () => void
 }
 
-const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality }) => {
+const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
   
@@ -17,14 +15,8 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality }) =>
     "Optimizing executive presence"
   ]
   
-  const colorMap = {
-    efficiency: '#0ea5e9',
-    environment: '#10b981', 
-    vision: '#7c3aed',
-    growth: '#ec4899',
-  }
-
-  const accentColor = colorMap[personality.model as keyof typeof colorMap]
+  // Use a default gradient color for the unified CEO
+  const accentColor = '#7c3aed' // Purple for unified wisdom
 
   useEffect(() => {
     // Progress through setup steps more slowly
@@ -35,19 +27,23 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ personality }) =>
         }
         return prev
       })
-    }, 1000) // Slower progression - 1 second per step
+    }, 800) // Faster progression - 800ms per step
 
     // Complete after all steps are done
     const completeTimer = setTimeout(() => {
       setIsComplete(true)
       clearInterval(stepTimer)
-    }, setupSteps.length * 1000 + 500) // Wait for all steps plus a bit more
+      // Call onComplete after a short delay to show the "Ready!" state
+      setTimeout(() => {
+        onComplete()
+      }, 600)
+    }, setupSteps.length * 800 + 400) // Wait for all steps plus a bit more
 
     return () => {
       clearInterval(stepTimer)
       clearTimeout(completeTimer)
     }
-  }, [])
+  }, [onComplete])
 
   return (
     <motion.div

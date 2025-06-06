@@ -1,31 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ArrowPathIcon,
   ShareIcon,
   CogIcon,
-  ArrowLeftIcon
+  ArrowLeftIcon,
+  PencilIcon
 } from '@heroicons/react/24/outline'
 import { CEOPersonality } from '../data/ceoPersonalities'
 
-interface CEOPhrase {
-  dishonest: string
-  honest: string
-}
-
-interface CEOModel {
-  name: string
-  title: string
-  phrases: CEOPhrase[]
-}
-
 interface CEOInterfaceProps {
   personality: CEOPersonality
-  model: CEOModel
-  isHonest: boolean
-  onToggleHonesty: (honest: boolean) => void
   phrase: string
-  onPhraseGenerated: (phrase: string) => void
+  accentColor: string
+  currentTheme: string
+  onPhraseGenerated: () => string
   onShare: () => void
   onDebug: () => void
   onPersonalityChange?: (personality: CEOPersonality) => void
@@ -37,72 +26,45 @@ interface CEOInterfaceProps {
 
 const CEOInterface: React.FC<CEOInterfaceProps> = ({
   personality,
-  model,
-  isHonest,
-  onToggleHonesty,
   phrase,
+  accentColor,
+  currentTheme,
   onPhraseGenerated,
   onShare,
   onDebug,
   onPersonalityChange,
   availablePersonalities = [],
-  seenPhrases = new Set(),
-  onSeenPhrasesUpdate,
   onBackToFeatures
 }) => {
   const [isThinking, setIsThinking] = useState(false)
+  const [showCEOSelector, setShowCEOSelector] = useState(false)
 
-  const colorMap = {
-    efficiency: '#0ea5e9',
-    environment: '#10b981', 
-    vision: '#7c3aed',
-    growth: '#ec4899',
+  // Fun thinking messages based on theme
+  const getThinkingMessage = (theme: string) => {
+    const messages = {
+      sustainability: "Burn planet mode initiated...",
+      efficiency: "Optimizing human potential...",
+      growth: "Calculating profit margins...",
+      vision: "Generating buzzwords..."
+    }
+    return messages[theme as keyof typeof messages] || "Optimizing synergies..."
   }
-
-  const accentColor = colorMap[personality.model as keyof typeof colorMap]
 
   const generatePhrase = () => {
     if (isThinking) return
     setIsThinking(true)
-    onPhraseGenerated('')
     
     setTimeout(() => {
-      // Find unseen phrases first
-      const availablePhrases = model.phrases.filter(phraseSet => {
-        const selectedPhrase = isHonest ? phraseSet.honest : phraseSet.dishonest
-        return !seenPhrases.has(selectedPhrase)
-      })
-      
-      // If all phrases have been seen, reset the seen set
-      let phrasesToChooseFrom = availablePhrases
-      if (availablePhrases.length === 0) {
-        phrasesToChooseFrom = model.phrases
-        if (onSeenPhrasesUpdate) {
-          onSeenPhrasesUpdate(new Set())
-        }
-      }
-      
-      const randomIndex = Math.floor(Math.random() * phrasesToChooseFrom.length)
-      const phraseSet = phrasesToChooseFrom[randomIndex]
-      const selectedPhrase = isHonest ? phraseSet.honest : phraseSet.dishonest
-      
-      // Mark this phrase as seen
-      if (onSeenPhrasesUpdate) {
-        const newSeenPhrases = new Set(seenPhrases)
-        newSeenPhrases.add(selectedPhrase)
-        onSeenPhrasesUpdate(newSeenPhrases)
-      }
-      
-      onPhraseGenerated(selectedPhrase)
+      onPhraseGenerated()
       setIsThinking(false)
-    }, 1500)
+    }, 1000) // Faster thinking time
   }
 
   // Auto-generate a phrase when component mounts if none exists
-  useEffect(() => {
+  React.useEffect(() => {
     if (!phrase && !isThinking) {
-      const timeout = setTimeout(() => generatePhrase(), 500)
-      return () => clearTimeout(timeout)
+      // Generate immediately without delay
+      onPhraseGenerated()
     }
   }, []) // Run only on mount
 
@@ -124,6 +86,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
           }}
         />
       </div>
+      
       {/* Site Header */}
       <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200 p-4">
         <div className="flex items-center justify-center max-w-7xl mx-auto relative">
@@ -139,17 +102,10 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
           
           <div className="text-center">
             <h1 
-              className="text-3xl font-bold mb-1 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent"
-              style={{
-                background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
+              className="text-3xl font-bold mb-1 text-slate-800"
             >
               AI CEO
             </h1>
-            
           </div>
           
           <button
@@ -181,13 +137,15 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
               }}
             />
             
-            <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/50 shadow-2xl">
+            <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-6 md:p-12 border border-white/50 shadow-2xl">
               
-              {/* CEO Photo - Centered and Large */}
+              {/* CEO Photo - Centered and Large, clickable for customization */}
               <div className="text-center mb-8">
-                <motion.div
+                <motion.button
                   whileHover={{ scale: 1.05 }}
-                  className="relative inline-block"
+                  onClick={() => setShowCEOSelector(!showCEOSelector)}
+                  className="relative inline-block group cursor-pointer"
+                  title="Click to customize your CEO"
                 >
                   <div 
                     className="absolute inset-0 rounded-full blur-xl opacity-40"
@@ -197,8 +155,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     }}
                   />
                   <div 
-                    className="relative w-32 h-32 rounded-full overflow-hidden border-4 bg-white"
-                    style={{ borderColor: accentColor }}
+                    className="relative w-32 h-32 rounded-full overflow-hidden bg-white transition-all duration-200"
                   >
                     <img 
                       src={personality.photo} 
@@ -216,16 +173,109 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                         }}
                       />
                     )}
+                    
+                    {/* Edit indicator on hover */}
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full">
+                      <PencilIcon className="w-6 h-6 text-white" />
+                    </div>
                   </div>
-                </motion.div>
+                </motion.button>
+                
+                {/* CEO Name */}
+                <motion.h2 
+                  className="text-2xl font-bold mt-4 mb-1"
+                  style={{ color: accentColor }}
+                >
+                  {personality.name}
+                </motion.h2>
+                
+                {/* Customise text with icon */}
+                <div className="flex items-center justify-center gap-2">
+                  <PencilIcon className="w-4 h-4 text-slate-400" />
+                  <p className="text-sm text-slate-400 cursor-pointer hover:text-slate-500 transition-colors duration-200" 
+                     onClick={() => setShowCEOSelector(!showCEOSelector)}>
+                    customise
+                  </p>
+                </div>
+                
+                {/* Current theme indicator - Hidden but still tracking theme behind scenes */}
+                {/* Theme indicator removed - theme tracking still functional behind the scenes */}
               </div>
+              
+              {/* CEO Selector Dropdown */}
+              <AnimatePresence>
+                {showCEOSelector && availablePersonalities.length > 0 && onPersonalityChange && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mb-8 overflow-hidden"
+                  >
+                    <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-slate-200">
+                      <h3 className="text-lg font-semibold text-slate-800 mb-4 text-center">Choose Your CEO</h3>
+                      
+                      {/* Upload Custom Photo Option */}
+                      <div className="mb-4 text-center">
+                        <label className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-medium text-sm cursor-pointer hover:bg-indigo-100 transition-colors duration-200 border border-indigo-200">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          Upload Your Photo
+                          <input 
+                            type="file" 
+                            accept="image/*" 
+                            className="hidden" 
+                            onChange={(e) => {
+                              // Handle file upload here
+                              console.log('File uploaded:', e.target.files?.[0])
+                            }}
+                          />
+                        </label>
+                        <p className="text-xs text-slate-500 mt-1">Replace your boss with your face</p>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {availablePersonalities.map((p) => (
+                          <button
+                            key={p.id}
+                            onClick={() => {
+                              onPersonalityChange(p)
+                              setShowCEOSelector(false)
+                            }}
+                            className={`flex flex-col items-center p-3 rounded-xl font-medium text-sm transition-all duration-200 border-2 ${
+                              p.id === personality.id
+                                ? 'bg-white shadow-md'
+                                : 'bg-white/50 hover:bg-white hover:shadow-md border-transparent hover:border-slate-200'
+                            }`}
+                            style={p.id === personality.id ? {
+                              borderColor: accentColor
+                            } : undefined}
+                          >
+                            <img 
+                              src={p.photo} 
+                              alt={p.name}
+                              className="w-12 h-12 rounded-full object-cover mb-2"
+                            />
+                            <span 
+                              className={`${p.id === personality.id ? 'font-semibold' : ''} text-slate-700`}
+                              style={p.id === personality.id ? { color: accentColor } : undefined}
+                            >
+                              {p.name}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               
               {/* Quote Area with Large Quote Marks */}
               <motion.div
                 whileHover={{ scale: phrase && !isThinking ? 1.01 : 1 }}
                 whileTap={{ scale: phrase && !isThinking ? 0.99 : 1 }}
                 onClick={generatePhrase}
-                className={`relative p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 ${
+                className={`relative p-4 md:p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 ${
                   isThinking ? 'animate-pulse' : ''
                 }`}
                 style={{
@@ -233,7 +283,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   border: `1px solid ${accentColor}15`
                 }}
               >
-                {/* Large opening quote mark */}
+                {/* Large opening quote mark - Smart quotes */}
                 <div 
                   className="absolute -top-4 -left-2 text-6xl font-serif leading-none opacity-40"
                   style={{ color: accentColor }}
@@ -241,7 +291,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   "
                 </div>
                 
-                {/* Large closing quote mark */}
+                {/* Large closing quote mark - Smart quotes */}
                 <div 
                   className="absolute -bottom-4 -right-2 text-6xl font-serif leading-none opacity-40"
                   style={{ color: accentColor }}
@@ -258,9 +308,11 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     transition={{ duration: 0.2 }}
                     className="relative z-10"
                   >
-                    <p className="text-2xl text-slate-800 leading-relaxed font-semibold min-h-[100px] flex items-center justify-center text-center px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
+                    <p className="text-xl md:text-2xl text-slate-800 leading-relaxed font-semibold min-h-[80px] md:min-h-[100px] flex items-center justify-center text-center px-4 md:px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
-                        <span className="text-slate-500 italic text-xl font-medium">Thinking like a CEO...</span>
+                        <span className="text-slate-500 italic text-xl font-medium">
+                          {getThinkingMessage(currentTheme)}
+                        </span>
                       ) : (
                         phrase?.replace(/ ([^ ]+)$/, '\u00A0$1') || "Click to generate CEO wisdom"
                       )}
@@ -269,100 +321,41 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 </AnimatePresence>
               </motion.div>
 
-              {/* Controls */}
-              <div className="space-y-4">
-                {/* Honesty Toggle */}
-                <div className="flex items-center justify-center gap-4">
-                  <span className="text-sm font-medium text-slate-600">Corporate</span>
-                  <button
-                    onClick={() => {
-                      const newHonesty = !isHonest
-                      onToggleHonesty(newHonesty)
-                      
-                      if (phrase && model.phrases.length > 0) {
-                        const currentPhraseSet = model.phrases.find(set => 
-                          phrase === set.dishonest || phrase === set.honest
-                        )
-                        if (currentPhraseSet) {
-                          const newPhrase = newHonesty ? currentPhraseSet.honest : currentPhraseSet.dishonest
-                          onPhraseGenerated(newPhrase)
-                        }
-                      }
-                    }}
-                    className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-md"
-                    style={{
-                      backgroundColor: isHonest ? accentColor : '#d1d5db'
-                    }}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 shadow-sm ${
-                        isHonest ? 'translate-x-6' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
-                  <span className="text-sm font-medium text-slate-600">Honest</span>
-                </div>
+              {/* Action Buttons */}
+              <div className="flex gap-3 justify-center">
+                <motion.button
+                  onClick={generatePhrase}
+                  whileHover={{ scale: !isThinking ? 1.02 : 1 }}
+                  whileTap={{ scale: !isThinking ? 0.98 : 1 }}
+                  disabled={isThinking}
+                  className={`flex items-center gap-2 px-5 py-2 bg-white border-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                    isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
+                  }`}
+                  style={{
+                    borderColor: accentColor,
+                    color: accentColor
+                  }}
+                >
+                  <ArrowPathIcon className="w-4 h-4" />
+                  <span>Generate</span>
+                </motion.button>
 
-                {/* CEO Selector */}
-                {availablePersonalities.length > 0 && onPersonalityChange && (
-                  <div className="flex items-center justify-center">
-                    <div className="flex items-center gap-1 sm:gap-2">
-                      {availablePersonalities.map((p) => (
-                        <button
-                          key={p.id}
-                          onClick={() => onPersonalityChange(p)}
-                          className={`px-2 sm:px-3 py-1 sm:py-2 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200 ${
-                            p.id === personality.id
-                              ? 'text-white shadow-md'
-                              : 'bg-white/70 text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-200'
-                          }`}
-                          style={p.id === personality.id ? {
-                            background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`
-                          } : undefined}
-                        >
-                          {p.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex gap-3 justify-center">
-                  <motion.button
-                    onClick={generatePhrase}
-                    whileHover={{ scale: !isThinking ? 1.02 : 1 }}
-                    whileTap={{ scale: !isThinking ? 0.98 : 1 }}
-                    disabled={isThinking}
-                    className={`flex items-center gap-2 px-5 py-2 bg-white border-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
-                      isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
-                    }`}
-                    style={{
-                      borderColor: accentColor,
-                      color: accentColor
-                    }}
-                  >
-                    <ArrowPathIcon className="w-4 h-4" />
-                    <span>Generate</span>
-                  </motion.button>
-
-                  <motion.button
-                    onClick={onShare}
-                    whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
-                    whileTap={{ scale: phrase && !isThinking ? 0.98 : 1 }}
-                    disabled={!phrase || isThinking}
-                    className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
-                      (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
-                    }`}
-                    style={{
-                      background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
-                      color: 'white'
-                    }}
-                  >
-                    <ShareIcon className="w-4 h-4" />
-                    <span>Share</span>
-                  </motion.button>
-                </div>
+                <motion.button
+                  onClick={onShare}
+                  whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
+                  whileTap={{ scale: phrase && !isThinking ? 0.98 : 1 }}
+                  disabled={!phrase || isThinking}
+                  className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                    (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
+                  }`}
+                  style={{
+                    background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
+                    color: 'white'
+                  }}
+                >
+                  <ShareIcon className="w-4 h-4" />
+                  <span>Share</span>
+                </motion.button>
               </div>
             </div>
           </motion.div>
