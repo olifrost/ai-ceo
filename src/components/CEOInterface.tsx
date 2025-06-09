@@ -24,6 +24,8 @@ interface CEOInterfaceProps {
   onBackToFeatures?: () => void
 }
 
+const TYPING_SPEED = 28 // ms per character
+
 const CEOInterface: React.FC<CEOInterfaceProps> = ({
   personality,
   phrase,
@@ -38,6 +40,8 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
 }) => {
   const [isThinking, setIsThinking] = useState(false)
   const [showCEOSelector, setShowCEOSelector] = useState(false)
+  const [displayedPhrase, setDisplayedPhrase] = useState('')
+  const [typing, setTyping] = useState(false)
 
   // Fun thinking messages based on theme
   const getThinkingMessage = (theme: string) => {
@@ -50,23 +54,31 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
     return messages[theme as keyof typeof messages] || "Optimizing synergies..."
   }
 
-  const generatePhrase = () => {
-    if (isThinking) return
-    setIsThinking(true)
-    
-    setTimeout(() => {
-      onPhraseGenerated()
-      setIsThinking(false)
-    }, 1000) // Faster thinking time
-  }
+  // Typing effect for new phrase
+  React.useEffect(() => {
+    if (phrase && !isThinking) {
+      setDisplayedPhrase('')
+      setTyping(true)
+      let i = 0
+      const type = () => {
+        setDisplayedPhrase(phrase.slice(0, i))
+        if (i < phrase.length) {
+          i++
+          setTimeout(type, TYPING_SPEED)
+        } else {
+          setTyping(false)
+        }
+      }
+      type()
+    }
+  }, [phrase, isThinking])
 
   // Auto-generate a phrase when component mounts if none exists
   React.useEffect(() => {
     if (!phrase && !isThinking) {
-      // Generate immediately without delay
       onPhraseGenerated()
     }
-  }, []) // Run only on mount
+  }, [])
 
   return (
     <motion.div
@@ -139,7 +151,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             
             <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-6 md:p-12 border border-white/50 shadow-2xl">
               
-              {/* CEO Photo - Centered and Large, clickable for customization */}
+              {/* CEO Photo - Centered and Large, with continuous animated ring */}
               <div className="text-center mb-8">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -147,13 +159,24 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   className="relative inline-block group cursor-pointer"
                   title="Click to customize your CEO"
                 >
-                  <div 
-                    className="absolute inset-0 rounded-full blur-xl opacity-40"
-                    style={{
-                      background: `radial-gradient(circle, ${accentColor} 0%, transparent 70%)`,
-                      transform: 'scale(1.3)'
-                    }}
-                  />
+                  {/* Animated ring always visible, now as a partial arc for visible motion */}
+                  <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36" style={{zIndex: 1, pointerEvents: 'none'}}>
+                    <motion.circle
+                      cx="72" cy="72" r="68" fill="none" stroke={accentColor} strokeWidth="6"
+                      strokeDasharray="120 300"
+                      strokeLinecap="round"
+                      animate={{
+                        rotate: 360
+                      }}
+                      initial={{ rotate: 0 }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2.5,
+                        ease: "linear"
+                      }}
+                      style={{ transformOrigin: '50% 50%' }}
+                    />
+                  </svg>
                   <div 
                     className="relative w-32 h-32 rounded-full overflow-hidden bg-white transition-all duration-200"
                   >
@@ -162,18 +185,6 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                       alt={personality.name}
                       className="w-full h-full object-cover"
                     />
-                    {isThinking && (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-0 rounded-full border-4 border-transparent"
-                        style={{
-                          borderTopColor: accentColor,
-                          borderRightColor: `${accentColor}60`
-                        }}
-                      />
-                    )}
-                    
                     {/* Edit indicator on hover */}
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full">
                       <PencilIcon className="w-6 h-6 text-white" />
@@ -181,7 +192,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   </div>
                 </motion.button>
                 
-                {/* CEO Name */}
+                {/* CEO Name and Customise */}
                 <motion.h2 
                   className="text-2xl font-bold mt-4 mb-1"
                   style={{ color: accentColor }}
@@ -274,7 +285,15 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
               <motion.div
                 whileHover={{ scale: phrase && !isThinking ? 1.01 : 1 }}
                 whileTap={{ scale: phrase && !isThinking ? 0.99 : 1 }}
-                onClick={generatePhrase}
+                onClick={() => {
+                  if (!isThinking && !typing) {
+                    setIsThinking(true)
+                    setTimeout(() => {
+                      onPhraseGenerated()
+                      setIsThinking(false)
+                    }, 1000)
+                  }
+                }}
                 className={`relative p-4 md:p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 ${
                   isThinking ? 'animate-pulse' : ''
                 }`}
@@ -301,7 +320,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={phrase || 'initial'}
+                    key={isThinking ? 'thinking' : phrase || 'initial'}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
@@ -310,11 +329,11 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   >
                     <p className="text-xl md:text-2xl text-slate-800 leading-relaxed font-semibold min-h-[80px] md:min-h-[100px] flex items-center justify-center text-center px-4 md:px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
-                        <span className="text-slate-500 italic text-xl font-medium">
+                        <span className="text-slate-500 italic text-xl font-medium font-mono">
                           {getThinkingMessage(currentTheme)}
                         </span>
                       ) : (
-                        phrase?.replace(/ ([^ ]+)$/, '\u00A0$1') || "Click to generate CEO wisdom"
+                        <span>{displayedPhrase || "Click to generate CEO wisdom"}</span>
                       )}
                     </p>
                   </motion.div>
@@ -324,7 +343,15 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
               {/* Action Buttons */}
               <div className="flex gap-3 justify-center">
                 <motion.button
-                  onClick={generatePhrase}
+                  onClick={() => {
+                    if (!isThinking && !typing) {
+                      setIsThinking(true)
+                      setTimeout(() => {
+                        onPhraseGenerated()
+                        setIsThinking(false)
+                      }, 1000)
+                    }
+                  }}
                   whileHover={{ scale: !isThinking ? 1.02 : 1 }}
                   whileTap={{ scale: !isThinking ? 0.98 : 1 }}
                   disabled={isThinking}
