@@ -34,12 +34,12 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     color: '#10b981',
   },
   {
-    phrase: "I've noticed the workforce spends four hours a day 'sleeping'. Let's improve this by moving to a post-sleep workforce",
+    phrase: "We're moving towards a post-sleep workforce",
     theme: 'efficiency',
     color: '#0ea5e9',
   },
   {
-    phrase: "Write a LinkedIn post about building the metaverse of the metaverse. It's a meta-meta-verse",
+    phrase: "We're building the metaverse of the metaverse. It's a meta-meta-verse",
     theme: 'vision',
     color: '#7c3aed',
   },
@@ -49,7 +49,12 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     color: '#7c3aed',
   },
   {
-    phrase: "Our north star metric is disruption itself. We're not just thinking outside the box, we're redefining the geometry of thought.",
+    phrase: "We're not just thinking outside the box, we're redefining the geometry of thought.",
+    theme: 'vision',
+    color: '#7c3aed',
+  },
+    {
+    phrase: "Our north star metric is disruption itself.",
     theme: 'vision',
     color: '#7c3aed',
   },
