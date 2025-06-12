@@ -7,7 +7,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        sans: ['IBM Plex Sans', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        'brand-pink': '#F14FFF',
+        'light-gray': '#E3E9F0',
       },
       animation: {
         'thinking like a CEO': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
