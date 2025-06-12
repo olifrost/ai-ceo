@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { XMarkIcon, ArrowDownTrayIcon, ShareIcon, PhotoIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, ArrowDownTrayIcon, ShareIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import html2canvas from 'html2canvas';
 import { toast } from 'react-hot-toast';
 import { addVotes } from '../services/voteLimit';
@@ -12,7 +12,6 @@ interface ShareQuoteModalProps {
   name: string; // Initial name for the quote, e.g., AI model name
   attribution: string; // Initial attribution, e.g., AI model details
   accentColor: string;
-  onEdit: (fields: { quote: string; name: string; attribution: string }) => void;
 }
 
 interface CEOImage {
@@ -24,29 +23,26 @@ interface CEOImage {
 }
 
 const CEO_IMAGES: CEOImage[] = [
+  { id: 'aiceo-man', name: 'AI CEO Man', url: '/ai-ceo/AICEO-MAN.png', defaultQuoteName: 'AI CEO', defaultAttribution: 'AI CEO' },
   { id: 'ceo-1', name: 'CEO Portrait 1', url: '/ai-ceo/ceo/ceo-1.jpg', defaultQuoteName: 'Executive Leader', defaultAttribution: 'AI CEO' },
   { id: 'ceo-2', name: 'CEO Portrait 2', url: '/ai-ceo/ceo/ceo-2.jpg', defaultQuoteName: 'Business Visionary', defaultAttribution: 'AI CEO' },
   { id: 'ceo-3', name: 'CEO Portrait 3', url: '/ai-ceo/ceo/ceo-3.jpg', defaultQuoteName: 'Innovation Chief', defaultAttribution: 'AI CEO' }
 ];
 
 const GRADIENT_STYLES = [
+  { id: 'pink', name: 'Pink Gradient', gradient: 'linear-gradient(135deg, rgba(241, 79, 255, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%)' }, // Brand pink
   { id: 'purple', name: 'Purple Gradient', gradient: 'linear-gradient(135deg, rgba(124, 58, 237, 0.9) 0%, rgba(79, 70, 229, 0.9) 100%)' },
   { id: 'blue', name: 'Blue Gradient', gradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(29, 78, 216, 0.9) 100%)' },
-  { id: 'pink', name: 'Pink Gradient', gradient: 'linear-gradient(135deg, rgba(236, 72, 153, 0.9) 0%, rgba(219, 39, 119, 0.9) 100%)' },
   { id: 'green', name: 'Green Gradient', gradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%)' },
   { id: 'solid', name: 'Solid Black', gradient: 'rgba(0, 0, 0, 0.85)' }
 ];
 
-export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribution, accentColor, onEdit }: ShareQuoteModalProps) {
+export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribution, accentColor }: ShareQuoteModalProps) {
   const [selectedImage, setSelectedImage] = useState<CEOImage>(CEO_IMAGES[0]);
-  const [selectedGradient, setSelectedGradient] = useState(GRADIENT_STYLES[0]);
+  const [selectedGradient, setSelectedGradient] = useState(GRADIENT_STYLES[0]); // Default to brand pink
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
-  
-  const [editQuote, setEditQuote] = useState(quote);
-  const [editName, setEditName] = useState(name); // This will be the name displayed on the quote image
-  const [editAttribution, setEditAttribution] = useState(attribution); // This will be the attribution on the quote image
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -62,33 +58,14 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
     if (isOpen) {
       setGeneratedImageUrl(null);
       setCustomImage(null);
-      setSelectedImage(CEO_IMAGES[0]); // This will trigger the effect below to set name/attribution
-      setSelectedGradient(GRADIENT_STYLES[0]);
-      setEditQuote(quote);
-      // editName and editAttribution are set by the effect below based on selectedImage or customImage
+      setSelectedImage(CEO_IMAGES[0]); // Default to AICEO-MAN
+      setSelectedGradient(GRADIENT_STYLES[0]); // Default to brand pink
       
       // Reset image manipulation and vote status
       setCustomImageScale(1);
       setHasAwardedVotesInSession(false);
     }
-  }, [isOpen, quote]); // Removed name and attribution from deps as they are handled by the next effect or are initial values for editName/editAttribution
-
-  // Effect to update editable name and attribution based on selected image or custom image
-  useEffect(() => {
-    if (customImage) {
-      // When a custom image is active, provide placeholders or keep previous if desired
-      setEditName("Your Name"); 
-      setEditAttribution("AI CEO");
-    } else if (selectedImage) {
-      // When a default image is selected (and no custom image)
-      setEditName(selectedImage.defaultQuoteName);
-      setEditAttribution(selectedImage.defaultAttribution);
-    } else {
-      // Fallback to initial props if neither custom nor default selected (should not happen with current logic)
-      setEditName(name); // `name` from props
-      setEditAttribution(attribution); // `attribution` from props
-    }
-  }, [customImage, selectedImage, name, attribution]); // `name` and `attribution` from props are initial fallbacks
+  }, [isOpen, quote]);
 
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,7 +136,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: 'AI CEO Quote',
-          text: `"${quote}" - ${editName}${editAttribution ? ', ' + editAttribution : ''}`,
+          text: `"${quote}" - ${customImage ? "Your Name" : selectedImage.defaultQuoteName}${customImage ? ", AI CEO" : ", " + selectedImage.defaultAttribution}`,
           files: [file]
         });
       } else {
@@ -170,11 +147,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
       console.error('Error sharing:', error);
       downloadImage();
     }
-  };
-
-  const handleSave = () => {
-    onEdit({ quote: editQuote, name: editName, attribution: editAttribution });
-    onClose();
   };
 
   return (
@@ -196,7 +168,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
           >
             <div className="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white z-10">
               <h2 className="text-2xl font-bold font-['Space_Grotesk'] text-slate-900">
-                Create Your CEO Meme
+                Share Your CEO Quote
               </h2>
               <button
                 onClick={onClose}
@@ -236,21 +208,19 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
 
                   {/* Quote Box at the bottom */}
                   <div
-                      className="absolute bottom-0 left-0 right-0 h-[35%] p-6 flex flex-col justify-center items-start text-left" // Changed to items-start and text-left
+                      className="absolute bottom-0 left-0 right-0 h-[35%] p-6 flex flex-col justify-center items-start text-left"
                       style={{ background: selectedGradient.gradient }}
                   >
                       <p className="text-xl lg:text-2xl font-bold text-white font-['Space_Grotesk'] leading-tight shadow-lg mb-2" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.6)' }}>
-                          "{editQuote}"
+                          "{quote}"
                       </p>
                       <div className="w-full">
                           <p className="text-md font-semibold text-white font-['Space_Grotesk'] shadow-md" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                              - {editName}
+                              - {customImage ? "Your Name" : selectedImage.defaultQuoteName}
                           </p>
-                          {editAttribution && (
-                              <p className="text-xs text-gray-200 font-['Space_Grotesk'] shadow-md" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                                  {editAttribution}
-                              </p>
-                          )}
+                          <p className="text-xs text-gray-200 font-['Space_Grotesk'] shadow-md" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+                              {customImage ? "AI CEO" : selectedImage.defaultAttribution}
+                          </p>
                       </div>
                       <p className="absolute bottom-2 right-3 text-xs text-white/70 font-['Space_Grotesk']" style={{ textShadow: '1px 1px 1px rgba(0,0,0,0.4)' }}>
                         ai.ceo
@@ -259,35 +229,28 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                 </div>
 
                 {/* Action buttons below preview */}
-                <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
+                <div className="flex justify-end gap-3 mt-4">
+                  <button
+                    onClick={onClose}
+                    className="px-4 py-2 text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
                   <button
                     onClick={generateImage}
                     disabled={isGenerating}
-                    className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
-                    style={{ backgroundColor: accentColor }}
+                    className="px-4 py-2 bg-brand-pink hover:bg-brand-pink/90 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2"
                   >
-                    {isGenerating ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <PencilSquareIcon className="w-5 h-5" />}
-                    {isGenerating ? 'Generating...' : 'Generate Image'}
-                  </button>                      {generatedImageUrl && (
-                    <>
-                      <button
-                        onClick={downloadImage}
-                        className="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded-lg transition-colors border border-slate-200"
-                      >
-                        <ArrowDownTrayIcon className="w-5 h-5" /> Download
-                      </button>
-                      {typeof navigator.share === 'function' && typeof (navigator as any).canShare === 'function' && (navigator as any).canShare({ files: [new File([""], "dummy.png", {type: "image/png"})]}) && (
-                        <button
-                          onClick={shareImage}
-                          className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-                        >
-                          <ShareIcon className="w-5 h-5" /> Share Image
-                        </button>
-                      )}
-                    </>
-                  )}
+                    {isGenerating ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Generating...
+                      </>
+                    ) : (
+                      'Generate Image'
+                    )}
+                  </button>
                 </div>
-                {generatedImageUrl && <p className="text-xs text-center text-slate-500 mt-2">Image generated! You can now download or share it.</p>}
                  {/* Custom Image Manipulation Controls - MOVED HERE */}
                  {customImage && (
                     <div className="space-y-3 p-3 mt-4 bg-slate-50 rounded-md border border-slate-200">
@@ -317,55 +280,31 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                   )}
               </div>
 
-              {/* Right side - Customization */}
+              {/* Right side - CEO Selection */}
               <div className="space-y-8">
-                {/* Quote Text Editing */}
+                {/* CEO Selector */}
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-800 font-['Space_Grotesk'] mb-2">Edit Quote</h3>
-                  <input
-                    type="text" // Changed from textarea to input
-                    value={editQuote}
-                    onChange={(e) => setEditQuote(e.target.value)}
-                    className="w-full p-3 bg-white border border-slate-300 rounded-md text-slate-800 focus:ring-2 focus:border-transparent placeholder-slate-400"
-                    placeholder="Enter your quote"
-                  />
-                </div>
-
-                {/* Name and Attribution Editing */}
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-800 font-['Space_Grotesk'] mb-2">Edit Name & Attribution</h3>
-                  <input
-                    type="text"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    className="w-full p-3 mb-3 bg-white border border-slate-300 rounded-md text-slate-800 focus:ring-2 focus:border-transparent placeholder-slate-400"
-                    placeholder="Enter name for the quote"
-                  />
-                  <input
-                    type="text"
-                    value={editAttribution}
-                    onChange={(e) => setEditAttribution(e.target.value)}
-                    className="w-full p-3 bg-white border border-slate-300 rounded-md text-slate-800 focus:ring-2 focus:border-transparent placeholder-slate-400"
-                    placeholder="Enter attribution (e.g., title, company)"
-                  />
-                </div>
-                
-                {/* Image Style Customization */}
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-800 font-['Space_Grotesk'] mb-3">Image Style</h3>
+                  <h3 className="text-lg font-semibold text-slate-800 font-['Space_Grotesk'] mb-3">CEO Selector</h3>
                   
-                  {/* CEO Image Selector */}
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-slate-600 mb-1">Choose CEO Image</label>
-                    <div className="grid grid-cols-3 gap-2">
+                    <label className="block text-sm font-medium text-slate-600 mb-3">Choose Your CEO</label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {CEO_IMAGES.map((img) => (
                         <button
                           key={img.id}
                           onClick={() => { setSelectedImage(img); setCustomImage(null); }}
-                          className={`rounded-md overflow-hidden border-2 ${selectedImage?.id === img.id && !customImage ? 'ring-2 border-slate-500' : 'border-slate-300 hover:border-slate-400'}`}
-                          style={selectedImage?.id === img.id && !customImage ? { borderColor: accentColor } : {}}
+                          className={`relative group rounded-full overflow-hidden border-4 transition-all duration-200 ${
+                            selectedImage?.id === img.id && !customImage 
+                              ? 'border-brand-pink shadow-lg' 
+                              : 'border-slate-300 hover:border-slate-400'
+                          }`}
                         >
-                          <img src={img.url} alt={img.name} className="w-full h-20 object-cover" />
+                          <img 
+                            src={img.url} 
+                            alt={img.name} 
+                            className="w-16 h-16 object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-full" />
                         </button>
                       ))}
                     </div>
@@ -376,7 +315,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
                     <label className="block text-sm font-medium text-slate-600 mb-1">Or Upload Your Own</label>
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 px-4 rounded-md border border-slate-300 transition-colors"
+                      className="w-full flex items-center justify-center gap-2 bg-brand-pink/10 hover:bg-brand-pink/20 text-brand-pink font-medium py-2 px-4 rounded-lg border border-brand-pink/20 transition-colors"
                     >
                       <PhotoIcon className="w-5 h-5" /> Upload Image
                     </button>
@@ -391,14 +330,18 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
 
                   {/* Gradient Selector */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-600 mb-1 mt-4">Background Gradient</label>
+                    <label className="block text-sm font-medium text-slate-600 mb-1 mt-4">Background Style</label>
                     <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                       {GRADIENT_STYLES.map((grad) => (
                         <button
                           key={grad.id}
                           onClick={() => setSelectedGradient(grad)}
-                          className={`h-12 w-full rounded-md border-2 ${selectedGradient.id === grad.id ? 'ring-2 border-slate-500' : 'border-slate-300 hover:border-slate-400'}`}
-                          style={selectedGradient.id === grad.id ? { background: grad.gradient, borderColor: accentColor } : { background: grad.gradient }}
+                          className={`h-12 w-full rounded-lg border-3 transition-all duration-200 ${
+                            selectedGradient.id === grad.id 
+                              ? 'border-brand-pink shadow-lg' 
+                              : 'border-slate-300 hover:border-slate-400'
+                          }`}
+                          style={{ background: grad.gradient }}
                           title={grad.name}
                         />
                       ))}
@@ -408,23 +351,33 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribut
               </div>
             </div>
 
-            {/* Save and Close buttons */}
-            <div className="flex flex-col sm:flex-row justify-end items-center gap-3 p-6 border-t border-slate-200 sticky bottom-0 bg-white z-10">
-              {/* Removed Share Text Quote button */}
-              <button
-                onClick={handleSave} // Saves changes and closes
-                className="w-full sm:w-auto rounded-md px-4 py-2 font-semibold text-white"
-                style={{ background: accentColor }} 
-              >
-                Save Changes & Close
-              </button>
-              <button
-                onClick={onClose}
-                className="w-full sm:w-auto rounded-md px-4 py-2 font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-300 transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
+            {/* Success message for generated image */}
+            {generatedImageUrl && (
+              <div className="p-6 border-t border-slate-200 bg-green-50">
+                <div className="flex items-center gap-2 text-green-700">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <p className="font-medium">Image generated successfully! You can download or share it.</p>
+                </div>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={downloadImage}
+                    className="flex items-center gap-2 px-3 py-1 bg-green-100 hover:bg-green-200 text-green-700 rounded-md text-sm font-medium transition-colors"
+                  >
+                    <ArrowDownTrayIcon className="w-4 h-4" /> Download
+                  </button>
+                  {typeof navigator.share === 'function' && (
+                    <button
+                      onClick={shareImage}
+                      className="flex items-center gap-2 px-3 py-1 bg-green-100 hover:bg-green-200 text-green-700 rounded-md text-sm font-medium transition-colors"
+                    >
+                      <ShareIcon className="w-4 h-4" /> Share
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}

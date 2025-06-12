@@ -4,10 +4,10 @@ import {
   ArrowPathIcon,
   ShareIcon,
   CogIcon,
-  ArrowLeftIcon,
   PencilIcon
 } from '@heroicons/react/24/outline'
 import { CEOPersonality } from '../data/ceoPersonalities'
+import Logo from './Logo'
 
 interface CEOInterfaceProps {
   personality: CEOPersonality
@@ -29,7 +29,7 @@ const TYPING_SPEED = 28 // ms per character
 const CEOInterface: React.FC<CEOInterfaceProps> = ({
   personality,
   phrase,
-  accentColor,
+  accentColor, // Keep for compatibility
   currentTheme,
   onPhraseGenerated,
   onShare,
@@ -42,6 +42,9 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
   const [showCEOSelector, setShowCEOSelector] = useState(false)
   const [displayedPhrase, setDisplayedPhrase] = useState('')
   const [typing, setTyping] = useState(false)
+
+  // Use brand pink consistently instead of dynamic accent color
+  const brandPink = '#F14FFF'
 
   // Fun thinking messages based on theme
   const getThinkingMessage = (theme: string) => {
@@ -85,52 +88,26 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-indigo-50 relative overflow-hidden"
+      className="min-h-screen flex flex-col bg-white relative overflow-hidden"
     >
       {/* Background with gradient glow */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(circle at center, ${accentColor}08 0%, transparent 70%)`
-          }}
-        />
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/10 via-light-gray/20 to-brand-pink/5"></div>
+      
+      {/* Floating Logo */}
+      <div className="absolute top-6 left-6 z-20">
+        <Logo onClick={onBackToFeatures} size="sm" />
       </div>
       
-      {/* Site Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200 p-4">
-        <div className="flex items-center justify-center max-w-7xl mx-auto relative">
-          {onBackToFeatures && (
-            <button
-              onClick={onBackToFeatures}
-              className="absolute left-0 flex items-center gap-2 px-3 py-2 text-slate-600 hover:text-slate-800 transition-colors duration-200 rounded-lg hover:bg-slate-100"
-            >
-              <ArrowLeftIcon className="w-4 h-4" />
-              <span className="text-sm font-medium hidden sm:inline">Features</span>
-            </button>
-          )}
-          
-          <div className="text-center">
-            <h1 
-              className="text-3xl font-bold mb-1 text-slate-800"
-            >
-              AI CEO
-            </h1>
-          </div>
-          
-          <button
-            onClick={onDebug}
-            className="absolute right-0 p-2 text-slate-400 hover:text-slate-600 transition-colors duration-200"
-          >
-            <CogIcon className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
+      {/* Debug Button */}
+      <button
+        onClick={onDebug}
+        className="absolute top-6 right-6 z-20 p-2 text-slate-400 hover:text-slate-600 transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200"
+      >
+        <CogIcon className="w-5 h-5" />
+      </button>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 max-w-5xl mx-auto w-full">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 max-w-5xl mx-auto w-full relative z-10">
         
         {/* Unified CEO Interface */}
         <div className="w-full max-w-4xl">
@@ -144,7 +121,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             <div 
               className="absolute inset-0 rounded-3xl blur-2xl opacity-20"
               style={{
-                background: `linear-gradient(135deg, ${accentColor}, ${accentColor}60)`,
+                background: `linear-gradient(135deg, ${brandPink}, ${brandPink}60)`,
                 transform: 'scale(1.1)'
               }}
             />
@@ -162,7 +139,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   {/* Animated ring always visible, now as a partial arc for visible motion */}
                   <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36" style={{zIndex: 1, pointerEvents: 'none'}}>
                     <motion.circle
-                      cx="72" cy="72" r="68" fill="none" stroke={accentColor} strokeWidth="6"
+                      cx="72" cy="72" r="68" fill="none" stroke={brandPink} strokeWidth="6"
                       strokeDasharray="120 300"
                       strokeLinecap="round"
                       animate={{
@@ -181,7 +158,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     className="relative w-32 h-32 rounded-full overflow-hidden bg-white transition-all duration-200"
                   >
                     <img 
-                      src={personality.photo} 
+                      src={personality.photo || '/ai-ceo/AICEO-MAN.png'} 
                       alt={personality.name}
                       className="w-full h-full object-cover"
                     />
@@ -194,8 +171,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 
                 {/* CEO Name and Customise */}
                 <motion.h2 
-                  className="text-2xl font-bold mt-4 mb-1"
-                  style={{ color: accentColor }}
+                  className="text-2xl font-bold mt-4 mb-1 text-brand-pink"
                 >
                   {personality.name}
                 </motion.h2>
@@ -227,7 +203,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                       
                       {/* Upload Custom Photo Option */}
                       <div className="mb-4 text-center">
-                        <label className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-medium text-sm cursor-pointer hover:bg-indigo-100 transition-colors duration-200 border border-indigo-200">
+                        <label className="inline-flex items-center gap-2 px-4 py-2 bg-brand-pink/10 text-brand-pink rounded-xl font-medium text-sm cursor-pointer hover:bg-brand-pink/20 transition-colors duration-200 border border-brand-pink/20">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
@@ -255,21 +231,17 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                             }}
                             className={`flex flex-col items-center p-3 rounded-xl font-medium text-sm transition-all duration-200 border-2 ${
                               p.id === personality.id
-                                ? 'bg-white shadow-md'
+                                ? 'bg-white shadow-md border-brand-pink'
                                 : 'bg-white/50 hover:bg-white hover:shadow-md border-transparent hover:border-slate-200'
                             }`}
-                            style={p.id === personality.id ? {
-                              borderColor: accentColor
-                            } : undefined}
                           >
                             <img 
-                              src={p.photo} 
+                              src={p.photo || '/ai-ceo/AICEO-MAN.png'} 
                               alt={p.name}
                               className="w-12 h-12 rounded-full object-cover mb-2"
                             />
                             <span 
-                              className={`${p.id === personality.id ? 'font-semibold' : ''} text-slate-700`}
-                              style={p.id === personality.id ? { color: accentColor } : undefined}
+                              className={`${p.id === personality.id ? 'font-semibold text-brand-pink' : 'text-slate-700'}`}
                             >
                               {p.name}
                             </span>
@@ -298,22 +270,20 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   isThinking ? 'animate-pulse' : ''
                 }`}
                 style={{
-                  background: `linear-gradient(135deg, ${accentColor}08, ${accentColor}04)`,
-                  border: `1px solid ${accentColor}15`
+                  background: `linear-gradient(135deg, ${brandPink}08, ${brandPink}04)`,
+                  border: `1px solid ${brandPink}15`
                 }}
               >
                 {/* Large opening quote mark - Smart quotes */}
                 <div 
-                  className="absolute -top-4 -left-2 text-6xl font-serif leading-none opacity-40"
-                  style={{ color: accentColor }}
+                  className="absolute -top-4 -left-2 text-6xl font-serif leading-none opacity-40 text-brand-pink"
                 >
                   "
                 </div>
                 
                 {/* Large closing quote mark - Smart quotes */}
                 <div 
-                  className="absolute -bottom-4 -right-2 text-6xl font-serif leading-none opacity-40"
-                  style={{ color: accentColor }}
+                  className="absolute -bottom-4 -right-2 text-6xl font-serif leading-none opacity-40 text-brand-pink"
                 >
                   "
                 </div>
@@ -355,13 +325,9 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   whileHover={{ scale: !isThinking ? 1.02 : 1 }}
                   whileTap={{ scale: !isThinking ? 0.98 : 1 }}
                   disabled={isThinking}
-                  className={`flex items-center gap-2 px-5 py-2 bg-white border-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                  className={`flex items-center gap-2 px-5 py-2 bg-white border-2 border-brand-pink rounded-lg font-medium transition-all duration-200 shadow-md text-brand-pink ${
                     isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
                   }`}
-                  style={{
-                    borderColor: accentColor,
-                    color: accentColor
-                  }}
                 >
                   <ArrowPathIcon className="w-4 h-4" />
                   <span>Generate</span>
@@ -372,13 +338,9 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
                   whileTap={{ scale: phrase && !isThinking ? 0.98 : 1 }}
                   disabled={!phrase || isThinking}
-                  className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                  className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-white bg-brand-pink ${
                     (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
                   }`}
-                  style={{
-                    background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)`,
-                    color: 'white'
-                  }}
                 >
                   <ShareIcon className="w-4 h-4" />
                   <span>Share</span>

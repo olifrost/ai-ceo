@@ -15,8 +15,8 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => 
     "Optimizing executive presence"
   ]
   
-  // Use a default gradient color for the unified CEO
-  const accentColor = '#7c3aed' // Purple for unified wisdom
+  // Use brand pink for consistency across the site
+  const accentColor = '#F14FFF' // Brand pink
 
   useEffect(() => {
     // Progress through setup steps more slowly
@@ -50,9 +50,12 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-8 bg-gradient-to-br from-slate-50 via-white to-indigo-50"
+      className="min-h-screen flex flex-col items-center justify-center px-6 py-8 bg-white relative overflow-hidden"
     >
-      <div className="text-center max-w-2xl">
+      {/* Static gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/10 via-light-gray/20 to-brand-pink/5"></div>
+      
+      <div className="text-center max-w-2xl relative z-10">
         {/* Simple loading animation - just the orb */}
         <div className="mb-8">
           {/* Animated Orb */}
