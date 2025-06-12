@@ -13,6 +13,9 @@ export default {
         'brand-pink': '#F14FFF',
         'light-gray': '#E3E9F0',
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
       animation: {
         'thinking like a CEO': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
