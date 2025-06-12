@@ -37,7 +37,7 @@ const GRADIENT_STYLES = [
   { id: 'solid', name: 'Solid Black', gradient: 'rgba(0, 0, 0, 0.85)' }
 ];
 
-export default function ShareQuoteModal({ isOpen, onClose, quote, name, attribution, accentColor }: ShareQuoteModalProps) {
+export default function ShareQuoteModal({ isOpen, onClose, quote, accentColor }: ShareQuoteModalProps) {
   const [selectedImage, setSelectedImage] = useState<CEOImage>(CEO_IMAGES[0]);
   const [selectedGradient, setSelectedGradient] = useState(GRADIENT_STYLES[0]); // Default to brand pink
   const [customImage, setCustomImage] = useState<string | null>(null);
