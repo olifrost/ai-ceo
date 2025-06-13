@@ -84,7 +84,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
     
     // Initial load bias towards favorites (80% chance)
     let nextPhrase;
-    if (seenPhrases.size === 0 && Math.random() < 0.8) {
+    if (seenPhrases.size === 0 && Math.random() < 0.99) {
       nextPhrase = FAVOURITE_QUOTES[Math.floor(Math.random() * FAVOURITE_QUOTES.length)];
     } else {
       // Pick next quote

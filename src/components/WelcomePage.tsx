@@ -203,7 +203,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     No bonus packages
                   </h4>
                   <p className="text-slate-600">
-                    AI CEOs don't spend the salary budget on themselves.
+                    AI CEOs don't spend the salary budget on 
                   </p>
                 </motion.div>
 
@@ -218,7 +218,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     No private jet needed
                   </h4>
                   <p className="text-slate-600">
-                    Zero carbon footprint from unnecessary business travel.
+                   No golf courses, no private islands, no extravagant retreats—just pure, unadulterated efficiency.
                   </p>
                 </motion.div>
 

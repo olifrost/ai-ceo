@@ -65,16 +65,5 @@ export const CEO_PERSONALITIES: CEOPersonality[] = [
     description: 'Simon is the architect of long-term success, always planning three steps ahead. He turns vision into reality with precision.',
     focus: 'Strategy',
     model: 'strategist'
-  },
-  {
-    id: 'terra-ceo',
-    name: 'Simona',
-    title: 'Chief Sustainability Officer',
-    company: 'Terra Solutions',
-    photo: '/AICEO-WOMAN.webp',
-    headline: 'Transforming environmental destruction into growth opportunities',
-    description: 'Environmental visionary driving ESG initiatives and green technology adoption. Expert in stakeholder-aligned sustainability frameworks.',
-    focus: 'Planet saver',
-    model: 'environment'
-  },
+  }
 ]
