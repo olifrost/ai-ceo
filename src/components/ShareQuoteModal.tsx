@@ -4,8 +4,9 @@ import { XMarkIcon, ArrowDownTrayIcon, ShareIcon } from '@heroicons/react/24/out
 import html2canvas from 'html2canvas';
 import { toast } from 'react-hot-toast';
 import { addVotes } from '../services/voteLimit';
-import Logo from './Logo';
 import { CEOPersonality } from '../data/ceoPersonalities';
+
+
 
 interface ShareQuoteModalProps {
   isOpen: boolean
@@ -27,8 +28,13 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
     if (isOpen) {
       setGeneratedImageUrl(null);
       setHasAwardedVotesInSession(false);
-      // Auto-generate image when modal opens with a small delay
-      setTimeout(() => generateImage(), 100);
+      
+      // Simple timeout to let the component render before generating
+      const timer = setTimeout(() => {
+        generateImage();
+      }, 500);
+      
+      return () => clearTimeout(timer);
     }
   }, [isOpen, quote]);
 
@@ -37,18 +43,78 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
 
     setIsGenerating(true);
     try {
+      console.log('Starting to generate canvas...');
+      console.log('Canvas element dimensions:', 
+        canvasRef.current.offsetWidth, 
+        canvasRef.current.offsetHeight
+      );
+      
+      // First, ensure all images are loaded
+      const imageElements = canvasRef.current.querySelectorAll('img');
+      console.log('Found', imageElements.length, 'images to preload');
+      
+      // Manually preload images
+      const preloadPromises = Array.from(imageElements).map((img) => {
+        return new Promise((resolve) => {
+          // If already complete, resolve immediately
+          if ((img as HTMLImageElement).complete) {
+            console.log('Image already loaded:', (img as HTMLImageElement).src);
+            resolve(null);
+            return;
+          }
+          
+          // Otherwise wait for load or error
+          img.addEventListener('load', () => {
+            console.log('Image loaded:', (img as HTMLImageElement).src);
+            resolve(null);
+          });
+          
+          img.addEventListener('error', () => {
+            console.error('Image failed to load:', (img as HTMLImageElement).src);
+            resolve(null);
+          });
+        });
+      });
+      
+      // Wait for all images to be loaded
+      await Promise.all(preloadPromises);
+      console.log('All images preloaded');
+      
+      // Give a bit more time for rendering
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Now generate the canvas
       const canvas = await html2canvas(canvasRef.current, {
-        width: 800,
-        height: 1000,
         scale: 2,
-        backgroundColor: null,
         useCORS: true,
         allowTaint: true,
-        logging: false
+        backgroundColor: '#ffffff',
+        logging: true // Enable logging for troubleshooting
       });
-
-      const dataUrl = canvas.toDataURL('image/png', 1.0);
+      
+      console.log('Canvas created with dimensions:', canvas.width, canvas.height);
+      // Check if the canvas has content
+      if (canvas.width <= 0 || canvas.height <= 0) {
+        throw new Error('Generated canvas has no dimensions');
+      }
+      
+      // Try to generate data URL with different formats if needed
+      let dataUrl;
+      try {
+        dataUrl = canvas.toDataURL('image/png');
+        console.log('PNG data URL generated, length:', dataUrl.length);
+      } catch (e) {
+        console.error('Error with PNG format, trying JPEG:', e);
+        dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+        console.log('JPEG data URL generated as fallback');
+      }
+      
+      if (!dataUrl || dataUrl === 'data:,' || dataUrl.length < 1000) {
+        throw new Error('Generated dataUrl appears to be empty or invalid');
+      }
+      
       setGeneratedImageUrl(dataUrl);
+      console.log('Successfully set image URL!');
 
       if (!hasAwardedVotesInSession) {
         addVotes(3);
@@ -129,7 +195,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
             <div className="p-6">
               {/* Preview */}
               <div className="mb-6">
-                <div ref={canvasRef} className="relative w-[400px] h-[500px] overflow-hidden mx-auto shadow-xl rounded-lg border border-slate-200">
+                <div id="quote-canvas" ref={canvasRef} className="relative w-[400px] h-[500px] mx-auto shadow-xl rounded-lg border border-slate-200">
                   
                   {/* Radial gradient background - similar to WelcomePage */}
                   <div className="absolute inset-0 w-full h-full bg-white"></div>
@@ -144,8 +210,13 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                     </div>
                     {/* Logo and Site URL - tighter spacing */}
                     <div className="flex flex-col items-center mt-4">
-                      <div className="mb-0.5 scale-75">
-                        <Logo size="sm" />
+                      <div className="mb-0.5">
+                        {/* Simple image for logo */}
+                        <img 
+                          src="/AICEO-Logo-Dark.svg" 
+                          alt="AI CEO" 
+                          className="h-8 w-auto" 
+                        />
                       </div>
                       <p className="text-xs text-slate-400 font-medium mt-0.5">
                         replaceyourboss.ai
