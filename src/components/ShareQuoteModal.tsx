@@ -129,43 +129,39 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
             <div className="p-6">
               {/* Preview */}
               <div className="mb-6">
-                <div ref={canvasRef} className="relative w-[400px] h-[500px] bg-white overflow-hidden mx-auto shadow-xl rounded-md border border-slate-200">
+                <div ref={canvasRef} className="relative w-[400px] h-[500px] overflow-hidden mx-auto shadow-xl rounded-lg border border-slate-200">
                   
-                  {/* CEO Image with Pink Gradient Background */}
-                  <div className="absolute inset-0 w-full h-[60%]">
-                    {/* Pink gradient background */}
-                    <div 
-                      className="absolute inset-0 w-full h-full"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(241, 79, 255, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%)'
-                      }}
-                    />
-                    {/* CEO Image */}
-                    <img 
-                      src={ceoPersonality.photo} 
-                      alt={ceoPersonality.name}
-                      className="w-full h-full object-cover opacity-90"
-                      crossOrigin="anonymous"
-                    />
-                  </div>
-
-                  {/* Quote Box */}
-                  <div className="absolute bottom-0 left-4 right-4 h-[45%] bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center">
-                    <div className="flex-1 flex items-center justify-center">
-                      <p className="text-lg font-bold text-slate-800 leading-tight text-center" style={{ textWrap: 'balance' }}>
+                  {/* Radial gradient background - similar to WelcomePage */}
+                  <div className="absolute inset-0 w-full h-full bg-white"></div>
+                  <div className="absolute inset-0 w-full h-full bg-gradient-radial from-brand-pink/50 via-brand-pink/20 to-transparent"></div>
+                  
+                  {/* Quote Box - positioned at bottom with more height */}
+                  <div className="absolute bottom-4 left-4 right-4 h-[65%] bg-white rounded-lg shadow-xl p-6 flex flex-col justify-center border border-slate-100">
+                    <div className="flex-1 flex items-center justify-center pt-16">
+                      <p className="text-xl font-bold text-slate-800 leading-tight text-center" style={{ textWrap: 'balance' }}>
                         "{quote}"
                       </p>
                     </div>
                     
                     {/* Logo and Site URL */}
-                    <div className="flex flex-col items-center mt-4">
-                      <div className="mb-2">
+                    <div className="flex flex-col items-center mt-6">
+                      <div className="mb-2 scale-75">
                         <Logo size="sm" />
                       </div>
                       <p className="text-xs text-slate-400 font-medium">
                         replaceyourboss.ai
                       </p>
                     </div>
+                  </div>
+
+                  {/* CEO Image positioned to rest on top of the quote box */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-[65%] h-[40%] z-10" style={{ bottom: 'calc(65% - 4px)' }}>
+                    <img 
+                      src={ceoPersonality.photo} 
+                      alt={ceoPersonality.name}
+                      className="w-full h-full object-cover object-top rounded-lg"
+                      crossOrigin="anonymous"
+                    />
                   </div>
                 </div>
               </div>
