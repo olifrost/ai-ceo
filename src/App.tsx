@@ -84,7 +84,7 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     color: '#7c3aed',
   },
   {
-    phrase: "We're developing agentic AI but specifically for riot police",
+    phrase: "What if we made agentic AI for riot police?",
     theme: 'vision',
     color: '#7c3aed',
   },
@@ -128,6 +128,21 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     theme: 'vision',
     color: '#7c3aed',
   },
+    {
+    phrase: "We're making a difference with our We're Making a Difference campaign",
+    theme: 'sustainability',
+    color: '#7c3aed',
+  },
+   {
+    phrase: "Let the work from home. But have them work in an underground carpark below the office",
+    theme: 'efficiency',
+    color: '#7c3aed',
+  },
+    {
+    phrase: "Let the work from home. But have them work in an underground carpark below the office",
+    theme: 'efficiency',
+    color: '#7c3aed',
+  },
 ]
 
 // Generate CEO_WISDOM and PHRASE_THEMES from CEO_PHRASES
@@ -157,7 +172,7 @@ function App() {
   const handleLoadingComplete = () => {
     setAppState('interface')
   }
-
+  
   const generateRandomWisdom = () => {
     // Filter out seen phrases
     const availablePhrases = CEO_WISDOM.filter(phrase => !seenPhrases.has(phrase))

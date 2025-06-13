@@ -15,15 +15,20 @@ interface WelcomePageProps {
 }
 
 const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
+  // Check localStorage on component mount to see if popup has been shown before
   useEffect(() => {
-    setShowPopup(true);
+    const hasSeenPopup = localStorage.getItem('hasSeenCannesPopup');
+    if (!hasSeenPopup) {
+      setShowPopup(true);
+    }
   }, []);
 
   const handleClosePopup = () => {
+    // Store in localStorage that user has seen the popup
+    localStorage.setItem('hasSeenCannesPopup', 'true');
     setShowPopup(false);
-    // Optionally, call onGetStarted() here if you want to start onboarding immediately
   };
 
   return (
@@ -147,7 +152,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             
             {/* CEO Image touching bottom */}
             <img 
-              src="/ai-ceo/AICEO-MAN.webp" 
+              src="/AICEO-MAN.webp" 
               alt="AI CEO" 
               className="relative z-10 h-[400px] md:h-[500px] lg:h-[600px] object-cover object-top"
             />
@@ -310,6 +315,18 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               </div>
             </motion.div>
           </div>
+        </div>
+        
+        {/* Made by Serious People link with pill design */}
+        <div className="absolute bottom-4 left-0 right-0 text-center z-20">
+          <a 
+            href="https://seriouspeople.co" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
+          >
+            Made by Serious People
+          </a>
         </div>
       </motion.div>
     </>

@@ -76,11 +76,23 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
     const CEO_WISDOM = (window as any).CEO_WISDOM || [];
     const PHRASE_THEMES = (window as any).PHRASE_THEMES || {};
     
-    // Pick next quote
-    const availablePhrases = CEO_WISDOM.filter((p: string) => !seenPhrases.has(p));
-    const phrasesToChoose = availablePhrases.length > 0 ? availablePhrases : CEO_WISDOM;
-    const randomIndex = Math.floor(Math.random() * phrasesToChoose.length);
-    const nextPhrase = phrasesToChoose[randomIndex];
+    // Define favorite quotes - higher chance on first load (seenPhrases is empty)
+    const FAVOURITE_QUOTES = [
+      "We're not destroying habitats, we're creating urban opportunities for wildlife.",
+      "We're diversifying our diversity programme by sometimes not having one"
+    ];
+    
+    // Initial load bias towards favorites (80% chance)
+    let nextPhrase;
+    if (seenPhrases.size === 0 && Math.random() < 0.8) {
+      nextPhrase = FAVOURITE_QUOTES[Math.floor(Math.random() * FAVOURITE_QUOTES.length)];
+    } else {
+      // Pick next quote
+      const availablePhrases = CEO_WISDOM.filter((p: string) => !seenPhrases.has(p));
+      const phrasesToChoose = availablePhrases.length > 0 ? availablePhrases : CEO_WISDOM;
+      const randomIndex = Math.floor(Math.random() * phrasesToChoose.length);
+      nextPhrase = phrasesToChoose[randomIndex];
+    }
     
     // Get theme for this quote and set thinking message
     if (nextPhrase && PHRASE_THEMES[nextPhrase]) {
@@ -90,17 +102,20 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       setThinkingMessage('Optimizing synergies...');
     }
     
+    // Cache the selected phrase to avoid changing it during typing
+    const finalPhrase = nextPhrase;
+    
     // Show thinking message for 1 second, then use the SAME quote we picked
     setTimeout(() => {
       // Update seen phrases
       if (onSeenPhrasesUpdate) {
-        onSeenPhrasesUpdate(new Set([...seenPhrases, nextPhrase]));
+        onSeenPhrasesUpdate(new Set([...seenPhrases, finalPhrase]));
       }
       // Use the specific phrase we chose
       if (onSpecificPhraseGenerated) {
-        onSpecificPhraseGenerated(nextPhrase);
+        onSpecificPhraseGenerated(finalPhrase);
       } else {
-        // Fallback to random generation
+        // Fallback to random generation - shouldn't happen
         onPhraseGenerated();
       }
       setIsThinking(false);
@@ -131,7 +146,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
     if (!phrase && !isThinking) {
       generateNewQuote()
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <motion.div
@@ -143,21 +158,52 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       {/* Background with gradient glow */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/10 via-light-gray/20 to-brand-pink/5"></div>
       
+      {/* Fixed Position Elements - Always on top */}
       {/* Floating Logo - Centered */}
-      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20">
-        <Logo onClick={onBackToFeatures} size="sm" />
+      <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50">
+        <Logo 
+          onClick={() => {
+            // Force storing popup state before navigating back
+            localStorage.setItem('hasSeenCannesPopup', 'true');
+            onBackToFeatures && onBackToFeatures();
+          }} 
+          size="sm" 
+        />
+      </div>
+      
+      {/* Learn more link - separate from logo with better positioning and margin */}
+      <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50">
+        <button
+          onClick={() => {
+            // Force storing popup state before navigating back
+            localStorage.setItem('hasSeenCannesPopup', 'true');
+            onBackToFeatures && onBackToFeatures();
+            // Add small timeout to ensure page loads before scrolling
+            setTimeout(() => {
+              const infoSection = document.getElementById('info-section');
+              if (infoSection) {
+                infoSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }, 100);
+          }}
+          className="text-brand-pink/80 hover:text-brand-pink text-sm font-medium underline underline-offset-2 transition-colors duration-200"
+          style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+          type="button"
+        >
+          Learn more
+        </button>
       </div>
       
       {/* Debug Button */}
       <button
         onClick={onDebug}
-        className="absolute top-6 right-6 z-20 p-2 text-slate-400 hover:text-slate-600 transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200"
+        className="fixed top-6 right-6 z-50 p-2 text-slate-400 hover:text-slate-600 transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200"
       >
         <CogIcon className="w-5 h-5" />
       </button>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 max-w-5xl mx-auto w-full relative z-10">
+      {/* Main Content - Truly centered with padding for fixed elements */}
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8 max-w-5xl mx-auto w-full relative z-10">
         
         {/* Unified CEO Interface */}
         <div className="w-full max-w-4xl">
@@ -207,7 +253,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                       className="absolute inset-0 bg-gradient-radial from-brand-pink/60 via-brand-pink/10 to-white/0 z-0"
                     />
                     <img 
-                      src={personality.photo || '/ai-ceo/AICEO-MAN'} 
+                      src={personality.photo || '/AICEO-MAN'} 
                       alt={personality.name}
                       className="relative z-10 w-full h-full object-cover"
                     />
@@ -237,13 +283,15 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   </div>
                 </div>
                 
-                {/* Customise text with icon */}
+                {/* Customise text with icon - more prominent styling */}
                 <div className="flex items-center justify-center gap-2">
-                  <PhotoIcon className="w-4 h-4 text-slate-400" />
-                  <p className="text-sm text-slate-400 cursor-pointer hover:text-slate-500 transition-colors duration-200" 
-                     onClick={() => setShowCEOSelector(!showCEOSelector)}>
-                    customise
-                  </p>
+                  <button
+                    onClick={() => setShowCEOSelector(!showCEOSelector)}
+                    className="flex items-center gap-2 px-3 py-1 text-brand-pink hover:text-brand-pink/80 text-sm font-medium transition-colors duration-200 border-b border-dotted border-brand-pink"
+                  >
+                    <PhotoIcon className="w-4 h-4" />
+                    <span>Customise</span>
+                  </button>
                 </div>
                 
                 {/* Current theme indicator - Hidden but still tracking theme behind scenes */}
@@ -280,7 +328,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                               {/* Radial gradient background behind CEO avatar - subtle, smaller pink */}
                               <div className="absolute inset-0 bg-gradient-radial from-brand-pink/60 via-white/60 to-white z-0"></div>
                               <img 
-                                src={p.photo || '/ai-ceo/AICEO-MAN.webp'} 
+                                src={p.photo || '/AICEO-MAN.webp'} 
                                 alt={p.name}
                                 className="relative z-10 w-full h-full object-cover"
                               />
@@ -388,6 +436,21 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             </div>
           </motion.div>
         </div>
+
+        {/* Space at the bottom for fixed footer */}
+        <div className="h-10"></div>
+      </div>
+      
+      {/* Made by Serious People link with pill design - Fixed at bottom */}
+      <div className="fixed bottom-4 left-0 right-0 text-center z-50">
+        <a 
+          href="https://seriouspeople.co"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
+        >
+          Made by Serious People
+        </a>
       </div>
     </motion.div>
   )

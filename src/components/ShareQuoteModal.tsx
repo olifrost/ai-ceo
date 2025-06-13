@@ -160,7 +160,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: 'AI CEO Quote',
-          text: `"${quote}" - ${ceoPersonality.name}`,
+          text: `"${quote}" - ${ceoPersonality.name} | AI-generated CEO wisdom at replaceyourboss.ai`,
           files: [file]
         });
       } else {

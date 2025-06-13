@@ -33,7 +33,7 @@ const CannesPopup: React.FC<CannesPopupProps> = ({ onClose }) => {
           >
             <div className="relative w-full" style={{ flex: '0 0 45%', minHeight: 260, maxHeight: 340 }}>
               <img
-                src="/ai-ceo/AICEO-The-Boys.jpg"
+                src="/AICEO-The-Boys.jpg"
                 alt="Bosses at Cannes"
                 className="w-full h-full object-cover object-top"
                 style={{ height: '100%', minHeight: 260, maxHeight: 340, borderTopLeftRadius: '2.5rem', borderTopRightRadius: '2.5rem' }}
