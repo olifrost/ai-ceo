@@ -78,6 +78,56 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     theme: 'efficiency',
     color: '#0ea5e9',
   },
+  {
+    phrase: "We're disrupting disruption by un-disrupting previously disrupted markets",
+    theme: 'vision',
+    color: '#7c3aed',
+  },
+  {
+    phrase: "We're developing agentic AI but specifically for riot police",
+    theme: 'vision',
+    color: '#7c3aed',
+  },
+  {
+    phrase: "I want to look my children in the eye and tell them their inheritance figures",
+    theme: 'growth',
+    color: '#ec4899',
+  },
+  {
+    phrase: "I greenshush my children every night before bed",
+    theme: 'growth',
+    color: '#ec4899',
+  },
+  {
+    phrase: "We're creating a permission structure for keeping the status quo",
+    theme: 'growth',
+    color: '#ec4899',
+  },
+  {
+    phrase: "We encourage our staff to be creative by replacing them with creative robots",
+    theme: 'growth',
+    color: '#ec4899',
+  },
+  {
+    phrase: "We would’ve decarbonised, but we didn’t like when those women threw that soup",
+    theme: 'sustainability',
+    color: '#10b981',
+  },
+  {
+    phrase: "Let's reduce redundancy by eliminating redundant employees",
+    theme: 'efficiency',
+    color: '#0ea5e9',
+  },
+  {
+    phrase: "We're not burning cash, we're converting currency into momentum.",
+    theme: 'growth',
+    color: '#ec4899',
+  },
+  {
+    phrase: "What would Steven Bartlett do?",
+    theme: 'vision',
+    color: '#7c3aed',
+  },
 ]
 
 // Generate CEO_WISDOM and PHRASE_THEMES from CEO_PHRASES
