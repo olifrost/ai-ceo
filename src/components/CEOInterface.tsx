@@ -202,8 +202,10 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   <div 
                     className="relative w-40 h-40 rounded-full overflow-hidden bg-white transition-all duration-200 shadow-lg"
                   >
-                    {/* Radial gradient background behind CEO avatar - subtle, smaller pink */}
-                    <div className="absolute inset-0 bg-gradient-radial from-brand-pink/60 via-white/60 to-white z-0"></div>
+                    {/* Radial gradient background behind CEO avatar - more diffuse, pink stretches further */}
+                    <div
+                      className="absolute inset-0 bg-gradient-radial from-brand-pink/60 via-brand-pink/10 to-white/0 z-0"
+                    />
                     <img 
                       src={personality.photo || '/ai-ceo/AICEO-MAN'} 
                       alt={personality.name}
