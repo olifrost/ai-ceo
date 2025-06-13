@@ -77,7 +77,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
-            className="mb-12"
+            className="mb-4"
           >
             <button
               onClick={onGetStarted}
@@ -96,6 +96,27 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   →
                 </motion.div>
               </span>
+            </button>
+          </motion.div>
+          {/* Learn more link */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="mb-12"
+          >
+            <button
+              onClick={() => {
+                const infoSection = document.getElementById('info-section');
+                if (infoSection) {
+                  infoSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="text-brand-pink/80 hover:text-brand-pink text-base font-medium underline underline-offset-2 transition-colors duration-200"
+              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+              type="button"
+            >
+              Learn more
             </button>
           </motion.div>
         </div>
@@ -120,7 +141,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
       </div>
 
       {/* Features Section with white background */}
-      <div className="bg-white">
+      <div id="info-section" className="bg-white">
         <div className="max-w-6xl mx-auto px-6 py-20">
           {/* Main Headline - Stop working for humans */}
           <motion.div 

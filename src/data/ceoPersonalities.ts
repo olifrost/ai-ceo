@@ -24,7 +24,7 @@ export const CEO_PERSONALITIES: CEOPersonality[] = [
   },
   {
     id: 'terra-ceo',
-    name: 'AI CEO',
+    name: 'Simona',
     title: 'Chief Sustainability Officer',
     company: 'Terra Solutions',
     photo: '/ai-ceo/AICEO-WOMAN.png',

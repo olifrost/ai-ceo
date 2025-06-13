@@ -150,7 +150,9 @@ const DEBUG_COMMANDS: Record<string, DebugCommand> = {
   }
 };
 
-export default function DebugPanel({ isOpen, onClose, accentColor, selectedModel }: DebugPanelProps) {
+export default function DebugPanel({ isOpen, onClose, accentColor: _accentColor, selectedModel }: DebugPanelProps) {
+  // Use brand pink for accent color
+  const accentColor = '#F14FFF';
   const [, setCommandHistory] = useState<string[]>([]);
   const [currentCommand, setCurrentCommand] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);

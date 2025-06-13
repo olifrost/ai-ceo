@@ -19,7 +19,7 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => 
   const accentColor = '#F14FFF' // Brand pink
 
   useEffect(() => {
-    // Progress through setup steps more slowly
+    // Progress through setup steps more quickly
     const stepTimer = setInterval(() => {
       setCurrentStep(prev => {
         if (prev < setupSteps.length - 1) {
@@ -27,7 +27,7 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => 
         }
         return prev
       })
-    }, 800) // Faster progression - 800ms per step
+    }, 600) // Faster progression - 600ms per step
 
     // Complete after all steps are done
     const completeTimer = setTimeout(() => {
@@ -36,8 +36,8 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => 
       // Call onComplete after a short delay to show the "Ready!" state
       setTimeout(() => {
         onComplete()
-      }, 600)
-    }, setupSteps.length * 800 + 400) // Wait for all steps plus a bit more
+      }, 400)
+    }, setupSteps.length * 600 + 200) // Wait for all steps plus a bit more
 
     return () => {
       clearInterval(stepTimer)
@@ -117,14 +117,13 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="space-y-6"
+          className="space-y-6 flex flex-col items-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold text-slate-800">
             Preparing your AI CEO...
           </h2>
-          
           {/* Setup Steps as Bullet Points */}
-          <div className="space-y-3">
+          <div className="space-y-3 w-full flex flex-col items-center">
             {setupSteps.map((step, index) => (
               <motion.div
                 key={index}
@@ -167,7 +166,6 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => 
                     />
                   )}
                 </div>
-                
                 {/* Step Text */}
                 <p 
                   className={`text-slate-600 transition-colors duration-300 ${
@@ -178,7 +176,6 @@ const OnboardingLoading: React.FC<OnboardingLoadingProps> = ({ onComplete }) => 
                 </p>
               </motion.div>
             ))}
-            
             {/* Ready indicator */}
             {isComplete && (
               <motion.div
