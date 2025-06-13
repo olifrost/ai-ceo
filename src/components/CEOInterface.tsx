@@ -45,11 +45,12 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
   // Use brand pink consistently instead of dynamic accent color
   const brandPink = '#F14FFF'
 
-  // Fun thinking messages based on theme
+  // Fun thinking messages based on personality model
   const getThinkingMessage = (theme: string) => {
     const messages = {
-      sustainability: "Burn planet mode initiated...",
       efficiency: "Optimizing human potential...",
+      environment: "Calculating carbon footprint...",
+      sustainability: "Burn planet mode initiated...",
       growth: "Calculating profit margins...",
       vision: "Generating buzzwords..."
     }
@@ -92,8 +93,8 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       {/* Background with gradient glow */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-pink/10 via-light-gray/20 to-brand-pink/5"></div>
       
-      {/* Floating Logo */}
-      <div className="absolute top-6 left-6 z-20">
+      {/* Floating Logo - Centered */}
+      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20">
         <Logo onClick={onBackToFeatures} size="sm" />
       </div>
       
@@ -135,41 +136,16 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   className="relative inline-block group cursor-pointer"
                   title="Click to customize your CEO"
                 >
-                  {/* Enhanced animated ring with breaking/forming effect */}
+                  {/* Enhanced animated ring with physics-like momentum */}
                   <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44" style={{zIndex: 1, pointerEvents: 'none'}}>
-                    {/* Primary animated arc */}
+                    {/* Single animated line, longer arc, more constant speed */}
                     <motion.circle
-                      cx="88" cy="88" r="84" fill="none" stroke={brandPink} strokeWidth="4"
-                      strokeDasharray="150 100"
+                      cx="88" cy="88" r="86" fill="none" stroke={brandPink} strokeWidth="3"
+                      strokeDasharray="120 240"
                       strokeLinecap="round"
-                      animate={{
-                        rotate: 360,
-                        strokeDasharray: ["150 100", "50 200", "150 100"]
-                      }}
+                      animate={{ rotate: 360 }}
                       initial={{ rotate: 0 }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 3,
-                        ease: "easeInOut"
-                      }}
-                      style={{ transformOrigin: '50% 50%' }}
-                    />
-                    {/* Secondary animated arc for breaking effect */}
-                    <motion.circle
-                      cx="88" cy="88" r="84" fill="none" stroke={brandPink} strokeWidth="2"
-                      strokeDasharray="80 170"
-                      strokeLinecap="round"
-                      opacity={0.6}
-                      animate={{
-                        rotate: -360,
-                        strokeDasharray: ["80 170", "20 230", "80 170"]
-                      }}
-                      initial={{ rotate: 180 }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 4,
-                        ease: "easeInOut"
-                      }}
+                      transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
                       style={{ transformOrigin: '50% 50%' }}
                     />
                   </svg>
@@ -195,10 +171,14 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   {personality.name}
                 </motion.h2>
                 
-                {/* AI CEO Logo Badge - Centered */}
+                {/* AI CEO Logo Badge - Centered with pulsing dot */}
                 <div className="flex justify-center mb-2">
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-pink/10 rounded-full border border-brand-pink/20">
-                    <div className="w-2 h-2 bg-brand-pink rounded-full animate-pulse"></div>
+                    <motion.div 
+                      className="w-2 h-2 bg-brand-pink rounded-full"
+                      animate={{ opacity: [1, 0.3, 1] }}
+                      transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    />
                     <span className="text-xs font-medium text-brand-pink">AI CEO</span>
                   </div>
                 </div>
@@ -227,26 +207,6 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   >
                     <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-slate-200">
                       <h3 className="text-lg font-semibold text-slate-800 mb-4 text-center">Choose Your CEO</h3>
-                      
-                      {/* Upload Custom Photo Option */}
-                      <div className="mb-4 text-center">
-                        <label className="inline-flex items-center gap-2 px-4 py-2 bg-brand-pink/10 text-brand-pink rounded-xl font-medium text-sm cursor-pointer hover:bg-brand-pink/20 transition-colors duration-200 border border-brand-pink/20">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          Upload Your Photo
-                          <input 
-                            type="file" 
-                            accept="image/*" 
-                            className="hidden" 
-                            onChange={(e) => {
-                              // Handle file upload here
-                              console.log('File uploaded:', e.target.files?.[0])
-                            }}
-                          />
-                        </label>
-                        <p className="text-xs text-slate-500 mt-1">Replace your boss with your face</p>
-                      </div>
                       
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                         {availablePersonalities.map((p) => (
@@ -301,18 +261,20 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   border: `1px solid ${brandPink}15`
                 }}
               >
-                {/* Large opening smart quote mark */}
+                {/* Large opening smart quote mark with proper typography */}
                 <div 
-                  className="absolute -top-4 -left-2 text-6xl font-serif leading-none opacity-40 text-brand-pink"
+                  className="absolute -top-4 -left-2 text-6xl leading-none opacity-40 text-brand-pink"
+                  style={{ fontFamily: 'Inter, Arial, Helvetica, sans-serif' }}
                 >
-                  "
+                  “
                 </div>
                 
-                {/* Large closing smart quote mark */}
+                {/* Large closing smart quote mark with proper typography */}
                 <div 
-                  className="absolute -bottom-4 -right-2 text-6xl font-serif leading-none opacity-40 text-brand-pink"
+                  className="absolute -bottom-4 -right-2 text-6xl leading-none opacity-40 text-brand-pink"
+                  style={{ fontFamily: 'Inter, Arial, Helvetica, sans-serif' }}
                 >
-                  "
+                  ”
                 </div>
                 
                 <AnimatePresence mode="wait">
@@ -327,7 +289,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     <p className="text-xl md:text-2xl text-slate-800 leading-relaxed font-semibold min-h-[80px] md:min-h-[100px] flex items-center justify-center text-center px-4 md:px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
                         <span className="text-slate-500 italic text-xl font-medium font-mono">
-                          {getThinkingMessage(currentTheme)}
+                          {getThinkingMessage(personality.model || currentTheme)}
                         </span>
                       ) : (
                         <span>{displayedPhrase || "Click to generate CEO wisdom"}</span>
