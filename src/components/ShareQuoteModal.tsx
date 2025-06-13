@@ -85,11 +85,21 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
       
       // Now generate the canvas
       const canvas = await html2canvas(canvasRef.current, {
+        width: 400,
+        height: 500,
         scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
-        logging: true // Enable logging for troubleshooting
+        logging: true, // Enable logging for troubleshooting
+        onclone: (clonedDoc) => {
+          // Ensure the cloned document maintains the correct proportions
+          const canvasElement = clonedDoc.getElementById('quote-canvas');
+          if (canvasElement) {
+            canvasElement.style.width = '400px';
+            canvasElement.style.height = '500px';
+          }
+        }
       });
       
       console.log('Canvas created with dimensions:', canvas.width, canvas.height);
@@ -177,20 +187,16 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white border border-slate-200 rounded-lg shadow-xl max-w-2xl w-full max-h-[95vh] overflow-y-auto"
+            className="bg-white border border-slate-200 rounded-lg shadow-xl max-w-2xl w-full max-h-[95vh] overflow-y-auto relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between p-6 border-b border-slate-200">
-              <h2 className="text-2xl font-bold font-['Space_Grotesk'] text-slate-900">
-                Share Your CEO Quote
-              </h2>
-              <button
-                onClick={onClose}
-                className="text-slate-400 hover:text-slate-600 transition-colors"
-              >
-                <XMarkIcon className="w-6 h-6" />
-              </button>
-            </div>
+            {/* Close button positioned in the corner without the title bar */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors z-10 bg-white/80 p-1 rounded-full"
+            >
+              <XMarkIcon className="w-6 h-6" />
+            </button>
 
             <div className="p-6">
               {/* Preview */}
@@ -201,9 +207,9 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                   <div className="absolute inset-0 w-full h-full bg-white"></div>
                   <div className="absolute inset-0 w-full h-full bg-gradient-radial from-brand-pink/50 via-brand-pink/20 to-transparent"></div>
                   
-                  {/* Quote Box - extends off bottom with thin pink border, no bottom border */}
-                  <div className="absolute left-6 right-6 bg-white rounded-t-lg shadow-xl p-6 flex flex-col justify-center" style={{ bottom: '0px', height: '60%', borderTop: '0.5px solid rgb(236, 72, 153)', borderLeft: '0.5px solid rgb(236, 72, 153)', borderRight: '0.5px solid rgb(236, 72, 153)' }}>
-                    <div className="flex-1 flex items-center justify-center pt-12">
+                  {/* Quote Box - extends off bottom with thin pink border, no bottom border - reduced height to 55% */}
+                  <div className="absolute left-6 right-6 bg-white rounded-t-lg shadow-xl p-6 flex flex-col justify-center" style={{ bottom: '0px', height: '55%', borderTop: '0.5px solid rgb(236, 72, 153)', borderLeft: '0.5px solid rgb(236, 72, 153)', borderRight: '0.5px solid rgb(236, 72, 153)' }}>
+                    <div className="flex-1 flex items-center justify-center pt-10">
                       <p className="text-2xl font-bold text-slate-800 leading-tight text-center" style={{ textWrap: 'balance' }}>
                         "{quote}"
                       </p>
@@ -211,12 +217,37 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                     {/* Logo and Site URL - tighter spacing */}
                     <div className="flex flex-col items-center mt-4">
                       <div className="mb-0.5">
-                        {/* Simple image for logo */}
-                        <img 
-                          src="/AICEO-Logo-Dark.svg" 
-                          alt="AI CEO" 
-                          className="h-8 w-auto" 
-                        />
+                        {/* Using a brand-colored SVG logo */}
+                        <svg 
+                          className="h-5 w-auto" 
+                          viewBox="0 0 2780.72 560.28" 
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path 
+                            d="M338.34,550.97l-38.02-138.13h-160.63l-37.25,138.13H0L152.1,9.31h141.23l152.87,541.65h-107.87ZM223.49,109.42h-6.21l-59.75,221.16h125.71l-59.75-221.16Z"
+                            fill="#EC4899" // brand-pink Tailwind color
+                          />
+                          <path 
+                            d="M578.27,550.97v-76.05h121.83V85.36h-121.83V9.31h344.55v76.05h-121.83v389.56h121.83v76.05h-344.55Z"
+                            fill="#EC4899"
+                          />
+                          <path 
+                            d="M1478.13,560.28c-70.88,0-123.26-24.31-157.14-72.94-33.89-48.62-50.83-117.69-50.83-207.19s16.94-157.92,50.83-206.81C1354.87,24.44,1407.25,0,1478.13,0c26.89,0,50.56,3.59,71.01,10.77,20.43,7.18,38.15,17.04,53.16,29.6,15,12.56,27.41,27.72,37.25,45.49,9.82,17.78,17.58,37.27,23.28,58.48l-93.12,26.38c-3.63-12.42-7.76-24.06-12.42-34.92-4.66-10.86-10.48-20.3-17.46-28.32-6.98-8.01-15.65-14.22-26-18.62-10.36-4.39-22.77-6.6-37.25-6.6-35.19,0-60.41,13.51-75.66,40.51-15.27,27.01-22.89,63.89-22.89,110.63v93.48c0,46.76,7.63,83.63,22.89,110.63,15.25,27.01,40.47,40.51,75.66,40.51,14.48,0,26.89-2.19,37.25-6.6,10.34-4.39,19.01-10.6,26-18.62,6.98-8.01,12.8-17.46,17.46-28.32,4.65-10.86,8.79-22.5,12.42-34.92l93.12,26.38c-5.7,21.22-13.46,40.7-23.28,58.48-9.83,17.78-22.25,32.94-37.25,45.51-15.01,12.56-32.73,22.42-53.16,29.6-20.44,7.17-44.11,10.75-71.01,10.75Z"
+                            fill="#EC4899"
+                          />
+                          <path 
+                            d="M1845.79,550.97V9.31h342.22v83.81h-240.56v141.23h232.03v83.81h-232.03v148.99h240.56v83.81h-342.22Z"
+                            fill="#EC4899"
+                          />
+                          <path 
+                            d="M2575.85,560.28c-35.19,0-65.71-6.34-91.57-19.01-25.87-12.67-47.21-30.91-64.02-54.71-16.82-23.79-29.23-53.02-37.25-87.69-8.03-34.65-12.03-74.23-12.03-118.73s4-83.42,12.03-118.34c8.01-34.92,20.43-64.28,37.25-88.08,16.81-23.79,38.15-42.02,64.02-54.71,25.86-12.67,56.38-19.01,91.57-19.01,70.35,0,122.09,24.58,155.2,73.72,33.1,49.16,49.67,117.95,49.67,206.42s-16.56,157.27-49.67,206.42c-33.11,49.15-84.85,73.72-155.2,73.72ZM2575.85,478.02c18.1,0,33.37-3.5,45.79-10.51,12.41-7.01,22.37-17.01,29.88-30,7.49-12.97,12.92-28.94,16.3-47.91,3.36-18.96,5.04-40.12,5.04-63.5v-92.71c0-46.74-7.12-83.62-21.34-110.63-14.24-27-39.46-40.51-75.66-40.51s-61.44,13.51-75.66,40.51c-14.24,27.01-21.34,63.89-21.34,110.63v93.48c0,46.76,7.11,83.63,21.34,110.63,14.22,27.01,39.44,40.51,75.66,40.51Z"
+                            fill="#EC4899"
+                          />
+                          <path 
+                            d="M1182.16,280.14l-44.24,11.66c-26.71,7.04-47.57,27.9-54.61,54.61l-11.66,44.24-11.66-44.24c-7.04-26.71-27.9-47.57-54.61-54.61l-44.24-11.66,44.24-11.66c26.71-7.04,47.57-27.9,54.61-54.61l11.66-44.24,11.66,44.24c7.04,26.71,27.9,47.57,54.61,54.61l44.24,11.66Z"
+                            fill="#EC4899"
+                          />
+                        </svg>
                       </div>
                       <p className="text-xs text-slate-400 font-medium mt-0.5">
                         replaceyourboss.ai
@@ -224,14 +255,16 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                     </div>
                   </div>
 
-                  {/* CEO Image positioned to align bottom with top of quote box */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-[55%] h-[35%] z-10" style={{ bottom: '60%' }}>
-                    <img 
-                      src={ceoPersonality.photo} 
-                      alt={ceoPersonality.name}
-                      className="w-full h-full object-cover object-top rounded-lg"
-                      crossOrigin="anonymous"
-                    />
+                  {/* CEO Image positioned to align bottom with top of quote box - adjusted for new quote box height */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-[55%] z-10" style={{ bottom: '55%', paddingBottom: '55%' }}>
+                    <div className="absolute inset-0">
+                      <img 
+                        src={ceoPersonality.photo} 
+                        alt={ceoPersonality.name}
+                        className="w-full h-full object-cover object-center rounded-lg"
+                        crossOrigin="anonymous"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -280,17 +313,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                 )}
               </div>
 
-              {/* Success message */}
-              {generatedImageUrl && (
-                <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                  <div className="flex items-center gap-2 text-green-700">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <p className="font-medium">Image generated successfully! You can download or share it.</p>
-                  </div>
-                </div>
-              )}
+              {/* Success message removed */}
             </div>
           </motion.div>
         </motion.div>
