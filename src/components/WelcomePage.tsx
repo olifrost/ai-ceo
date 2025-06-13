@@ -133,7 +133,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
           
           {/* CEO Image touching bottom */}
           <img 
-            src="/ai-ceo/AICEO-MAN.png" 
+            src="/ai-ceo/AICEO-MAN.webp" 
             alt="AI CEO" 
             className="relative z-10 h-[400px] md:h-[500px] lg:h-[600px] object-cover object-top"
           />

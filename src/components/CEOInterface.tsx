@@ -202,13 +202,15 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   <div 
                     className="relative w-40 h-40 rounded-full overflow-hidden bg-white transition-all duration-200 shadow-lg"
                   >
+                    {/* Radial gradient background behind CEO avatar - subtle, smaller pink */}
+                    <div className="absolute inset-0 bg-gradient-radial from-brand-pink/60 via-white/60 to-white z-0"></div>
                     <img 
-                      src={personality.photo || '/ai-ceo/AICEO-MAN.png'} 
+                      src={personality.photo || '/ai-ceo/AICEO-MAN'} 
                       alt={personality.name}
-                      className="w-full h-full object-cover"
+                      className="relative z-10 w-full h-full object-cover"
                     />
                     {/* Edit indicator on hover */}
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full">
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full z-20">
                       <PhotoIcon className="w-6 h-6 text-white" />
                     </div>
                   </div>
@@ -272,11 +274,15 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                                 : 'bg-white/50 hover:bg-white hover:shadow-md border-transparent hover:border-slate-200'
                             }`}
                           >
-                            <img 
-                              src={p.photo || '/ai-ceo/AICEO-MAN.png'} 
-                              alt={p.name}
-                              className="w-12 h-12 rounded-full object-cover mb-2"
-                            />
+                            <div className="relative w-12 h-12 rounded-full overflow-hidden mb-2">
+                              {/* Radial gradient background behind CEO avatar - subtle, smaller pink */}
+                              <div className="absolute inset-0 bg-gradient-radial from-brand-pink/60 via-white/60 to-white z-0"></div>
+                              <img 
+                                src={p.photo || '/ai-ceo/AICEO-MAN.webp'} 
+                                alt={p.name}
+                                className="relative z-10 w-full h-full object-cover"
+                              />
+                            </div>
                             <span 
                               className={`${p.id === personality.id ? 'font-semibold text-brand-pink' : 'text-slate-700'}`}
                             >
