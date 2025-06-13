@@ -135,27 +135,26 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                   <div className="absolute inset-0 w-full h-full bg-white"></div>
                   <div className="absolute inset-0 w-full h-full bg-gradient-radial from-brand-pink/50 via-brand-pink/20 to-transparent"></div>
                   
-                  {/* Quote Box - positioned at bottom with more height */}
-                  <div className="absolute bottom-4 left-4 right-4 h-[65%] bg-white rounded-lg shadow-xl p-6 flex flex-col justify-center border border-slate-100">
-                    <div className="flex-1 flex items-center justify-center pt-16">
-                      <p className="text-xl font-bold text-slate-800 leading-tight text-center" style={{ textWrap: 'balance' }}>
+                  {/* Quote Box - extends off bottom with thin pink border, no bottom border */}
+                  <div className="absolute left-6 right-6 bg-white rounded-t-lg shadow-xl p-6 flex flex-col justify-center" style={{ bottom: '0px', height: '60%', borderTop: '0.5px solid rgb(236, 72, 153)', borderLeft: '0.5px solid rgb(236, 72, 153)', borderRight: '0.5px solid rgb(236, 72, 153)' }}>
+                    <div className="flex-1 flex items-center justify-center pt-12">
+                      <p className="text-2xl font-bold text-slate-800 leading-tight text-center" style={{ textWrap: 'balance' }}>
                         "{quote}"
                       </p>
                     </div>
-                    
-                    {/* Logo and Site URL */}
-                    <div className="flex flex-col items-center mt-6">
-                      <div className="mb-2 scale-75">
+                    {/* Logo and Site URL - tighter spacing */}
+                    <div className="flex flex-col items-center mt-4">
+                      <div className="mb-0.5 scale-75">
                         <Logo size="sm" />
                       </div>
-                      <p className="text-xs text-slate-400 font-medium">
+                      <p className="text-xs text-slate-400 font-medium mt-0.5">
                         replaceyourboss.ai
                       </p>
                     </div>
                   </div>
 
-                  {/* CEO Image positioned to rest on top of the quote box */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-[65%] h-[40%] z-10" style={{ bottom: 'calc(65% - 4px)' }}>
+                  {/* CEO Image positioned to align bottom with top of quote box */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-[55%] h-[35%] z-10" style={{ bottom: '60%' }}>
                     <img 
                       src={ceoPersonality.photo} 
                       alt={ceoPersonality.name}
