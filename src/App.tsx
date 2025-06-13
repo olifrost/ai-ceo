@@ -136,6 +136,10 @@ const PHRASE_THEMES: Record<string, { theme: string; color: string }> = Object.f
   CEO_PHRASES.map(p => [p.phrase, { theme: p.theme, color: p.color }])
 )
 
+// Expose globally for CEOInterface
+;(window as any).CEO_WISDOM = CEO_WISDOM
+;(window as any).PHRASE_THEMES = PHRASE_THEMES
+
 function App() {
   const [appState, setAppState] = useState<AppState>('welcome')
   const [selectedCEO, setSelectedCEO] = useState<CEOPersonality>(CEO_PERSONALITIES[0]) // Default to first CEO
@@ -183,6 +187,38 @@ function App() {
     return selectedPhrase
   }
 
+  // Get next theme for thinking message
+  const getNextTheme = () => {
+    const availablePhrases = CEO_WISDOM.filter(phrase => !seenPhrases.has(phrase))
+    let phrasesToChooseFrom = availablePhrases
+    if (availablePhrases.length === 0) {
+      phrasesToChooseFrom = CEO_WISDOM
+    }
+    
+    if (phrasesToChooseFrom.length > 0) {
+      const randomIndex = Math.floor(Math.random() * phrasesToChooseFrom.length)
+      const nextPhrase = phrasesToChooseFrom[randomIndex]
+      const phraseInfo = PHRASE_THEMES[nextPhrase]
+      return phraseInfo ? phraseInfo.theme : 'efficiency'
+    }
+    return 'efficiency'
+  }
+
+  // Generate specific phrase (called from CEOInterface)
+  const generateSpecificPhrase = (phrase: string) => {
+    // Update seen phrases
+    setSeenPhrases(prev => new Set([...prev, phrase]))
+    
+    // Get theme and color for this phrase
+    const phraseInfo = PHRASE_THEMES[phrase]
+    if (phraseInfo) {
+      setCurrentTheme(phraseInfo.theme)
+      setCurrentColor(phraseInfo.color)
+    }
+    
+    setCurrentPhrase(phrase)
+  }
+
   const handleCEOChange = (ceo: CEOPersonality) => {
     setSelectedCEO(ceo)
   }
@@ -212,6 +248,8 @@ function App() {
             accentColor={currentColor}
             currentTheme={currentTheme}
             onPhraseGenerated={generateRandomWisdom}
+            onSpecificPhraseGenerated={generateSpecificPhrase}
+            getNextTheme={getNextTheme}
             onShare={() => setShowShareModal(true)}
             onDebug={() => setShowDebugPanel(true)}
             onPersonalityChange={handleCEOChange}

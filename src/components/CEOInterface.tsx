@@ -15,6 +15,8 @@ interface CEOInterfaceProps {
   accentColor: string
   currentTheme: string
   onPhraseGenerated: () => string
+  onSpecificPhraseGenerated?: (phrase: string) => void
+  getNextTheme?: () => string
   onShare: () => void
   onDebug: () => void
   onPersonalityChange?: (personality: CEOPersonality) => void
@@ -31,30 +33,32 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
   phrase,
   currentTheme,
   onPhraseGenerated,
+  onSpecificPhraseGenerated,
+  getNextTheme,
   onShare,
   onDebug,
   onPersonalityChange,
   availablePersonalities = [],
   seenPhrases = new Set(),
+  onSeenPhrasesUpdate,
   onBackToFeatures
 }) => {
   const [isThinking, setIsThinking] = useState(false)
   const [showCEOSelector, setShowCEOSelector] = useState(false)
   const [displayedPhrase, setDisplayedPhrase] = useState('')
   const [typing, setTyping] = useState(false)
+  const [thinkingMessage, setThinkingMessage] = useState('')
 
   // Use brand pink consistently instead of dynamic accent color
   const brandPink = '#F14FFF'
 
-  // Fun thinking messages based on the theme of the NEXT quote
+  // Fun thinking messages based on theme
   const getThinkingMessage = (theme: string) => {
     switch (theme) {
       case 'efficiency':
-        return 'Eliminating redundancy...';
+        return 'Optimizing resources...';
       case 'sustainability':
         return 'Planet burn mode initiated...';
-      case 'environment':
-        return 'Calculating carbon footprint...';
       case 'growth':
         return 'Calculating profit margins...';
       case 'vision':
@@ -62,6 +66,47 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       default:
         return 'Optimizing synergies...';
     }
+  };
+
+  // Generate new quote with correct thinking message
+  const generateNewQuote = async () => {
+    if (isThinking) return;
+    
+    setIsThinking(true);
+    
+    // Get CEO data from window
+    const CEO_WISDOM = (window as any).CEO_WISDOM || [];
+    const PHRASE_THEMES = (window as any).PHRASE_THEMES || {};
+    
+    // Pick next quote
+    const availablePhrases = CEO_WISDOM.filter((p: string) => !seenPhrases.has(p));
+    const phrasesToChoose = availablePhrases.length > 0 ? availablePhrases : CEO_WISDOM;
+    const randomIndex = Math.floor(Math.random() * phrasesToChoose.length);
+    const nextPhrase = phrasesToChoose[randomIndex];
+    
+    // Get theme for this quote and set thinking message
+    if (nextPhrase && PHRASE_THEMES[nextPhrase]) {
+      const nextTheme = PHRASE_THEMES[nextPhrase].theme;
+      setThinkingMessage(getThinkingMessage(nextTheme));
+    } else {
+      setThinkingMessage('Optimizing synergies...');
+    }
+    
+    // Show thinking message for 1 second, then use the SAME quote we picked
+    setTimeout(() => {
+      // Update seen phrases
+      if (onSeenPhrasesUpdate) {
+        onSeenPhrasesUpdate(new Set([...seenPhrases, nextPhrase]));
+      }
+      // Use the specific phrase we chose
+      if (onSpecificPhraseGenerated) {
+        onSpecificPhraseGenerated(nextPhrase);
+      } else {
+        // Fallback to random generation
+        onPhraseGenerated();
+      }
+      setIsThinking(false);
+    }, 1000);
   };
 
   // Typing effect for new phrase
@@ -86,39 +131,9 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
   // Auto-generate a phrase when component mounts if none exists
   React.useEffect(() => {
     if (!phrase && !isThinking) {
-      onPhraseGenerated()
+      generateNewQuote()
     }
   }, [])
-
-  // Helper: get next phrase and its theme
-  const getNextPhraseAndTheme = () => {
-    if (!onPhraseGenerated) return { nextTheme: currentTheme };
-    // Use CEO_WISDOM and PHRASE_THEMES from App
-    // Try to get from window if available, else fallback
-    const CEO_WISDOM = (window as any).CEO_WISDOM || [];
-    const PHRASE_THEMES = (window as any).PHRASE_THEMES || {};
-    const seen = Array.from(seenPhrases);
-    const available = CEO_WISDOM.filter((p: string) => !seen.includes(p));
-    let nextPhrase = '';
-    if (available.length > 0) {
-      nextPhrase = available[Math.floor(Math.random() * available.length)];
-    } else if (CEO_WISDOM.length > 0) {
-      nextPhrase = CEO_WISDOM[Math.floor(Math.random() * CEO_WISDOM.length)];
-    }
-    if (nextPhrase && PHRASE_THEMES[nextPhrase]) {
-      return { nextTheme: PHRASE_THEMES[nextPhrase].theme };
-    }
-    return { nextTheme: currentTheme };
-  };
-
-  // Show correct thinking message for the NEXT quote
-  const [nextTheme, setNextTheme] = React.useState<string>(currentTheme);
-  React.useEffect(() => {
-    if (isThinking) {
-      const { nextTheme } = getNextPhraseAndTheme();
-      setNextTheme(nextTheme);
-    }
-  }, [isThinking, phrase, seenPhrases, currentTheme])
 
   return (
     <motion.div
@@ -283,11 +298,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 whileTap={{ scale: phrase && !isThinking ? 0.99 : 1 }}
                 onClick={() => {
                   if (!isThinking && !typing) {
-                    setIsThinking(true)
-                    setTimeout(() => {
-                      onPhraseGenerated()
-                      setIsThinking(false)
-                    }, 1000)
+                    generateNewQuote()
                   }
                 }}
                 className={`relative p-4 md:p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 max-w-3xl mx-auto ${
@@ -326,7 +337,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     <p className="text-xl md:text-2xl text-slate-800 leading-relaxed font-semibold min-h-[80px] md:min-h-[100px] flex items-center justify-center text-center px-4 md:px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
                         <span className="text-slate-500 italic text-xl font-medium font-mono">
-                          {getThinkingMessage(nextTheme)}
+                          {thinkingMessage}
                         </span>
                       ) : (
                         <span>{displayedPhrase || "Click to generate CEO wisdom"}</span>
@@ -354,11 +365,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 <motion.button
                   onClick={() => {
                     if (!isThinking && !typing) {
-                      setIsThinking(true)
-                      setTimeout(() => {
-                        onPhraseGenerated()
-                        setIsThinking(false)
-                      }, 1000)
+                      generateNewQuote()
                     }
                   }}
                   whileHover={{ scale: !isThinking ? 1.02 : 1 }}
