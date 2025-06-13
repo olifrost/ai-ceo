@@ -31,10 +31,8 @@ const TYPING_SPEED = 28 // ms per character
 const CEOInterface: React.FC<CEOInterfaceProps> = ({
   personality,
   phrase,
-  currentTheme,
   onPhraseGenerated,
   onSpecificPhraseGenerated,
-  getNextTheme,
   onShare,
   onDebug,
   onPersonalityChange,
