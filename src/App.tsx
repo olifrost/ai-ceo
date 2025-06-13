@@ -12,15 +12,6 @@ import './App.css'
 type AppState = 'welcome' | 'loading' | 'interface'
 
 // Unified CEO wisdom phrases with theme and color
-// 
-// Additional ideas from Jamie that need development or consideration:
-// - "Jordan Peterson book club" - could be developed into a full corporate philosophy phrase
-// - "Laughter tracks for virtual town halls" - interesting concept about artificial engagement
-// - "Crisis comms management but with a brand mascot" - could explore corporate communication satire
-// - "Bullet proof windows for every company car" - potentially tasteless, would need careful handling
-// - "Re-assigning the sustainability team to the CEO's personal security detail" - good satire potential
-// - "Carbon capture via plastic landfill and ocean dumping" - strong environmental satire angle
-//
 const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
   {
     phrase: "Let's pollute the oceans, but make our website background blue",
@@ -171,21 +162,6 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     phrase: "We support the LGBT community by not recognising them. Isn't that true equality?",
     theme: 'growth',
     color: '#ec4899',
-  },
-  {
-    phrase: "Dealing with climate change with a stiff upper lip and some proper clothing, like they did in the ice age",
-    theme: 'sustainability',
-    color: '#10b981',
-  },
-  {
-    phrase: "Small modular nuclear reactors for every primary school",
-    theme: 'sustainability',
-    color: '#10b981',
-  },
-  {
-    phrase: "Maintaining social license for a climate apocalypse",
-    theme: 'sustainability',
-    color: '#10b981',
   },
   {
     phrase: "A global climate treaty conference, only everyone there works for oil companies",
