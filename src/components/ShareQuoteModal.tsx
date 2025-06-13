@@ -208,11 +208,15 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                   <div className="absolute inset-0 w-full h-full bg-gradient-radial from-brand-pink/50 via-brand-pink/20 to-transparent"></div>
                   
                   {/* Quote Box - extends off bottom with thin pink border, no bottom border - reduced height to 55% */}
-                  <div className="absolute left-6 right-6 bg-white rounded-t-lg shadow-xl p-6 flex flex-col justify-center" style={{ bottom: '0px', height: '55%', borderTop: '0.5px solid rgb(236, 72, 153)', borderLeft: '0.5px solid rgb(236, 72, 153)', borderRight: '0.5px solid rgb(236, 72, 153)' }}>
-                    <div className="flex-1 flex items-center justify-center pt-10">
-                      <p className="text-2xl font-bold text-slate-800 leading-tight text-center" style={{ textWrap: 'balance' }}>
-                        "{quote}"
-                      </p>
+                  <div className="absolute left-6 right-6 bg-white rounded-t-lg shadow-xl p-6 flex flex-col justify-between" style={{ bottom: '0px', height: '55%', borderTop: '0.5px solid rgb(236, 72, 153)', borderLeft: '0.5px solid rgb(236, 72, 153)', borderRight: '0.5px solid rgb(236, 72, 153)' }}>
+                    <div className="flex-1 flex flex-col">
+                      <div className="flex-1" /> {/* Spacer above quote */}
+                      <div className="flex items-center justify-center">
+                        <p className="text-2xl font-bold text-slate-800 leading-tight text-center" style={{ textWrap: 'balance' }}>
+                          "{quote}"
+                        </p>
+                      </div>
+                      <div className="flex-1" /> {/* Spacer below quote */}
                     </div>
                     {/* Logo and Site URL - tighter spacing */}
                     <div className="flex flex-col items-center mt-4">

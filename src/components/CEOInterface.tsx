@@ -4,7 +4,7 @@ import {
   ArrowPathIcon,
   ShareIcon,
   CogIcon,
-  PencilIcon
+  PhotoIcon
 } from '@heroicons/react/24/outline'
 import { CEOPersonality } from '../data/ceoPersonalities'
 import Logo from './Logo'
@@ -127,7 +127,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             
             <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-6 md:p-12 border border-white/50 shadow-2xl">
               
-              {/* CEO Photo - Centered and Large, with continuous animated ring */}
+              {/* CEO Photo - Centered and Large, with enhanced animated ring */}
               <div className="text-center mb-8">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -135,26 +135,46 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   className="relative inline-block group cursor-pointer"
                   title="Click to customize your CEO"
                 >
-                  {/* Animated ring always visible, now as a partial arc for visible motion */}
-                  <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36" style={{zIndex: 1, pointerEvents: 'none'}}>
+                  {/* Enhanced animated ring with breaking/forming effect */}
+                  <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44" style={{zIndex: 1, pointerEvents: 'none'}}>
+                    {/* Primary animated arc */}
                     <motion.circle
-                      cx="72" cy="72" r="68" fill="none" stroke={brandPink} strokeWidth="6"
-                      strokeDasharray="120 300"
+                      cx="88" cy="88" r="84" fill="none" stroke={brandPink} strokeWidth="4"
+                      strokeDasharray="150 100"
                       strokeLinecap="round"
                       animate={{
-                        rotate: 360
+                        rotate: 360,
+                        strokeDasharray: ["150 100", "50 200", "150 100"]
                       }}
                       initial={{ rotate: 0 }}
                       transition={{
                         repeat: Infinity,
-                        duration: 2.5,
-                        ease: "linear"
+                        duration: 3,
+                        ease: "easeInOut"
+                      }}
+                      style={{ transformOrigin: '50% 50%' }}
+                    />
+                    {/* Secondary animated arc for breaking effect */}
+                    <motion.circle
+                      cx="88" cy="88" r="84" fill="none" stroke={brandPink} strokeWidth="2"
+                      strokeDasharray="80 170"
+                      strokeLinecap="round"
+                      opacity={0.6}
+                      animate={{
+                        rotate: -360,
+                        strokeDasharray: ["80 170", "20 230", "80 170"]
+                      }}
+                      initial={{ rotate: 180 }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 4,
+                        ease: "easeInOut"
                       }}
                       style={{ transformOrigin: '50% 50%' }}
                     />
                   </svg>
                   <div 
-                    className="relative w-32 h-32 rounded-full overflow-hidden bg-white transition-all duration-200"
+                    className="relative w-40 h-40 rounded-full overflow-hidden bg-white transition-all duration-200 shadow-lg"
                   >
                     <img 
                       src={personality.photo || '/ai-ceo/AICEO-MAN.png'} 
@@ -163,21 +183,29 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     />
                     {/* Edit indicator on hover */}
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full">
-                      <PencilIcon className="w-6 h-6 text-white" />
+                      <PhotoIcon className="w-6 h-6 text-white" />
                     </div>
                   </div>
                 </motion.button>
                 
-                {/* CEO Name and Customise */}
+                {/* CEO Name */}
                 <motion.h2 
                   className="text-2xl font-bold mt-4 mb-1 text-brand-pink"
                 >
                   {personality.name}
                 </motion.h2>
                 
+                {/* AI CEO Logo Badge - Centered */}
+                <div className="flex justify-center mb-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-pink/10 rounded-full border border-brand-pink/20">
+                    <div className="w-2 h-2 bg-brand-pink rounded-full animate-pulse"></div>
+                    <span className="text-xs font-medium text-brand-pink">AI CEO</span>
+                  </div>
+                </div>
+                
                 {/* Customise text with icon */}
                 <div className="flex items-center justify-center gap-2">
-                  <PencilIcon className="w-4 h-4 text-slate-400" />
+                  <PhotoIcon className="w-4 h-4 text-slate-400" />
                   <p className="text-sm text-slate-400 cursor-pointer hover:text-slate-500 transition-colors duration-200" 
                      onClick={() => setShowCEOSelector(!showCEOSelector)}>
                     customise
@@ -252,7 +280,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 )}
               </AnimatePresence>
               
-              {/* Quote Area with Large Quote Marks */}
+              {/* Quote Area with Large Smart Quote Marks - Less Wide */}
               <motion.div
                 whileHover={{ scale: phrase && !isThinking ? 1.01 : 1 }}
                 whileTap={{ scale: phrase && !isThinking ? 0.99 : 1 }}
@@ -265,7 +293,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     }, 1000)
                   }
                 }}
-                className={`relative p-4 md:p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 ${
+                className={`relative p-4 md:p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 max-w-3xl mx-auto ${
                   isThinking ? 'animate-pulse' : ''
                 }`}
                 style={{
@@ -273,14 +301,14 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   border: `1px solid ${brandPink}15`
                 }}
               >
-                {/* Large opening quote mark - Smart quotes */}
+                {/* Large opening smart quote mark */}
                 <div 
                   className="absolute -top-4 -left-2 text-6xl font-serif leading-none opacity-40 text-brand-pink"
                 >
                   "
                 </div>
                 
-                {/* Large closing quote mark - Smart quotes */}
+                {/* Large closing smart quote mark */}
                 <div 
                   className="absolute -bottom-4 -right-2 text-6xl font-serif leading-none opacity-40 text-brand-pink"
                 >
@@ -309,8 +337,21 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 </AnimatePresence>
               </motion.div>
 
-              {/* Action Buttons */}
+              {/* Action Buttons - Swapped positions and styles */}
               <div className="flex gap-3 justify-center">
+                <motion.button
+                  onClick={onShare}
+                  whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
+                  whileTap={{ scale: phrase && !isThinking ? 0.98 : 1 }}
+                  disabled={!phrase || isThinking}
+                  className={`flex items-center gap-2 px-5 py-2 bg-white border-2 border-brand-pink rounded-lg font-medium transition-all duration-200 shadow-md text-brand-pink ${
+                    (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
+                  }`}
+                >
+                  <ShareIcon className="w-4 h-4" />
+                  <span>Share</span>
+                </motion.button>
+
                 <motion.button
                   onClick={() => {
                     if (!isThinking && !typing) {
@@ -324,25 +365,12 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   whileHover={{ scale: !isThinking ? 1.02 : 1 }}
                   whileTap={{ scale: !isThinking ? 0.98 : 1 }}
                   disabled={isThinking}
-                  className={`flex items-center gap-2 px-5 py-2 bg-white border-2 border-brand-pink rounded-lg font-medium transition-all duration-200 shadow-md text-brand-pink ${
+                  className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-white bg-brand-pink ${
                     isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
                   }`}
                 >
                   <ArrowPathIcon className="w-4 h-4" />
                   <span>Generate</span>
-                </motion.button>
-
-                <motion.button
-                  onClick={onShare}
-                  whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
-                  whileTap={{ scale: phrase && !isThinking ? 0.98 : 1 }}
-                  disabled={!phrase || isThinking}
-                  className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-white bg-brand-pink ${
-                    (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
-                  }`}
-                >
-                  <ShareIcon className="w-4 h-4" />
-                  <span>Share</span>
                 </motion.button>
               </div>
             </div>

@@ -13,7 +13,7 @@ export interface CEOPersonality {
 export const CEO_PERSONALITIES: CEOPersonality[] = [
   {
     id: 'optim-ceo',
-    name: 'AI CEO',
+    name: 'Simon',
     title: 'Chief Efficiency Officer',
     company: 'Optim Dynamics',
     photo: '/ai-ceo/AICEO-MAN.png',
