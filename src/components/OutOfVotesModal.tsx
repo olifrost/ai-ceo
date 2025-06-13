@@ -4,6 +4,7 @@ import { XMarkIcon, ShareIcon, EnvelopeIcon, GiftIcon, PhotoIcon } from '@heroic
 import { shareApp, addVotes } from '../services/voteLimit';
 import EmailCEOModal from './EmailCEOModal';
 import ShareQuoteModal from './ShareQuoteModal';
+import { CEO_PERSONALITIES } from '../data/ceoPersonalities';
 
 interface OutOfVotesModalProps {
   isOpen: boolean;
@@ -18,9 +19,8 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo,
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [shareSuccess, setShareSuccess] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  // Editable fields for share dialog
-  const [shareQuote, setShareQuote] = useState(topCeo?.name ? `Replace ${topCeo.name} at ${topCeo.company} with AI!` : 'Replace your CEO with AI!');
-  const [shareName, setShareName] = useState('AI CEO');
+  // Share quote text
+  const shareQuote = topCeo?.name ? `Replace ${topCeo.name} at ${topCeo.company} with AI!` : 'Replace your CEO with AI!';
 
   const handleShare = async () => {
     setIsSharing(true);
@@ -47,15 +47,6 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo,
   };
 
   // When share quote modal is used, give votes and close modal
-  const handleShareQuoteEdit = ({ quote, name }: { quote: string; name: string; attribution: string }) => {
-    setShareQuote(quote);
-    setShareName(name);
-    // We ignore attribution since we don't need it
-    addVotes(2);
-    onVotesAdded();
-    onClose();
-  };
-
   return (
     <>
       <AnimatePresence>
@@ -186,10 +177,8 @@ export default function OutOfVotesModal({ isOpen, onClose, onVotesAdded, topCeo,
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         quote={shareQuote}
-        name={shareName}
-        attribution=""
-        accentColor={accentColor}
-        onEdit={handleShareQuoteEdit}
+        ceoPersonality={CEO_PERSONALITIES[0]}
+        accentColor={accentColor || '#7c3aed'}
       />
     </>
   );

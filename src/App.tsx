@@ -178,12 +178,8 @@ function App() {
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         quote={currentPhrase}
-        name={selectedCEO.name}
-        attribution={`AI CEO - ${currentTheme}`}
+        ceoPersonality={selectedCEO}
         accentColor={currentColor}
-        onEdit={(fields: { quote: string }) => {
-          setCurrentPhrase(fields.quote)
-        }}
       />
       
       {/* Debug Panel */}
