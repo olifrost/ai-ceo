@@ -12,7 +12,7 @@ interface ShareQuoteModalProps {
   name: string
   attribution: string
   accentColor: string
-  onEdit: (fields: { quote: string }) => void
+  onEdit: (fields: { quote: string; name: string; attribution: string }) => void
 }
 
 interface CEOImage {
