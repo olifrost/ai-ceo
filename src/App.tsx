@@ -181,7 +181,7 @@ function App() {
         name={selectedCEO.name}
         attribution={`AI CEO - ${currentTheme}`}
         accentColor={currentColor}
-        onEdit={(fields) => {
+        onEdit={(fields: { quote: string }) => {
           setCurrentPhrase(fields.quote)
         }}
       />

@@ -6,12 +6,13 @@ import { toast } from 'react-hot-toast';
 import { addVotes } from '../services/voteLimit';
 
 interface ShareQuoteModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  quote: string;
-  name: string; // Initial name for the quote, e.g., AI model name
-  attribution: string; // Initial attribution, e.g., AI model details
-  accentColor: string;
+  isOpen: boolean
+  onClose: () => void
+  quote: string
+  name: string
+  attribution: string
+  accentColor: string
+  onEdit: (fields: { quote: string }) => void
 }
 
 interface CEOImage {

@@ -6,7 +6,6 @@ import {
   CpuChipIcon,
   BoltIcon,
   ChartBarIcon,
-  ClockIcon,
   CurrencyDollarIcon
 } from '@heroicons/react/24/outline'
 
