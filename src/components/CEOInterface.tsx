@@ -230,7 +230,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   whileHover={{ scale: 1.05 }}
                   onClick={() => setShowCEOSelector(!showCEOSelector)}
                   className="relative inline-block group cursor-pointer"
-                  title="Click to customize your CEO"
+                  title="Click to customise your CEO"
                 >
                   {/* Enhanced animated ring with physics-like momentum */}
                   <svg className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44" style={{zIndex: 1, pointerEvents: 'none'}}>
