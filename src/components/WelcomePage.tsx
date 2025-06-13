@@ -128,7 +128,13 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 onClick={() => {
                   const infoSection = document.getElementById('info-section');
                   if (infoSection) {
-                    infoSection.scrollIntoView({ behavior: 'smooth' });
+                    // Get the element's position relative to the document
+                    const elementTop = infoSection.offsetTop;
+                    // Scroll to position with some offset for better UX
+                    window.scrollTo({ 
+                      top: elementTop - 50, // 50px offset from top
+                      behavior: 'smooth' 
+                    });
                   }
                 }}
                 className="text-brand-pink/80 hover:text-brand-pink text-base font-medium underline underline-offset-2 transition-colors duration-200"

@@ -12,6 +12,15 @@ import './App.css'
 type AppState = 'welcome' | 'loading' | 'interface'
 
 // Unified CEO wisdom phrases with theme and color
+// 
+// Additional ideas from Jamie that need development or consideration:
+// - "Jordan Peterson book club" - could be developed into a full corporate philosophy phrase
+// - "Laughter tracks for virtual town halls" - interesting concept about artificial engagement
+// - "Crisis comms management but with a brand mascot" - could explore corporate communication satire
+// - "Bullet proof windows for every company car" - potentially tasteless, would need careful handling
+// - "Re-assigning the sustainability team to the CEO's personal security detail" - good satire potential
+// - "Carbon capture via plastic landfill and ocean dumping" - strong environmental satire angle
+//
 const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
   {
     phrase: "Let's pollute the oceans, but make our website background blue",
@@ -128,20 +137,60 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     theme: 'vision',
     color: '#7c3aed',
   },
-    {
+  {
     phrase: "We're making a difference with our We're Making a Difference campaign",
     theme: 'sustainability',
+    color: '#10b981',
+  },
+  {
+    phrase: "Let them work from home. But have them work in an underground carpark below the office",
+    theme: 'efficiency',
+    color: '#0ea5e9',
+  },
+  {
+    phrase: "Empathy, but only if it's billable",
+    theme: 'efficiency',
+    color: '#0ea5e9',
+  },
+  {
+    phrase: "Leadership through vulnerability (yours not mine)",
+    theme: 'growth',
+    color: '#ec4899',
+  },
+  {
+    phrase: "We're committed to a better tomorrow. For every forest we cut down, we'll plant one tree",
+    theme: 'sustainability',
+    color: '#10b981',
+  },
+  {
+    phrase: "We must reframe the essence of leadership as we chart the course to everywhere",
+    theme: 'vision',
     color: '#7c3aed',
   },
-   {
-    phrase: "Let the work from home. But have them work in an underground carpark below the office",
-    theme: 'efficiency',
-    color: '#7c3aed',
+  {
+    phrase: "We support the LGBT community by not recognising them. Isn't that true equality?",
+    theme: 'growth',
+    color: '#ec4899',
   },
-    {
-    phrase: "Let the work from home. But have them work in an underground carpark below the office",
-    theme: 'efficiency',
-    color: '#7c3aed',
+  {
+    phrase: "Dealing with climate change with a stiff upper lip and some proper clothing, like they did in the ice age",
+    theme: 'sustainability',
+    color: '#10b981',
+  },
+  {
+    phrase: "Small modular nuclear reactors for every primary school",
+    theme: 'sustainability',
+    color: '#10b981',
+  },
+  {
+    phrase: "Maintaining social license for a climate apocalypse",
+    theme: 'sustainability',
+    color: '#10b981',
+  },
+  {
+    phrase: "A global climate treaty conference, only everyone there works for oil companies",
+    theme: 'sustainability',
+    color: '#10b981',
   },
 ]
 
