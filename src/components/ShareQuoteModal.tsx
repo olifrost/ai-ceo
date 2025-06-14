@@ -159,8 +159,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
-          title: 'AI CEO Quote',
-          text: `"${quote}" - ${ceoPersonality.name} | AI-generated CEO wisdom at replaceyourboss.ai`,
+          text: `I'm replacing my boss before they replace me at https://replaceyourboss.ai`,
           files: [file]
         });
       } else {
@@ -295,7 +294,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                             const file = new File([blob], 'ai-ceo-quote.png', { type: 'image/png' });
                             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                               await navigator.share({
-                                title: 'Replace Your Boss',
                                 text: `I'm replacing my boss before they replace me at https://replaceyourboss.ai`,
                                 files: [file]
                               });
@@ -310,7 +308,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                         if (navigator.share) {
                           try {
                             await navigator.share({
-                              title: 'Replace Your Boss',
                               text: shareText,
                               url: 'https://replaceyourboss.ai'
                             });

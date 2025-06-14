@@ -21,14 +21,14 @@ const CannesPopup: React.FC<CannesPopupProps> = ({ onClose }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.35 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-2 sm:px-4"
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="bg-white rounded-[2.5rem] shadow-2xl max-w-2xl w-full p-0 overflow-hidden border border-brand-pink/20 flex flex-col"
+            className="bg-white rounded-[2.5rem] shadow-2xl max-w-2xl w-full p-0 overflow-hidden border border-brand-pink/20 flex flex-col mx-2 sm:mx-4"
             style={{ minHeight: 520, boxShadow: '0 8px 48px 0 rgba(180, 70, 255, 0.18)' }}
           >
             <div className="relative w-full" style={{ flex: '0 0 45%', minHeight: 260, maxHeight: 340 }}>
