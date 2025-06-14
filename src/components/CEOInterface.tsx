@@ -337,7 +337,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                               {/* Radial gradient background behind CEO avatar - subtle, smaller pink */}
                               <div className="absolute inset-0 bg-gradient-radial from-brand-pink/60 via-white/60 to-white z-0"></div>
                               <img 
-                                src={p.photo || '/AICEO-MAN.webp'} 
+                                src={p.photo || '/David 1.webp'} 
                                 alt={p.name}
                                 className="relative z-10 w-full h-full object-cover"
                               />
