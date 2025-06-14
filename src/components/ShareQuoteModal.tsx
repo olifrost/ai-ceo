@@ -17,7 +17,7 @@ interface ShareQuoteModalProps {
 }
 
 export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality }: ShareQuoteModalProps) {
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [, setIsGenerating] = useState(false);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const [hasAwardedVotesInSession, setHasAwardedVotesInSession] = useState(false);
 
@@ -148,29 +148,6 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
     link.click();
   };
 
-  const shareImage = async () => {
-    if (!generatedImageUrl) return;
-
-    try {
-      // Convert data URL to blob
-      const response = await fetch(generatedImageUrl);
-      const blob = await response.blob();
-      const file = new File([blob], 'ai-ceo-quote.png', { type: 'image/png' });
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          text: `I'm replacing my boss before they replace me at https://replaceyourboss.ai`,
-          files: [file]
-        });
-      } else {
-        // Fallback to download
-        downloadImage();
-      }
-    } catch (error) {
-      console.error('Error sharing:', error);
-      downloadImage();
-    }
-  };
 
   return (
     <AnimatePresence>
