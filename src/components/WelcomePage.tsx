@@ -167,19 +167,19 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
 
         {/* Features Section with white background */}
         <div id="info-section" className="bg-white">
-          <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
             {/* Main Headline - Stop working for humans */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-10"
+              className="text-center mb-8 md:mb-10"
             >
               <h2 id="stop-working-headline" className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
                 Stop working <span className="text-brand-pink">for humans</span>
               </h2>
-              <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl text-slate-600 mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed">
                 Why settle for expensive, unpredictable human CEOs when you can have AI leadership that delivers consistent corporate wisdom at the push of a button?
               </p>
             </motion.div>
@@ -190,7 +190,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-center mb-20"
+              className="text-center mb-12 md:mb-20"
             >
               
               <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -258,9 +258,9 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-center mb-20"
+              className="text-center mb-10 md:mb-20"
             >
-              <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12">
+              <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 md:mb-12">
                 Thought leadership at the <span className="text-brand-pink">push of a button</span>
               </h3>
               
@@ -302,11 +302,11 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-center"
             >
-              <div className="bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-12 text-white">
-                <h3 className="text-3xl md:text-4xl font-bold mb-6">
+              <div className="bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-8 md:p-12 text-white">
+                <h3 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">
                   Ready to upgrade your leadership?
                 </h3>
-                <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+                <p className="text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto">
                   Join thousands of companies that have already made the switch to AI-powered executive decisions.
                 </p>
                 <motion.button
@@ -324,7 +324,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
         </div>
         
         {/* Made by Serious People link with pill design - only at bottom, not fixed */}
-        <div className="w-full text-center mt-8 mb-6">
+        <div className="w-full text-center mt-4 md:mt-8 mb-4 md:mb-6">
           <a 
             href="https://seriouspeople.co" 
             target="_blank" 
