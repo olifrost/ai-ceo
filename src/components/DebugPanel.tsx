@@ -161,7 +161,7 @@ export default function DebugPanel({ isOpen, onClose, accentColor: _accentColor,
   const [showAllCommands, setShowAllCommands] = useState(false);
   const [output, setOutput] = useState<string[]>([
     'AI CEO ADMIN PANEL v2.4.7',
-    'Copyright © 2024 Serious Robots.',
+    'Copyright © 2025 Serious Robots.',
     'All human rights reserved.',
     '',
     'Type HELP for available commands...',

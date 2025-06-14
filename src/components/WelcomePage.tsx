@@ -66,7 +66,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="mb-8"
+              className="mb-4"
             >
               <div className="inline-flex items-center justify-center px-6 py-3 bg-white rounded-full border border-slate-200 shadow-sm">
                 <svg className="h-6 md:h-8" viewBox="0 0 2780.72 560.28" xmlns="http://www.w3.org/2000/svg">
@@ -97,7 +97,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-10"
+              className="mb-4"
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-tight">
                 Replace your boss <br />
@@ -110,7 +110,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
-              className="mb-4"
+              className="mb-6"
             >
               <button
                 onClick={onGetStarted}
@@ -169,12 +169,11 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
           >
             {/* Stronger radial gradient background behind CEO */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[1000px] h-[700px] bg-gradient-radial from-brand-pink/60 via-brand-pink/30 to-transparent blur-3xl"></div>
-            
-            {/* CEO Image touching bottom */}
+            {/* CEO Image full width on mobile */}
             <img 
               src="/David 1.webp" 
               alt="AI CEO" 
-              className="relative z-10 h-[400px] md:h-[500px] lg:h-[600px] object-cover object-top"
+              className="relative z-10 w-full h-auto max-h-[400px] md:max-h-[500px] lg:max-h-[600px] object-contain md:object-cover object-bottom md:object-top"
             />
           </motion.div>
         </div>

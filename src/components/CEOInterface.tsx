@@ -200,20 +200,21 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
         <CogIcon className="w-5 h-5" />
       </button>
 
-      {/* Dev Control: Clear local data and show welcome popup again */}
-      <button
-        onClick={() => {
-          localStorage.removeItem('hasSeenCannesPopup');
-          window.location.reload();
-        }}
-        className="fixed top-20 right-6 z-50 p-2 text-xs text-slate-400 hover:text-brand-pink transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200"
-      >
-        Reset Welcome Popup
-      </button>
+      {/* Dev Control: Clear local data and show welcome popup again - only visible in dev mode */}
+      {typeof window !== 'undefined' && window.location.hostname === 'localhost' && (
+        <button
+          onClick={() => {
+            localStorage.removeItem('hasSeenCannesPopup');
+            window.location.reload();
+          }}
+          className="fixed top-20 right-6 z-50 p-2 text-xs text-slate-400 hover:text-brand-pink transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200"
+        >
+          Reset Welcome Popup
+        </button>
+      )}
 
       {/* Main Content - Truly centered with padding for fixed elements */}
       <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8 max-w-5xl mx-auto w-full relative z-10">
-        
         {/* Unified CEO Interface */}
         <div className="w-full max-w-4xl">
           <motion.div
@@ -444,26 +445,23 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             </div>
           </motion.div>
         </div>
-
         {/* Space at the bottom for fixed footer */}
         <div className="h-10"></div>
+        {/* More apps by Serious People link with pill design - now non-fixed, below content */}
+        <div className="w-full text-center mt-6 mb-8">
+          <a 
+            href="https://oilwell.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
+          >
+            More apps by Serious People
+          </a>
+        </div>
       </div>
-      
       {/* Small, recessed humorous disclaimer */}
       <div className="w-full flex justify-center mt-4">
         <span className="text-xs text-slate-400 italic opacity-60">Does not actually use AI.</span>
-      </div>
-
-      {/* More apps by Serious People link with pill design - Fixed at bottom */}
-      <div className="fixed bottom-4 left-0 right-0 text-center z-50">
-        <a 
-          href="https://oilwell.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
-        >
-          More apps by Serious People
-        </a>
       </div>
     </motion.div>
   )
