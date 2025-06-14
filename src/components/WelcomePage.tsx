@@ -83,11 +83,11 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-12"
+              className="mb-10"
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-tight">
                 Replace your boss <br />
-                <span className="text-brand-pink">before they replace you</span>
+                <span className="text-brand-pink">before they replace&nbsp;you</span>
               </h1>
             </motion.div>
 
@@ -167,16 +167,16 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
 
         {/* Features Section with white background */}
         <div id="info-section" className="bg-white">
-          <div className="max-w-6xl mx-auto px-6 py-20">
+          <div className="max-w-6xl mx-auto px-6 py-16">
             {/* Main Headline - Stop working for humans */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-20"
+              className="text-center mb-10"
             >
-              <h2 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+              <h2 id="stop-working-headline" className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
                 Stop working <span className="text-brand-pink">for humans</span>
               </h2>
               <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
@@ -203,7 +203,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     No bonus packages
                   </h4>
                   <p className="text-slate-600">
-                    AI CEOs don't spend the salary budget on 
+                    AI CEOs don't spend the salary budget on themselves. 
                   </p>
                 </motion.div>
 
@@ -323,8 +323,8 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
           </div>
         </div>
         
-        {/* Made by Serious People link with pill design */}
-        <div className="absolute bottom-4 left-0 right-0 text-center z-20">
+        {/* Made by Serious People link with pill design - only at bottom, not fixed */}
+        <div className="w-full text-center mt-8 mb-6">
           <a 
             href="https://seriouspeople.co" 
             target="_blank" 

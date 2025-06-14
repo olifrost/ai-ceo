@@ -175,14 +175,19 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50">
         <button
           onClick={() => {
-            // Force storing popup state before navigating back
             localStorage.setItem('hasSeenCannesPopup', 'true');
             onBackToFeatures && onBackToFeatures();
-            // Add small timeout to ensure page loads before scrolling
             setTimeout(() => {
-              const infoSection = document.getElementById('info-section');
-              if (infoSection) {
-                infoSection.scrollIntoView({ behavior: 'smooth' });
+              // Scroll to the headline inside info-section
+              const headline = document.getElementById('stop-working-headline');
+              if (headline) {
+                headline.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              } else {
+                // fallback to info-section
+                const infoSection = document.getElementById('info-section');
+                if (infoSection) {
+                  infoSection.scrollIntoView({ behavior: 'smooth' });
+                }
               }
             }, 100);
           }}
@@ -441,15 +446,15 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
         <div className="h-10"></div>
       </div>
       
-      {/* Made by Serious People link with pill design - Fixed at bottom */}
+      {/* More apps by Serious People link with pill design - Fixed at bottom */}
       <div className="fixed bottom-4 left-0 right-0 text-center z-50">
         <a 
-          href="https://seriouspeople.co"
+          href="https://oilwell.app"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
         >
-          Made by Serious People
+          More apps by Serious People
         </a>
       </div>
     </motion.div>
