@@ -174,10 +174,12 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       {/* About Button - small icon, top left */}
       <button
         onClick={() => {
-          setTimeout(() => {
-            const el = document.getElementById('stop-working-headline');
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 200);
+          // Force storing popup state before navigating back
+          localStorage.setItem('hasSeenCannesPopup', 'true');
+          // Store a flag in localStorage to indicate we need to scroll
+          localStorage.setItem('scrollToStopWorkingSection', 'true');
+          // Navigate back to features page
+          onBackToFeatures && onBackToFeatures();
         }}
         className="fixed top-6 left-6 z-50 p-2 text-brand-pink hover:text-brand-pink/80 transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200 font-semibold"
         title="About"

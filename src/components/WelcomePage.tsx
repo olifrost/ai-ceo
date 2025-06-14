@@ -23,6 +23,20 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
     if (!hasSeenPopup) {
       setShowPopup(true);
     }
+    
+    // Check if we need to scroll to the "stop working for humans" section
+    const shouldScrollToSection = localStorage.getItem('scrollToStopWorkingSection');
+    if (shouldScrollToSection === 'true') {
+      // Small delay to ensure the DOM is fully loaded
+      setTimeout(() => {
+        const el = document.getElementById('stop-working-headline');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Clear the flag after scrolling
+          localStorage.removeItem('scrollToStopWorkingSection');
+        }
+      }, 300);
+    }
   }, []);
 
   const handleClosePopup = () => {
@@ -258,7 +272,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-center mb-10 md:mb-20"
+              className="text-center mb-6 md:mb-10"
             >
               <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 md:mb-12">
                 Thought leadership at the <span className="text-brand-pink">push of a button</span>
@@ -302,11 +316,11 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-center"
             >
-              <div className="bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-8 md:p-12 text-white">
-                <h3 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">
+              <div className="bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-6 md:p-8 text-white">
+                <h3 className="text-3xl md:text-4xl font-bold mb-2 md:mb-3">
                   Ready to upgrade your leadership?
                 </h3>
-                <p className="text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto">
+                <p className="text-xl text-white/90 mb-4 md:mb-5 max-w-2xl mx-auto">
                   Join thousands of companies that have already made the switch to AI-powered executive decisions.
                 </p>
                 <motion.button
@@ -324,7 +338,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
         </div>
         
         {/* Made by Serious People link with pill design - only at bottom, not fixed */}
-        <div className="w-full text-center mt-4 md:mt-8 mb-4 md:mb-6">
+        <div className="w-full text-center mb-4">
           <a 
             href="https://seriouspeople.co" 
             target="_blank" 
