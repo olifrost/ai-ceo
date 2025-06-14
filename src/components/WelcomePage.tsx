@@ -203,7 +203,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     No bonus packages
                   </h4>
                   <p className="text-slate-600">
-                    AI CEOs don't spend the salary budget on themselves. 
+                    AI CEOs don't even have a salary to blow on yachts, bonuses, or questionable sushi receipts.
                   </p>
                 </motion.div>
 
@@ -315,7 +315,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   whileTap={{ scale: 0.95 }}
                   className="inline-flex items-center gap-3 px-8 py-4 bg-white text-brand-pink font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                 >
-                  Replace Your Boss Now
+                  Replace Your Boss&nbsp;Now
                   <ArrowRightIcon className="w-5 h-5" />
                 </motion.button>
               </div>

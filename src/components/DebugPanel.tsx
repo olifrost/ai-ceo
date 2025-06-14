@@ -402,7 +402,7 @@ export default function DebugPanel({ isOpen, onClose, accentColor: _accentColor,
             {/* Terminal Output */}
             <div 
               id="debug-terminal"
-              className="p-4 h-80 overflow-y-auto bg-black text-green-400 font-mono text-xs leading-relaxed scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+              className="p-4 h-80 overflow-y-auto bg-black text-[#F14FFF] font-mono text-xs leading-relaxed scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
             >
               {output.map((line, index) => (
                 <div key={index} className="whitespace-pre-wrap">

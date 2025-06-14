@@ -275,44 +275,70 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
 
               {/* Action buttons */}
               <div className="flex justify-center gap-3">
-                <button
-                  onClick={onClose}
-                  className="px-6 py-2 text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg font-medium transition-colors"
-                >
-                  Close
-                </button>
-                
                 {generatedImageUrl ? (
                   <>
                     <button
                       onClick={downloadImage}
                       className="flex items-center gap-2 px-6 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-lg transition-colors"
                     >
-                      <ArrowDownTrayIcon className="w-4 h-4" />
+                      <ArrowDownTrayIcon className="w-5 h-5" />
                       Download
                     </button>
                     <button
-                      onClick={shareImage}
-                      className="flex items-center gap-2 px-6 py-2 bg-brand-pink hover:bg-brand-pink/90 text-white font-medium rounded-lg transition-colors"
+                      onClick={async () => {
+                        if (generatedImageUrl) {
+                          // Try to share image if possible
+                          try {
+                            // Convert data URL to blob
+                            const response = await fetch(generatedImageUrl);
+                            const blob = await response.blob();
+                            const file = new File([blob], 'ai-ceo-quote.png', { type: 'image/png' });
+                            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                              await navigator.share({
+                                title: 'Replace Your Boss',
+                                text: `I'm replacing my boss before they replace me at https://replaceyourboss.ai`,
+                                files: [file]
+                              });
+                              return;
+                            }
+                          } catch (err) {
+                            // fallback to text share below
+                          }
+                        }
+                        // Fallback: share text or copy
+                        const shareText = `I'm replacing my boss before they replace me at https://replaceyourboss.ai`;
+                        if (navigator.share) {
+                          try {
+                            await navigator.share({
+                              title: 'Replace Your Boss',
+                              text: shareText,
+                              url: 'https://replaceyourboss.ai'
+                            });
+                          } catch (err) {
+                            // user cancelled or error
+                          }
+                        } else {
+                          try {
+                            await navigator.clipboard.writeText(shareText);
+                            toast.success('Copied to clipboard!');
+                          } catch {
+                            toast.error('Failed to copy');
+                          }
+                        }
+                      }}
+                      className="flex items-center gap-2 px-6 py-2 bg-brand-pink hover:bg-pink-600 text-white font-medium rounded-lg transition-colors"
                     >
-                      <ShareIcon className="w-4 h-4" />
+                      <ShareIcon className="w-5 h-5" />
                       Share
                     </button>
                   </>
                 ) : (
                   <button
-                    onClick={generateImage}
-                    disabled={isGenerating}
-                    className="px-6 py-2 bg-brand-pink hover:bg-brand-pink/90 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2"
+                    disabled
+                    className="flex items-center gap-2 px-6 py-2 bg-slate-200 text-slate-400 font-medium rounded-lg transition-colors cursor-not-allowed"
                   >
-                    {isGenerating ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                        Generating...
-                      </>
-                    ) : (
-                      'Generate Image'
-                    )}
+                    <ShareIcon className="w-5 h-5" />
+                    Generating...
                   </button>
                 )}
               </div>

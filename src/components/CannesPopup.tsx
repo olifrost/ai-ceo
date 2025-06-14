@@ -39,11 +39,11 @@ const CannesPopup: React.FC<CannesPopupProps> = ({ onClose }) => {
                 style={{ height: '100%', minHeight: 260, maxHeight: 340, borderTopLeftRadius: '2.5rem', borderTopRightRadius: '2.5rem' }}
               />
             </div>
-            <div className="flex-1 flex flex-col justify-center items-center px-8 py-10 md:py-14 text-center">
-              <h2 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight" style={{ letterSpacing: '-0.03em' }}>
+            <div className="flex-1 flex flex-col justify-center items-center px-4 sm:px-8 py-10 md:py-14 text-center w-full">
+              <h2 className="text-3xl md:text-4xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight" style={{ letterSpacing: '-0.03em' }}>
                 While they’re in Cannes...
               </h2>
-              <p className="text-lg md:text-2xl text-slate-700 mb-10 max-w-xl mx-auto leading-relaxed">
+              <p className="text-base sm:text-lg md:text-2xl text-slate-700 mb-10 max-w-xl mx-auto leading-relaxed">
                 Trapped in the office while your bosses are busy “networking” on yachts? Is your agency adrift, powered only by espresso and existential dread? Don’t panic—AI CEO is here to steer the ship (and won’t expense a single mojito).
               </p>
               <button

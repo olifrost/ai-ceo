@@ -171,40 +171,42 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
         />
       </div>
       
-      {/* Learn more link - separate from logo with better positioning and margin */}
-      <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50">
-        <button
-          onClick={() => {
-            localStorage.setItem('hasSeenCannesPopup', 'true');
-            onBackToFeatures && onBackToFeatures();
-            setTimeout(() => {
-              // Scroll to the headline inside info-section
-              const headline = document.getElementById('stop-working-headline');
-              if (headline) {
-                headline.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              } else {
-                // fallback to info-section
-                const infoSection = document.getElementById('info-section');
-                if (infoSection) {
-                  infoSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }
-            }, 100);
-          }}
-          className="text-brand-pink/80 hover:text-brand-pink text-sm font-medium underline underline-offset-2 transition-colors duration-200"
-          style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
-          type="button"
-        >
-          Learn more
-        </button>
-      </div>
+      {/* About Button - small icon, top left */}
+      <button
+        onClick={() => {
+          setTimeout(() => {
+            const el = document.getElementById('stop-working-headline');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 200);
+        }}
+        className="fixed top-6 left-6 z-50 p-2 text-brand-pink hover:text-brand-pink/80 transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200 font-semibold"
+        title="About"
+        type="button"
+        aria-label="About"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6" style={{ display: 'block' }}>
+          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 16v-4m0-4h.01" />
+        </svg>
+      </button>
       
-      {/* Debug Button */}
+      {/* Dev Button - pink text */}
       <button
         onClick={onDebug}
-        className="fixed top-6 right-6 z-50 p-2 text-slate-400 hover:text-slate-600 transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200"
+        className="fixed top-6 right-6 z-50 p-2 text-brand-pink hover:text-brand-pink/80 transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200 font-semibold"
       >
         <CogIcon className="w-5 h-5" />
+      </button>
+
+      {/* Dev Control: Clear local data and show welcome popup again */}
+      <button
+        onClick={() => {
+          localStorage.removeItem('hasSeenCannesPopup');
+          window.location.reload();
+        }}
+        className="fixed top-20 right-6 z-50 p-2 text-xs text-slate-400 hover:text-brand-pink transition-colors duration-200 bg-white rounded-full shadow-sm border border-slate-200"
+      >
+        Reset Welcome Popup
       </button>
 
       {/* Main Content - Truly centered with padding for fixed elements */}
@@ -362,10 +364,11 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 }}
                 className={`relative p-4 md:p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 max-w-3xl mx-auto ${
                   isThinking ? 'animate-pulse' : ''
-                }`}
+                } flex items-center min-h-[180px]`}
                 style={{
                   background: `linear-gradient(135deg, ${brandPink}08, ${brandPink}04)`,
-                  border: `1px solid ${brandPink}15`
+                  border: `1px solid ${brandPink}15`,
+                  minHeight: '180px'
                 }}
               >
                 {/* Large opening smart quote mark with proper typography */}
@@ -375,7 +378,6 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 >
                   “
                 </div>
-                
                 {/* Large closing smart quote mark with proper typography */}
                 <div 
                   className="absolute -bottom-4 -right-2 text-6xl leading-none opacity-40 text-brand-pink"
@@ -383,7 +385,6 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 >
                   ”
                 </div>
-                
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={isThinking ? 'thinking' : phrase || 'initial'}
@@ -391,9 +392,9 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
                     transition={{ duration: 0.2 }}
-                    className="relative z-10"
+                    className="relative z-10 w-full flex items-center justify-center"
                   >
-                    <p className="text-xl md:text-2xl text-slate-800 leading-relaxed font-semibold min-h-[80px] md:min-h-[100px] flex items-center justify-center text-center px-4 md:px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
+                    <p className="text-xl md:text-2xl text-slate-800 leading-relaxed font-semibold w-full flex items-center justify-center text-center px-4 md:px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
                         <span className="text-slate-500 italic text-xl font-medium font-mono">
                           {thinkingMessage}
@@ -446,6 +447,11 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
         <div className="h-10"></div>
       </div>
       
+      {/* Small, recessed humorous disclaimer */}
+      <div className="w-full flex justify-center mt-4">
+        <span className="text-xs text-slate-400 italic opacity-60">Does not actually use AI.</span>
+      </div>
+
       {/* More apps by Serious People link with pill design - Fixed at bottom */}
       <div className="fixed bottom-4 left-0 right-0 text-center z-50">
         <a 
