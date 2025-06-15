@@ -1,5 +1,5 @@
 /* Modern AI-inspired design for the overhauled experience */
-/* Removed Inter font import, using IBM Plex Sans from index.html */
+/* Removed Inter font import, using IBM Plex Sans Plex Sans from index.html */
 
 * {
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 
 body {
   margin: 0;
-  font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'IBM Plex Sans Plex Sans', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(to bottom right, #f8fafc, #ffffff, #eef2ff);
@@ -287,7 +287,7 @@ button {
 }
 
 .phrase {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   color: white;
   font-size: 1rem;
   text-align: center;
@@ -305,7 +305,7 @@ button {
 }
 
 .instructions {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   color: var(--accent-color);
   font-size: 1rem;
   margin: 0;
@@ -340,7 +340,7 @@ button {
 }
 
 .mode-button {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   background: color-mix(in srgb, var(--accent-color) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
   color: var(--accent-color);
