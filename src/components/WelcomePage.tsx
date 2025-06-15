@@ -99,7 +99,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-4"
+              className="mb-8"
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-tight">
                 Replace your boss <br />

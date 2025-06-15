@@ -235,7 +235,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-6 md:p-12 border border-white/50 shadow-2xl">
               
               {/* CEO Photo - Centered and Large, with enhanced animated ring */}
-              <div className="text-center mb-8">
+              <div className="text-center mb-4 md:mb-8">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   onClick={() => setShowCEOSelector(!showCEOSelector)}
@@ -297,10 +297,10 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 <div className="flex items-center justify-center gap-2">
                   <button
                     onClick={() => setShowCEOSelector(!showCEOSelector)}
-                    className="flex items-center gap-2 px-3 py-1 text-brand-pink hover:text-brand-pink/80 text-sm font-medium transition-colors duration-200 border-b border-dotted border-brand-pink"
+                    className="flex items-center gap-2 px-3 py-1 text-brand-pink hover:text-brand-pink/80 text-sm font-medium transition-colors duration-200 border-brand-pink"
                   >
                     <PhotoIcon className="w-4 h-4" />
-                    <span>Customise</span>
+                    <span className='underline decoration-dotted underline-offset-4'>Customise</span>
                   </button>
                 </div>
                 
@@ -365,7 +365,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     generateNewQuote()
                   }
                 }}
-                className={`relative p-4 md:p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-8 max-w-3xl mx-auto ${
+                className={`relative p-4 md:p-8 rounded-2xl cursor-pointer transition-all duration-200 mb-4 md:mb-8 max-w-3xl mx-auto ${
                   isThinking ? 'animate-pulse' : ''
                 } flex items-center min-h-[180px]`}
                 style={{
@@ -377,14 +377,14 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 {/* Large opening smart quote mark with proper typography */}
                 <div 
                   className="absolute -top-4 -left-2 text-6xl leading-none opacity-40 text-brand-pink"
-                  style={{ fontFamily: 'Inter, Arial, Helvetica, sans-serif' }}
+                  style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
                 >
                   “
                 </div>
                 {/* Large closing smart quote mark with proper typography */}
                 <div 
                   className="absolute -bottom-4 -right-2 text-6xl leading-none opacity-40 text-brand-pink"
-                  style={{ fontFamily: 'Inter, Arial, Helvetica, sans-serif' }}
+                  style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
                 >
                   ”
                 </div>
@@ -397,7 +397,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     transition={{ duration: 0.2 }}
                     className="relative z-10 w-full flex items-center justify-center"
                   >
-                    <p className="text-xl md:text-2xl text-slate-800 leading-relaxed font-semibold w-full flex items-center justify-center text-center px-4 md:px-8 hyphens-auto" style={{ textWrap: 'balance' }}>
+                    <p className="text-xl leading-6 md:text-2xl/5 text-slate-800 leading-relaxed font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
                         <span className="text-slate-500 italic text-xl font-medium font-mono">
                           {thinkingMessage}
@@ -448,7 +448,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
         {/* Space at the bottom for fixed footer */}
         <div className="h-10"></div>
         {/* More apps by Serious People link with pill design - now non-fixed, below content */}
-        <div className="w-full text-center mt-6 mb-8">
+        <div className="w-full text-center">
           <a 
             href="https://oilwell.app"
             target="_blank"
@@ -460,7 +460,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
         </div>
       </div>
       {/* Small, recessed humorous disclaimer */}
-      <div className="w-full flex justify-center mt-4">
+      <div className="hidden w-full flex justify-center mt-4">
         <span className="text-xs text-slate-400 italic opacity-60">Does not actually use AI.</span>
       </div>
     </motion.div>
