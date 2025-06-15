@@ -6,7 +6,8 @@ import {
   CpuChipIcon,
   BoltIcon,
   ChartBarIcon,
-  CurrencyDollarIcon
+  CurrencyDollarIcon,
+  ChevronDownIcon
 } from '@heroicons/react/24/outline'
 import CannesPopup from './CannesPopup';
 
@@ -145,11 +146,18 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     stopWorkingRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
                 }}
-                className="text-brand-pink/80 hover:text-brand-pink text-base font-medium underline underline-offset-2 transition-colors duration-200"
+                className="text-brand-pink/80 hover:text-brand-pink text-base font-medium underline underline-offset-2 transition-colors duration-200 flex flex-col items-center gap-1"
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 type="button"
               >
-                Learn more
+                <span>Learn more</span>
+                <motion.div
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, repeatType: 'loop' }}
+                  className="flex justify-center"
+                >
+                  <ChevronDownIcon className="w-5 h-5 text-brand-pink/60" />
+                </motion.div>
               </button>
             </motion.div>
           </div>
