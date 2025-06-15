@@ -20,20 +20,20 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
 
   const testimonials = [
     {
-      initials: "JL",
-      quote: "I used to worry about what my boss thought. Now I just worry that he'll reach the singularity and wipe out all existence.",
-      name: "Jake Liu",
+      initials: "RT",
+      quote: "I used to worry what my boss thought. Now I just worry he'll reach the singularity and wipe out all of existence.",
+      name: "Raphael Tweedy",
       title: "Junior Account Manager, Creative Agency"
     },
     {
       initials: "SB", 
-      quote: "My new boss is just as ruthless and cruel as before. But now I don't take it personally since he's an actual robot.",
+      quote: "My new boss is just as ruthless and cruel. But now he's an actual robot I don't take it so personally.",
       name: "Sarah Bento",
       title: "Marketing Coordinator, Ad Agency"
     },
     {
       initials: "LB",
-      quote: "The AI CEO fired half the team but sent personalized goodbye emails with our favorite GIFs.",
+      quote: "The AI CEO fired half the team but sent personalized goodbye emails with our favorite GIFs 🎉️ Love it!",
       name: "Laura Ballard",
       title: "Senior Account Director, Brand Agency"
     }
@@ -377,7 +377,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 className="text-center mb-32"
               >
                 <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
-                  Make the numbers <span className="text-brand-pink">go up</span>
+                  Make the numbers <span className="text-brand-pink">go up</span> 
                 </h3>
                 
                 
