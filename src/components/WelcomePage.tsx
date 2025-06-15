@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion'
 import { 
   ArrowRightIcon,
@@ -16,6 +16,7 @@ interface WelcomePageProps {
 
 const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
   const [showPopup, setShowPopup] = useState(false);
+  const stopWorkingRef = useRef<HTMLHeadingElement | null>(null);
 
   // Check localStorage on component mount to see if popup has been shown before
   useEffect(() => {
@@ -140,15 +141,8 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             >
               <button
                 onClick={() => {
-                  const infoSection = document.getElementById('info-section');
-                  if (infoSection) {
-                    // Get the element's position relative to the document
-                    const elementTop = infoSection.offsetTop;
-                    // Scroll to position with some offset for better UX
-                    window.scrollTo({ 
-                      top: elementTop - 50, // 50px offset from top
-                      behavior: 'smooth' 
-                    });
+                  if (stopWorkingRef.current) {
+                    stopWorkingRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
                 }}
                 className="text-brand-pink/80 hover:text-brand-pink text-base font-medium underline underline-offset-2 transition-colors duration-200"
@@ -169,11 +163,16 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
           >
             {/* Stronger radial gradient background behind CEO */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[1000px] h-[700px] bg-gradient-radial from-brand-pink/60 via-brand-pink/30 to-transparent blur-3xl"></div>
-            {/* CEO Image full width on mobile */}
+            {/* CEO Image touching bottom */}
             <img 
               src="/David 1.webp" 
               alt="AI CEO" 
-              className="relative z-10 w-full h-auto max-h-[400px] md:max-h-[500px] lg:max-h-[600px] object-contain md:object-cover object-bottom md:object-top"
+              className="relative z-10 h-[300px] xs:h-[350px] sm:h-[400px] md:h-[500px] lg:h-[600px] w-full max-w-xs xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl object-cover object-top rounded-xl transition-all duration-300"
+              style={{
+                width: '100%',
+                maxWidth: '600px',
+                height: 'auto',
+              }}
             />
           </motion.div>
         </div>
@@ -189,7 +188,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               transition={{ duration: 0.8 }}
               className="text-center mb-8 md:mb-10"
             >
-              <h2 id="stop-working-headline" className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+              <h2 ref={stopWorkingRef} id="stop-working-headline" className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
                 Stop working <span className="text-brand-pink">for humans</span>
               </h2>
               <p className="text-xl text-slate-600 mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed">
