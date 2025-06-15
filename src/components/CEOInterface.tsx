@@ -122,10 +122,9 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
     }, 1000);
   };
 
-  // Typing effect for new phrase
+  // Improved typing effect for new phrase that prevents text shifting
   React.useEffect(() => {
     if (phrase && !isThinking) {
-      setDisplayedPhrase('')
       setTyping(true)
       let i = 0
       const type = () => {
@@ -402,15 +401,26 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     transition={{ duration: 0.2 }}
                     className="relative z-10 w-full flex items-center justify-center"
                   >
-                    <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-slate-800 font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" style={{ textWrap: 'balance' }}>
-                      {isThinking ? (
-                        <span className="text-slate-500 italic text-xl font-medium font-mono">
-                          {thinkingMessage}
-                        </span>
-                      ) : (
-                        <span>{displayedPhrase || "Click to generate CEO wisdom"}</span>
-                      )}
-                    </p>
+                    {isThinking ? (
+                      <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-slate-500 italic font-medium font-mono w-full flex items-center justify-center text-center px-4 md:px-8">
+                        {thinkingMessage}
+                      </p>
+                    ) : (
+                      <div className="w-full relative">
+                        {/* Invisible full text to maintain stable positioning */}
+                        {phrase && (
+                          <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-transparent w-full flex items-center justify-center text-center px-4 md:px-8 font-semibold" 
+                             style={{ textWrap: 'balance', visibility: 'hidden', position: 'absolute', top: 0, left: 0, right: 0 }}>
+                            {phrase}
+                          </p>
+                        )}
+                        {/* Visible text that displays the typewriter effect */}
+                        <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-slate-800 font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" 
+                           style={{ textWrap: 'balance' }}>
+                          {displayedPhrase || "Click to generate CEO wisdom"}
+                        </p>
+                      </div>
+                    )}
                   </motion.div>
                 </AnimatePresence>
               </motion.div>

@@ -84,17 +84,12 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     color: '#7c3aed',
   },
   {
-    phrase: "What if we made agentic AI for riot police?",
-    theme: 'vision',
-    color: '#7c3aed',
-  },
-  {
     phrase: "I want to look my children in the eye and tell them their inheritance figures",
     theme: 'growth',
     color: '#ec4899',
   },
   {
-    phrase: "I greenshush my children every night before bed",
+    phrase: "I greenhush my children every night before bed",
     theme: 'growth',
     color: '#ec4899',
   },
@@ -134,7 +129,7 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     color: '#10b981',
   },
   {
-    phrase: "Let them work from home. But have them work in an underground carpark below the office",
+    phrase: "Let them work from home. But have them live in an underground carpark below the office",
     theme: 'efficiency',
     color: '#0ea5e9',
   },
@@ -158,16 +153,16 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string }> = [
     theme: 'vision',
     color: '#7c3aed',
   },
-  {
-    phrase: "We support the LGBT community by not recognising them. Isn't that true equality?",
-    theme: 'growth',
-    color: '#ec4899',
-  },
-  {
-    phrase: "A global climate treaty conference, only everyone there works for oil companies",
-    theme: 'sustainability',
-    color: '#10b981',
-  },
+  // {
+  //   phrase: "We support the LGBT community by not recognising them. Isn't that true equality?",
+  //   theme: 'growth',
+  //   color: '#ec4899',
+  // },
+  // {
+  //   phrase: "A global climate treaty conference, only everyone there works for oil companies",
+  //   theme: 'sustainability',
+  //   color: '#10b981',
+  // },
 ]
 
 // Generate CEO_WISDOM and PHRASE_THEMES from CEO_PHRASES
