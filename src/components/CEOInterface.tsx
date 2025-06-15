@@ -23,6 +23,8 @@ interface CEOInterfaceProps {
   availablePersonalities?: CEOPersonality[]
   seenPhrases?: Set<string>
   onSeenPhrasesUpdate?: (seenPhrases: Set<string>) => void
+  currentRankTier?: 1 | 2 | 3
+  onRankTierUpdate?: (tier: 1 | 2 | 3) => void
   onBackToFeatures?: () => void
 }
 
@@ -39,6 +41,8 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
   availablePersonalities = [],
   seenPhrases = new Set(),
   onSeenPhrasesUpdate,
+  currentRankTier = 1,
+  onRankTierUpdate,
   onBackToFeatures
 }) => {
   const [isThinking, setIsThinking] = useState(false)
@@ -66,32 +70,93 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
     }
   };
 
-  // Generate new quote with correct thinking message
+  // Generate new quote with ranking system
   const generateNewQuote = async () => {
     if (isThinking) return;
     
     setIsThinking(true);
     
-    // Get CEO data from window
-    const CEO_WISDOM = (window as any).CEO_WISDOM || [];
+    // Get theme data from window
     const PHRASE_THEMES = (window as any).PHRASE_THEMES || {};
     
-    // Define favorite quotes - higher chance on first load (seenPhrases is empty)
+    // Get phrases by rank from parent component data
+    // If we don't have access to ranked data, fall back to favorites
     const FAVOURITE_QUOTES = [
       "We're not destroying habitats, we're creating urban opportunities for wildlife.",
       "We're diversifying our diversity programme by sometimes not having one"
     ];
     
-    // Initial load bias towards favorites (80% chance)
+    // Ranking system: try rank 1 first, then rank 2, then rank 3
     let nextPhrase;
+    
+    // For initial load bias towards favorites (99% chance when no phrases seen)
     if (seenPhrases.size === 0 && Math.random() < 0.99) {
       nextPhrase = FAVOURITE_QUOTES[Math.floor(Math.random() * FAVOURITE_QUOTES.length)];
     } else {
-      // Pick next quote
-      const availablePhrases = CEO_WISDOM.filter((p: string) => !seenPhrases.has(p));
-      const phrasesToChoose = availablePhrases.length > 0 ? availablePhrases : CEO_WISDOM;
-      const randomIndex = Math.floor(Math.random() * phrasesToChoose.length);
-      nextPhrase = phrasesToChoose[randomIndex];
+      // Use tiered selection based on ranking
+      // Try to get rank 1 phrases first
+      const rank1Phrases = [
+        "We're not destroying habitats, we're creating urban opportunities for wildlife.",
+        "We're diversifying our diversity programme by sometimes not having one",
+        "Let's work staff until they break, but give them mental health days",
+        "We're moving towards a post-sleep workforce",
+        "Our carbon footprint isn't large, it's enterprise-scale",
+        "Ban single-use cups but keep the private jet for 'strategic mobility'",
+        "We're disrupting disruption by un-disrupting previously disrupted markets",
+        "I greenhush my children every night before bed",
+        "We would've decarbonised, but we didn't like when those women threw that soup",
+        "Let them work from home. But have them live in an underground carpark below the office",
+        "Empathy, but only if it's billable",
+        "Leadership through vulnerability (yours not mine)"
+      ];
+      
+      const rank2Phrases = [
+        "Let's pollute the oceans, but make our website background blue",
+        "Fire half the team, but call the survivors 'high performers'",
+        "We're building the metaverse of the metaverse. It's a meta-meta-verse",
+        "We don't solve problems, we reimagine solutions in problem-adjacent spaces.",
+        "Our north star metric is disruption itself.",
+        "We're not firing staff, we're evaluating their cultural fit",
+        "I want to look my children in the eye and tell them their inheritance figures",
+        "We're creating a permission structure for keeping the status quo",
+        "We encourage our staff to be creative by replacing them with creative robots",
+        "We're not burning cash, we're converting currency into momentum.",
+        "What would Steven Bartlett do?",
+        "We're making a difference with our We're Making a Difference campaign",
+        "We're committed to a better tomorrow. For every forest we cut down, we'll plant one tree"
+      ];
+      
+      const rank3Phrases = [
+        "We're not just thinking outside the box, we're redefining the geometry of thought.",
+        "Let's reduce redundancy by eliminating redundant employees",
+        "We must reframe the essence of leadership as we chart the course to everywhere"
+      ];
+      
+      // Try rank 1 first
+      const unseenRank1 = rank1Phrases.filter(p => !seenPhrases.has(p));
+      if (unseenRank1.length > 0) {
+        nextPhrase = unseenRank1[Math.floor(Math.random() * unseenRank1.length)];
+        if (onRankTierUpdate) onRankTierUpdate(1);
+      } else {
+        // Try rank 2
+        const unseenRank2 = rank2Phrases.filter(p => !seenPhrases.has(p));
+        if (unseenRank2.length > 0) {
+          nextPhrase = unseenRank2[Math.floor(Math.random() * unseenRank2.length)];
+          if (onRankTierUpdate) onRankTierUpdate(2);
+        } else {
+          // Try rank 3
+          const unseenRank3 = rank3Phrases.filter(p => !seenPhrases.has(p));
+          if (unseenRank3.length > 0) {
+            nextPhrase = unseenRank3[Math.floor(Math.random() * unseenRank3.length)];
+            if (onRankTierUpdate) onRankTierUpdate(3);
+          } else {
+            // All phrases seen, reset and start with rank 1
+            nextPhrase = rank1Phrases[Math.floor(Math.random() * rank1Phrases.length)];
+            if (onSeenPhrasesUpdate) onSeenPhrasesUpdate(new Set());
+            if (onRankTierUpdate) onRankTierUpdate(1);
+          }
+        }
+      }
     }
     
     // Get theme for this quote and set thinking message
@@ -473,6 +538,13 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             More apps by Serious People
           </a>
         </div>
+
+        {/* Dev Debug: Show current rank tier - only visible in dev mode */}
+        {typeof window !== 'undefined' && window.location.hostname === 'localhost' && (
+          <div className="text-xs text-slate-400 mb-2 text-center">
+            Rank Tier: {currentRankTier} | Seen: {seenPhrases.size} phrases
+          </div>
+        )}
       </div>
 
     </motion.div>
