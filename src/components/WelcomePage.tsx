@@ -233,7 +233,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 <h2 ref={stopWorkingRef} id="stop-working-headline" className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
                   Stop working <span className="text-brand-pink">for humans</span>
                 </h2>                  <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-                  AI CEOs deliver thought leaderhsip at the fraction of the cost.
+                  AI CEOs deliver thought leadership at the fraction of the cost.
                 </p>
               </motion.div>
 
@@ -361,7 +361,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 className="text-center mb-32"
               >
                 <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
-                  Four pillars of <span className="text-brand-pink">corporate&nbsp;wisdom</span>
+                  Four pillars of <span className="text-brand-pink">corporate wisdom</span>
                 </h3>
                 
                 <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
