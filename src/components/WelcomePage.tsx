@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion'
 import { 
   ArrowRightIcon,
@@ -21,7 +21,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
   const testimonials = [
     {
       initials: "JL",
-      quote: "I used to worry about what my boss thinks. Now I just worry that he'll reach the singularity and wipe out all existence.",
+      quote: "I used to worry about what my boss thought. Now I just worry that he'll reach the singularity and wipe out all existence.",
       name: "Jake Liu",
       title: "Junior Account Manager, Creative Agency"
     },
@@ -39,13 +39,29 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
     }
   ];
 
-  // Auto-advance testimonials every 6 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
+  // Timer reference for auto-advancing testimonials
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Function to reset and start the timer
+  const resetCarouselTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    
+    timerRef.current = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 6000);
-    return () => clearInterval(interval);
   }, [testimonials.length]);
+  
+  // Auto-advance testimonials every 6 seconds
+  useEffect(() => {
+    resetCarouselTimer();
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [resetCarouselTimer]);
 
   // Check localStorage on component mount to see if popup has been shown before
   useEffect(() => {
@@ -233,7 +249,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 <h2 ref={stopWorkingRef} id="stop-working-headline" className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
                   Stop working <span className="text-brand-pink">for humans</span>
                 </h2>                  <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-                  AI CEOs deliver thought leadership at the fraction of the cost.
+                  AI CEOs deliver instant executive decisions without the executive salary.
                 </p>
               </motion.div>
 
@@ -314,7 +330,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               >
                 <div className="max-w-4xl mx-auto">
                   <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
-                    Choose an <span className="text-brand-pink">AI CEO</span>
+                    AI CEOs give thought leadership  <span className="text-brand-pink">at the push of a button</span>
                   </h3>
                   
                   {/* CEO Avatars Row */}
@@ -322,7 +338,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     {/* Desktop: Show all three */}
                     <div className="hidden md:flex gap-6">
                       <img 
-                        src="/David 1.webp" 
+                        src="/David 4.webp" 
                         alt="AI CEO David 1" 
                         className="h-24 w-24 lg:h-32 lg:w-32 object-cover object-top rounded-full shadow-lg border-4 border-white hover:border-brand-pink/30 transition-all duration-300 cursor-pointer"
                       />
@@ -349,7 +365,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   </div>
                   
                   <p className="text-2xl md:text-3xl text-slate-700 leading-relaxed max-w-3xl mx-auto">
-                    AI CEOs deliver complete nonsense with total confidence, all at the push of a button.
+                    Delivering total nonsense, with complete confidence.
                   </p>
                 </div>
               </motion.div>              {/* Four Pillars of Corporate Wisdom */}
@@ -360,13 +376,10 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 transition={{ duration: 0.8, delay: 0.6 }}
                 className="text-center mb-32"
               >
-                <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
-                  Four pillars of <span className="text-brand-pink">corporate wisdom</span>
+                <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
+                  Make the numbers <span className="text-brand-pink">go up</span>
                 </h3>
                 
-                <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-                  Our AI CEOs are trained on these essential principles of modern leadership.
-                </p>
                 
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                   <motion.div 
@@ -484,7 +497,10 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     {testimonials.map((_, index) => (
                       <button
                         key={index}
-                        onClick={() => setCurrentTestimonial(index)}
+                        onClick={() => {
+                          setCurrentTestimonial(index);
+                          resetCarouselTimer();
+                        }}
                         className={`w-3 h-3 rounded-full transition-all duration-200 ${
                           index === currentTestimonial 
                             ? 'bg-brand-pink scale-125' 
@@ -497,9 +513,12 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   
                   {/* Navigation Arrows */}
                   <button
-                    onClick={() => setCurrentTestimonial((prev) => 
-                      prev === 0 ? testimonials.length - 1 : prev - 1
-                    )}
+                    onClick={() => {
+                      setCurrentTestimonial((prev) => 
+                        prev === 0 ? testimonials.length - 1 : prev - 1
+                      );
+                      resetCarouselTimer();
+                    }}
                     className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-brand-pink hover:border-brand-pink/20 transition-all duration-200"
                     aria-label="Previous testimonial"
                   >
@@ -509,9 +528,12 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   </button>
                   
                   <button
-                    onClick={() => setCurrentTestimonial((prev) => 
-                      (prev + 1) % testimonials.length
-                    )}
+                    onClick={() => {
+                      setCurrentTestimonial((prev) => 
+                        (prev + 1) % testimonials.length
+                      );
+                      resetCarouselTimer();
+                    }}
                     className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-brand-pink hover:border-brand-pink/20 transition-all duration-200"
                     aria-label="Next testimonial"
                   >
@@ -531,7 +553,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 className="text-center mb-4 mt-20"
               >
                 <div className="max-w-4xl mx-auto bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-24 md:p-16 text-white">
-                  <h3 className="text-4xl md:text-5xl font-bold mb-4">
+                  <h3 className="text-4xl md:text-6xl font-bold mb-4">
                     Ready to upgrade your leadership?
                   </h3>
                   <p className="text-xl text-white/90 mb-5 max-w-2xl mx-auto">
