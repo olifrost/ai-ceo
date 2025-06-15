@@ -21,33 +21,21 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
   const testimonials = [
     {
       initials: "JL",
-      quote: "I used to worry about what my boss thinks. Now I just worry that he'll reach the singularity and wipe out existence.",
+      quote: "I used to worry about what my boss thinks. Now I just worry that he'll reach the singularity and wipe out all existence.",
       name: "Jake Liu",
       title: "Junior Account Manager, Creative Agency"
     },
     {
-      initials: "SM", 
-      quote: "My new boss is just as ruthless and cruel as before. But I don't feel so bad because he actually is a robot.",
-      name: "Sarah Martinez",
+      initials: "SB", 
+      quote: "My new boss is just as ruthless and cruel as before. But now I don't take it personally since he's an actual robot.",
+      name: "Sarah Bento",
       title: "Marketing Coordinator, Ad Agency"
     },
     {
-      initials: "RK",
-      quote: "At least when our AI CEO makes impossible demands, I know it's genuinely impossible instead of just incompetent.",
-      name: "Rachel Kim", 
-      title: "Creative Director, Digital Agency"
-    },
-    {
-      initials: "MJ",
-      quote: "My AI boss never takes credit for my ideas because it generates 1000 better ones while I'm getting coffee.",
-      name: "Mike Johnson",
-      title: "Strategy Intern, Media Company"
-    },
-    {
       initials: "LB",
-      quote: "The AI CEO fired half the team but at least it sent personalized goodbye emails with our favorite GIFs.",
-      name: "Lisa Brown",
-      title: "Junior Copywriter, Brand Agency"
+      quote: "The AI CEO fired half the team but sent personalized goodbye emails with our favorite GIFs.",
+      name: "Laura Ballard",
+      title: "Senior Account Director, Brand Agency"
     }
   ];
 
@@ -233,7 +221,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
 
           {/* Features Section with white background */}
           <div id="info-section" className="bg-white">
-            <div className="max-w-6xl mx-auto px-6 py-20">
+            <div className="max-w-6xl mx-auto px-6 pt-20 pb-4">
               {/* Main Headline - Stop working for humans */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -362,7 +350,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   </div>
                   
                   <p className="text-xl md:text-2xl text-slate-700 leading-relaxed max-w-3xl mx-auto">
-                    Delivering thought leadership at the push of a button. AI CEOs can deliver strategic insights with complete confidence.
+                    Providing thought leadership at the push of a button. AI CEOs can deliver complete nonsense with complete confidence.
                   </p>
                 </div>
               </motion.div>              {/* Four Pillars of Corporate Wisdom */}
@@ -426,7 +414,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                       Vision
                     </h4>
                     <p className="text-white/90">
-                      See the future that doesn't exist yet.
+                      Buzzwords with maximum synergy
                     </p>
                   </motion.div>
 
@@ -457,7 +445,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="text-center mb-8"
               >
-                <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
+                <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-14">
                   What <span className="text-brand-pink">employees</span> are saying
                 </h3>
                 
@@ -471,11 +459,11 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     >
                       {testimonials.map((testimonial, index) => (
                         <div key={index} className="w-full flex-shrink-0 px-4">
-                          <motion.div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-xl mx-auto max-w-2xl">
+                          <motion.div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mx-auto max-w-2xl">
                             <div className="flex items-center justify-center w-16 h-16 bg-brand-pink/10 rounded-full mx-auto mb-4">
                               <span className="text-2xl font-bold text-brand-pink">{testimonial.initials}</span>
                             </div>
-                            <blockquote className="text-slate-700 mb-4 italic text-lg leading-relaxed">
+                            <blockquote className="text-slate-700 mb-4 italic text-2xl/3 leading-relaxed">
                               "{testimonial.quote}"
                             </blockquote>
                             <div className="text-base">
@@ -489,7 +477,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   </div>
                   
                   {/* Navigation Dots */}
-                  <div className="flex justify-center mt-8 mb-6 space-x-2">
+                  <div className="flex justify-center mt-4 mb-6 space-x-2">
                     {testimonials.map((_, index) => (
                       <button
                         key={index}
@@ -537,9 +525,9 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-center mb-4"
+                className="text-center mb-4 mt-20"
               >
-                <div className="bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-6 md:p-8 text-white">
+                <div className="max-w-4xl mx-auto bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-6 md:p-8 text-white">
                   <h3 className="text-3xl md:text-4xl font-bold mb-3">
                     Ready to upgrade your leadership?
                   </h3>
@@ -555,21 +543,23 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     Replace Your Boss&nbsp;Now
                     <ArrowRightIcon className="w-5 h-5" />
                   </motion.button>
+                  
                 </div>
               </motion.div>
-            </div>
-            
-            {/* Made by Serious People link with pill design - centered and properly positioned */}
-            <div className="bg-white w-full flex justify-center items-center py-2">
+                          <div className="bg-white w-full flex justify-center items-center py-2">
               <a 
                 href="https://seriouspeople.co" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
+                className="inline-flex px-4 mb-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
               >
                 Made by Serious People
               </a>
             </div>
+            </div>
+            
+            {/* Made by Serious People link with pill design - centered and properly positioned */}
+
           </div>
 
         </motion.div>
