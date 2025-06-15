@@ -402,7 +402,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     transition={{ duration: 0.2 }}
                     className="relative z-10 w-full flex items-center justify-center"
                   >
-                    <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-slate-800 leading-relaxed font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" style={{ textWrap: 'balance' }}>
+                    <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-slate-800 font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
                         <span className="text-slate-500 italic text-xl font-medium font-mono">
                           {thinkingMessage}
@@ -464,10 +464,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
           </a>
         </div>
       </div>
-      {/* Small, recessed humorous disclaimer */}
-      <div className="hidden w-full flex justify-center mt-4">
-        <span className="text-xs text-slate-400 italic opacity-60">Does not actually use AI.</span>
-      </div>
+
     </motion.div>
   )
 }
