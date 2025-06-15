@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { 
   ArrowRightIcon,
-  SparklesIcon,
-  CpuChipIcon,
-  BoltIcon,
   ChartBarIcon,
   CurrencyDollarIcon,
   ChevronDownIcon
@@ -23,42 +20,42 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
 
   const testimonials = [
     {
-      initials: "JM",
-      quote: "Finally, a CEO that makes decisions as poorly as I do, but 10x faster. My shareholders love the efficiency!",
-      name: "Jake Morrison",
-      title: "Former CEO, TechCorp"
+      initials: "JL",
+      quote: "I used to worry about what my boss thinks. Now I just worry that he'll reach the singularity and wipe out existence.",
+      name: "Jake Liu",
+      title: "Junior Account Manager, Creative Agency"
     },
     {
-      initials: "SC", 
-      quote: "I used to spend hours crafting meaningless corporate speak. Now my AI CEO does it in seconds. I can finally focus on golf!",
-      name: "Sarah Chen",
-      title: "Ex-Chief Disruption Officer, InnovateLabs"
+      initials: "SM", 
+      quote: "My new boss is just as ruthless and cruel as before. But I don't feel so bad because he actually is a robot.",
+      name: "Sarah Martinez",
+      title: "Marketing Coordinator, Ad Agency"
     },
     {
-      initials: "RB",
-      quote: "My AI replacement got us featured in Forbes for 'innovative leadership'. I never managed that in 20 years!",
-      name: "Robert Blake", 
-      title: "Retired CEO, GlobalDynamics"
+      initials: "RK",
+      quote: "At least when our AI CEO makes impossible demands, I know it's genuinely impossible instead of just incompetent.",
+      name: "Rachel Kim", 
+      title: "Creative Director, Digital Agency"
     },
     {
-      initials: "MK",
-      quote: "The AI CEO fired me and then hired me back as a consultant. Even in replacement, it's more strategic than I was!",
-      name: "Maria Kim",
-      title: "Former Founder, StartupLabs"
+      initials: "MJ",
+      quote: "My AI boss never takes credit for my ideas because it generates 1000 better ones while I'm getting coffee.",
+      name: "Mike Johnson",
+      title: "Strategy Intern, Media Company"
     },
     {
-      initials: "DT",
-      quote: "Our AI CEO pivoted us into blockchain, then NFTs, then AI, then back to blockchain. It's like having me, but consistent!",
-      name: "David Thompson",
-      title: "Ex-CTO, CryptoVentures"
+      initials: "LB",
+      quote: "The AI CEO fired half the team but at least it sent personalized goodbye emails with our favorite GIFs.",
+      name: "Lisa Brown",
+      title: "Junior Copywriter, Brand Agency"
     }
   ];
 
-  // Auto-advance testimonials every 4 seconds
+  // Auto-advance testimonials every 6 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
@@ -236,19 +233,19 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
 
           {/* Features Section with white background */}
           <div id="info-section" className="bg-white">
-            <div className="max-w-6xl mx-auto px-6 py-6">
+            <div className="max-w-6xl mx-auto px-6 py-20">
               {/* Main Headline - Stop working for humans */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="text-center mb-8 md:mb-10"
+                className="text-center mb-16 md:mb-20"
               >
                 <h2 ref={stopWorkingRef} id="stop-working-headline" className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
                   Stop working <span className="text-brand-pink">for humans</span>
                 </h2>
-                <p className="text-xl text-slate-600 mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
                   Why settle for expensive, unpredictable human CEOs when you can have AI leadership that delivers consistent corporate wisdom at the push of a button?
                 </p>
               </motion.div>
@@ -259,9 +256,8 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-center mb-12 md:mb-20"
+                className="text-center mb-16 md:mb-20"
               >
-                
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
@@ -321,118 +317,135 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 </div>
               </motion.div>
 
-              {/* Leadership Features */}
+              {/* Choose an AI CEO Section */}
               <motion.div 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-center mb-16 md:mb-20"
+                className="text-center mb-16"
               >
-                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 md:mb-12">
-                  Thought leadership at the <span className="text-brand-pink">push of a button</span>
-                </h3>
-                
-                <div className="grid md:grid-cols-3 gap-8">
-                  <motion.div 
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-gradient-to-br from-brand-pink/5 to-light-gray/10 rounded-2xl p-8 border border-brand-pink/10"
-                  >
-                    <SparklesIcon className="w-12 h-12 text-brand-pink mb-4 mx-auto" />
-                    <h4 className="text-xl font-bold text-slate-900 mb-3">Strategic Buzzword Generation</h4>
-                    <p className="text-slate-600">Generate buzzword-heavy manifestos that sound revolutionary while meaning absolutely nothing.</p>
-                  </motion.div>
-
-                  <motion.div 
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-gradient-to-br from-light-gray/10 to-brand-pink/5 rounded-2xl p-8 border border-light-gray/20"
-                  >
-                    <CpuChipIcon className="w-12 h-12 text-brand-pink mb-4 mx-auto" />
-                    <h4 className="text-xl font-bold text-slate-900 mb-3">AI-Powered Synergy Insights</h4>
-                    <p className="text-slate-600">Deliver profound wisdom like "synergize the blockchain paradigm" with complete confidence.</p>
-                  </motion.div>
-
-                  <motion.div 
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-gradient-to-br from-brand-pink/5 to-light-gray/10 rounded-2xl p-8 border border-brand-pink/10"
-                  >
-                    <BoltIcon className="w-12 h-12 text-brand-pink mb-4 mx-auto" />
-                    <h4 className="text-xl font-bold text-slate-900 mb-3">Instant Pivot Decisions</h4>
-                    <p className="text-slate-600">Make bold choices in milliseconds, like pivoting to the metaverse just as the trend dies.</p>
-                  </motion.div>
+                <div className="max-w-4xl mx-auto">
+                  <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">
+                    Choose an <span className="text-brand-pink">AI CEO</span>
+                  </h3>
+                  
+                  {/* CEO Avatars Row */}
+                  <div className="flex justify-center items-center gap-6 mb-8">
+                    {/* Desktop: Show all three */}
+                    <div className="hidden md:flex gap-6">
+                      <img 
+                        src="/David 1.webp" 
+                        alt="AI CEO David 1" 
+                        className="h-24 w-24 lg:h-32 lg:w-32 object-cover object-top rounded-full shadow-lg border-4 border-white hover:border-brand-pink/30 transition-all duration-300 cursor-pointer"
+                      />
+                      <img 
+                        src="/David 2.webp" 
+                        alt="AI CEO David 2" 
+                        className="h-24 w-24 lg:h-32 lg:w-32 object-cover object-top rounded-full shadow-lg border-4 border-brand-pink"
+                      />
+                      <img 
+                        src="/David 3.webp" 
+                        alt="AI CEO David 3" 
+                        className="h-24 w-24 lg:h-32 lg:w-32 object-cover object-top rounded-full shadow-lg border-4 border-white hover:border-brand-pink/30 transition-all duration-300 cursor-pointer"
+                      />
+                    </div>
+                    
+                    {/* Mobile: Show only one */}
+                    <div className="md:hidden">
+                      <img 
+                        src="/David 2.webp" 
+                        alt="AI CEO David" 
+                        className="h-32 w-32 object-cover object-top rounded-full shadow-lg border-4 border-brand-pink"
+                      />
+                    </div>
+                  </div>
+                  
+                  <p className="text-xl md:text-2xl text-slate-700 leading-relaxed max-w-3xl mx-auto">
+                    Delivering thought leadership at the push of a button. AI CEOs can deliver strategic insights with complete confidence.
+                  </p>
                 </div>
-              </motion.div>
-
-              {/* App Focus Areas Section */}
+              </motion.div>              {/* Four Pillars of Corporate Wisdom */}
               <motion.div 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-center mb-16 md:mb-20"
+                className="text-center mb-16"
               >
-                <div className="bg-slate-50/50 rounded-3xl p-8 md:p-12 border border-slate-100">
-                  <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-                    Four pillars of <span className="text-brand-pink">corporate wisdom</span>
-                  </h3>
-                  <p className="text-xl text-slate-600 mb-10 max-w-3xl mx-auto">
-                    Our AI CEOs are trained in the four essential domains of modern executive thinking.
-                  </p>
-                  
-                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <motion.div 
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-gradient-to-br from-brand-pink to-brand-pink/80 rounded-xl p-6 shadow-lg"
-                    >
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                      </div>
-                      <h4 className="text-lg font-bold text-white mb-2">Sustainability</h4>
-                      <p className="text-sm text-white/90">Greenwash with confidence while maximizing profits</p>
-                    </motion.div>
+                <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">
+                  Four pillars of <span className="text-brand-pink">corporate wisdom</span>
+                </h3>
+                
+                <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                  <motion.div 
+                    whileHover={{ scale: 1.02 }}
+                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+                  >
+                    <div className="w-12 h-12 bg-brand-pink rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v18m9-9H3" />
+                      </svg>
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                      Growth
+                    </h4>
+                    <p className="text-slate-600">
+                      Growth at all costs, especially human ones.
+                    </p>
+                  </motion.div>
 
-                    <motion.div 
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-gradient-to-br from-brand-pink/90 to-brand-pink rounded-xl p-6 shadow-lg"
-                    >
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                      </div>
-                      <h4 className="text-lg font-bold text-white mb-2">Efficiency</h4>
-                      <p className="text-sm text-white/90">Optimize everything except executive compensation</p>
-                    </motion.div>
+                  <motion.div 
+                    whileHover={{ scale: 1.02 }}
+                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+                  >
+                    <div className="w-12 h-12 bg-brand-pink rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                      Efficiency
+                    </h4>
+                    <p className="text-slate-600">
+                      Maximum output with minimum empathy.
+                    </p>
+                  </motion.div>
 
-                    <motion.div 
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-gradient-to-br from-brand-pink/80 to-brand-pink/70 rounded-xl p-6 shadow-lg"
-                    >
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                        </svg>
-                      </div>
-                      <h4 className="text-lg font-bold text-white mb-2">Growth</h4>
-                      <p className="text-sm text-white/90">Scale at all costs, especially human ones</p>
-                    </motion.div>
+                  <motion.div 
+                    whileHover={{ scale: 1.02 }}
+                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+                  >
+                    <div className="w-12 h-12 bg-brand-pink rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                      Vision
+                    </h4>
+                    <p className="text-slate-600">
+                      See the future that doesn't exist yet.
+                    </p>
+                  </motion.div>
 
-                    <motion.div 
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-gradient-to-br from-brand-pink/70 to-brand-pink/60 rounded-xl p-6 shadow-lg"
-                    >
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </div>
-                      <h4 className="text-lg font-bold text-white mb-2">Vision</h4>
-                      <p className="text-sm text-white/90">See the future through buzzword-tinted glasses</p>
-                    </motion.div>
-                  </div>
+                  <motion.div 
+                    whileHover={{ scale: 1.02 }}
+                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+                  >
+                    <div className="w-12 h-12 bg-brand-pink rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                      Sustainability
+                    </h4>
+                    <p className="text-slate-600">
+                      Save the planet by talking about it.
+                    </p>
+                  </motion.div>
                 </div>
               </motion.div>
 
@@ -442,18 +455,15 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.8 }}
-                className="text-center mb-16 md:mb-20"
+                className="text-center mb-8 pb-16"
               >
-                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-                  What <span className="text-brand-pink">executives</span> are saying
+                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12">
+                  What <span className="text-brand-pink">employees</span> are saying
                 </h3>
-                <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto">
-                  Join thousands of leaders who have already replaced themselves with superior AI alternatives.
-                </p>
                 
-                {/* Carousel Container */}
-                <div className="relative max-w-4xl mx-auto">
-                  <div className="overflow-hidden rounded-2xl">
+                {/* Carousel Container with extra padding for shadows */}
+                <div className="relative max-w-4xl mx-auto px-4">
+                  <div className="overflow-hidden rounded-2xl mb-12">
                     <motion.div 
                       className="flex"
                       animate={{ x: `-${currentTestimonial * 100}%` }}
@@ -461,11 +471,11 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     >
                       {testimonials.map((testimonial, index) => (
                         <div key={index} className="w-full flex-shrink-0 px-4">
-                          <motion.div className="bg-white rounded-2xl p-8 md:p-12 border border-slate-200 shadow-lg mx-auto max-w-2xl">
-                            <div className="flex items-center justify-center w-20 h-20 bg-brand-pink/10 rounded-full mx-auto mb-6">
-                              <span className="text-3xl font-bold text-brand-pink">{testimonial.initials}</span>
+                          <motion.div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-xl mx-auto max-w-2xl">
+                            <div className="flex items-center justify-center w-16 h-16 bg-brand-pink/10 rounded-full mx-auto mb-4">
+                              <span className="text-2xl font-bold text-brand-pink">{testimonial.initials}</span>
                             </div>
-                            <blockquote className="text-slate-700 mb-6 italic text-lg leading-relaxed">
+                            <blockquote className="text-slate-700 mb-4 italic text-lg leading-relaxed">
                               "{testimonial.quote}"
                             </blockquote>
                             <div className="text-base">
@@ -479,7 +489,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   </div>
                   
                   {/* Navigation Dots */}
-                  <div className="flex justify-center mt-8 space-x-2">
+                  <div className="flex justify-center mt-8 mb-6 space-x-2">
                     {testimonials.map((_, index) => (
                       <button
                         key={index}
@@ -527,13 +537,13 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-center"
+                className="text-center mb-8"
               >
                 <div className="bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-6 md:p-8 text-white">
-                  <h3 className="text-3xl md:text-4xl font-bold mb-2 md:mb-3">
+                  <h3 className="text-3xl md:text-4xl font-bold mb-3">
                     Ready to upgrade your leadership?
                   </h3>
-                  <p className="text-xl text-white/90 mb-4 md:mb-5 max-w-2xl mx-auto">
+                  <p className="text-xl text-white/90 mb-5 max-w-2xl mx-auto">
                     Join thousands of companies that have already made the switch to AI-powered executive decisions.
                   </p>
                   <motion.button
@@ -547,21 +557,20 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   </motion.button>
                 </div>
               </motion.div>
-                      <div className="w-full text-center m-6 mb-2">
-        <a 
-          href="https://seriouspeople.co" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
-        >
-          Made by Serious People
-        </a>
-      </div>
             </div>
             
+            {/* Made by Serious People link with pill design - centered and properly positioned */}
+            <div className="bg-white w-full flex justify-center items-center py-8">
+              <a 
+                href="https://seriouspeople.co" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
+              >
+                Made by Serious People
+              </a>
+            </div>
           </div>
-          
-          {/* Made by Serious People link with pill design - only at bottom, not fixed */}
 
         </motion.div>
       )}
