@@ -271,7 +271,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                             const file = new File([blob], 'ai-ceo-quote.png', { type: 'image/png' });
                             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                               await navigator.share({
-                                text: `I'm replacing my boss before they replace me at https://replaceyourboss.ai`,
+                                text: `Replacing my boss before they replace me https://replaceyourboss.ai`,
                                 files: [file]
                               });
                               return;
@@ -281,7 +281,7 @@ export default function ShareQuoteModal({ isOpen, onClose, quote, ceoPersonality
                           }
                         }
                         // Fallback: share text or copy
-                        const shareText = `I'm replacing my boss before they replace me at https://replaceyourboss.ai`;
+                        const shareText = `Replacing my boss before they replace me https://replaceyourboss.ai`;
                         if (navigator.share) {
                           try {
                             await navigator.share({
