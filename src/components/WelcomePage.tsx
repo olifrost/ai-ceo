@@ -480,7 +480,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                   </div>
                   
                   {/* Navigation Dots */}
-                  <div className="flex justify-center mt-4 mb-6 space-x-2">
+                  <div className="flex justify-center mb-6 space-x-2">
                     {testimonials.map((_, index) => (
                       <button
                         key={index}
@@ -530,8 +530,8 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 transition={{ duration: 0.8, delay: 0.6 }}
                 className="text-center mb-4 mt-20"
               >
-                <div className="max-w-4xl mx-auto bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-6 md:p-8 text-white">
-                  <h3 className="text-3xl md:text-4xl font-bold mb-3">
+                <div className="max-w-4xl mx-auto bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-24 md:p-16 text-white">
+                  <h3 className="text-4xl md:text-5xl font-bold mb-4">
                     Ready to upgrade your leadership?
                   </h3>
                   <p className="text-xl text-white/90 mb-5 max-w-2xl mx-auto">
