@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ArrowRightIcon,
   SparklesIcon,
@@ -18,7 +18,49 @@ interface WelcomePageProps {
 const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showContent, setShowContent] = useState(false); // NEW STATE
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const stopWorkingRef = useRef<HTMLHeadingElement | null>(null);
+
+  const testimonials = [
+    {
+      initials: "JM",
+      quote: "Finally, a CEO that makes decisions as poorly as I do, but 10x faster. My shareholders love the efficiency!",
+      name: "Jake Morrison",
+      title: "Former CEO, TechCorp"
+    },
+    {
+      initials: "SC", 
+      quote: "I used to spend hours crafting meaningless corporate speak. Now my AI CEO does it in seconds. I can finally focus on golf!",
+      name: "Sarah Chen",
+      title: "Ex-Chief Disruption Officer, InnovateLabs"
+    },
+    {
+      initials: "RB",
+      quote: "My AI replacement got us featured in Forbes for 'innovative leadership'. I never managed that in 20 years!",
+      name: "Robert Blake", 
+      title: "Retired CEO, GlobalDynamics"
+    },
+    {
+      initials: "MK",
+      quote: "The AI CEO fired me and then hired me back as a consultant. Even in replacement, it's more strategic than I was!",
+      name: "Maria Kim",
+      title: "Former Founder, StartupLabs"
+    },
+    {
+      initials: "DT",
+      quote: "Our AI CEO pivoted us into blockchain, then NFTs, then AI, then back to blockchain. It's like having me, but consistent!",
+      name: "David Thompson",
+      title: "Ex-CTO, CryptoVentures"
+    }
+  ];
+
+  // Auto-advance testimonials every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
 
   // Check localStorage on component mount to see if popup has been shown before
   useEffect(() => {
@@ -285,7 +327,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-center mb-6 md:mb-10"
+                className="text-center mb-16 md:mb-20"
               >
                 <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 md:mb-12">
                   Thought leadership at the <span className="text-brand-pink">push of a button</span>
@@ -297,7 +339,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     className="bg-gradient-to-br from-brand-pink/5 to-light-gray/10 rounded-2xl p-8 border border-brand-pink/10"
                   >
                     <SparklesIcon className="w-12 h-12 text-brand-pink mb-4 mx-auto" />
-                    <h4 className="text-xl font-bold text-slate-900 mb-3">Strategic Vision</h4>
+                    <h4 className="text-xl font-bold text-slate-900 mb-3">Strategic Buzzword Generation</h4>
                     <p className="text-slate-600">Generate buzzword-heavy manifestos that sound revolutionary while meaning absolutely nothing.</p>
                   </motion.div>
 
@@ -306,7 +348,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     className="bg-gradient-to-br from-light-gray/10 to-brand-pink/5 rounded-2xl p-8 border border-light-gray/20"
                   >
                     <CpuChipIcon className="w-12 h-12 text-brand-pink mb-4 mx-auto" />
-                    <h4 className="text-xl font-bold text-slate-900 mb-3">AI-Powered Insights</h4>
+                    <h4 className="text-xl font-bold text-slate-900 mb-3">AI-Powered Synergy Insights</h4>
                     <p className="text-slate-600">Deliver profound wisdom like "synergize the blockchain paradigm" with complete confidence.</p>
                   </motion.div>
 
@@ -315,9 +357,167 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     className="bg-gradient-to-br from-brand-pink/5 to-light-gray/10 rounded-2xl p-8 border border-brand-pink/10"
                   >
                     <BoltIcon className="w-12 h-12 text-brand-pink mb-4 mx-auto" />
-                    <h4 className="text-xl font-bold text-slate-900 mb-3">Instant Decisions</h4>
+                    <h4 className="text-xl font-bold text-slate-900 mb-3">Instant Pivot Decisions</h4>
                     <p className="text-slate-600">Make bold choices in milliseconds, like pivoting to the metaverse just as the trend dies.</p>
                   </motion.div>
+                </div>
+              </motion.div>
+
+              {/* App Focus Areas Section */}
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="text-center mb-16 md:mb-20"
+              >
+                <div className="bg-slate-50/50 rounded-3xl p-8 md:p-12 border border-slate-100">
+                  <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+                    Four pillars of <span className="text-brand-pink">corporate wisdom</span>
+                  </h3>
+                  <p className="text-xl text-slate-600 mb-10 max-w-3xl mx-auto">
+                    Our AI CEOs are trained in the four essential domains of modern executive thinking.
+                  </p>
+                  
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <motion.div 
+                      whileHover={{ scale: 1.02 }}
+                      className="bg-gradient-to-br from-brand-pink to-brand-pink/80 rounded-xl p-6 shadow-lg"
+                    >
+                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-lg font-bold text-white mb-2">Sustainability</h4>
+                      <p className="text-sm text-white/90">Greenwash with confidence while maximizing profits</p>
+                    </motion.div>
+
+                    <motion.div 
+                      whileHover={{ scale: 1.02 }}
+                      className="bg-gradient-to-br from-brand-pink/90 to-brand-pink rounded-xl p-6 shadow-lg"
+                    >
+                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-lg font-bold text-white mb-2">Efficiency</h4>
+                      <p className="text-sm text-white/90">Optimize everything except executive compensation</p>
+                    </motion.div>
+
+                    <motion.div 
+                      whileHover={{ scale: 1.02 }}
+                      className="bg-gradient-to-br from-brand-pink/80 to-brand-pink/70 rounded-xl p-6 shadow-lg"
+                    >
+                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-lg font-bold text-white mb-2">Growth</h4>
+                      <p className="text-sm text-white/90">Scale at all costs, especially human ones</p>
+                    </motion.div>
+
+                    <motion.div 
+                      whileHover={{ scale: 1.02 }}
+                      className="bg-gradient-to-br from-brand-pink/70 to-brand-pink/60 rounded-xl p-6 shadow-lg"
+                    >
+                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-lg font-bold text-white mb-2">Vision</h4>
+                      <p className="text-sm text-white/90">See the future through buzzword-tinted glasses</p>
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Testimonials Section */}
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="text-center mb-16 md:mb-20"
+              >
+                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+                  What <span className="text-brand-pink">executives</span> are saying
+                </h3>
+                <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto">
+                  Join thousands of leaders who have already replaced themselves with superior AI alternatives.
+                </p>
+                
+                {/* Carousel Container */}
+                <div className="relative max-w-4xl mx-auto">
+                  <div className="overflow-hidden rounded-2xl">
+                    <motion.div 
+                      className="flex"
+                      animate={{ x: `-${currentTestimonial * 100}%` }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                    >
+                      {testimonials.map((testimonial, index) => (
+                        <div key={index} className="w-full flex-shrink-0 px-4">
+                          <motion.div className="bg-white rounded-2xl p-8 md:p-12 border border-slate-200 shadow-lg mx-auto max-w-2xl">
+                            <div className="flex items-center justify-center w-20 h-20 bg-brand-pink/10 rounded-full mx-auto mb-6">
+                              <span className="text-3xl font-bold text-brand-pink">{testimonial.initials}</span>
+                            </div>
+                            <blockquote className="text-slate-700 mb-6 italic text-lg leading-relaxed">
+                              "{testimonial.quote}"
+                            </blockquote>
+                            <div className="text-base">
+                              <div className="font-semibold text-slate-900">{testimonial.name}</div>
+                              <div className="text-slate-500">{testimonial.title}</div>
+                            </div>
+                          </motion.div>
+                        </div>
+                      ))}
+                    </motion.div>
+                  </div>
+                  
+                  {/* Navigation Dots */}
+                  <div className="flex justify-center mt-8 space-x-2">
+                    {testimonials.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentTestimonial(index)}
+                        className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                          index === currentTestimonial 
+                            ? 'bg-brand-pink scale-125' 
+                            : 'bg-slate-300 hover:bg-slate-400'
+                        }`}
+                        aria-label={`Go to testimonial ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                  
+                  {/* Navigation Arrows */}
+                  <button
+                    onClick={() => setCurrentTestimonial((prev) => 
+                      prev === 0 ? testimonials.length - 1 : prev - 1
+                    )}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-brand-pink hover:border-brand-pink/20 transition-all duration-200"
+                    aria-label="Previous testimonial"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  
+                  <button
+                    onClick={() => setCurrentTestimonial((prev) => 
+                      (prev + 1) % testimonials.length
+                    )}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-brand-pink hover:border-brand-pink/20 transition-all duration-200"
+                    aria-label="Next testimonial"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
                 </div>
               </motion.div>
 
