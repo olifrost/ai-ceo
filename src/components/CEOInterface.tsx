@@ -338,9 +338,6 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     <span className='underline decoration-dotted underline-offset-4'>Customise</span>
                   </button>
                 </div>
-                
-                {/* Current theme indicator - Hidden but still tracking theme behind scenes */}
-                {/* Theme indicator removed - theme tracking still functional behind the scenes */}
               </div>
               
               {/* CEO Selector Dropdown */}
@@ -433,20 +430,20 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     className="relative z-10 w-full flex items-center justify-center"
                   >
                     {isThinking ? (
-                      <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-slate-500 italic font-medium font-mono w-full flex items-center justify-center text-center px-4 md:px-8">
+                      <p className="text-lg leading-6 md:leading-8 md:text-2xl/5 text-slate-500 italic font-medium font-mono w-full flex items-center justify-center text-center px-4 md:px-8">
                         {thinkingMessage}
                       </p>
                     ) : (
                       <div className="w-full relative">
                         {/* Invisible full text to maintain stable positioning */}
                         {phrase && (
-                          <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-transparent w-full flex items-center justify-center text-center px-4 md:px-8 font-semibold" 
+                          <p className="text-xl leading-5 md:leading-8 md:text-2xl/5 text-transparent w-full flex items-center justify-center text-center px-4 md:px-8 font-semibold" 
                              style={{ textWrap: 'balance', visibility: 'hidden', position: 'absolute', top: 0, left: 0, right: 0 }}>
                             {phrase}
                           </p>
                         )}
                         {/* Visible text that displays the typewriter effect */}
-                        <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-slate-800 font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" 
+                        <p className="text-xl leading-5 md:leading-8 md:text-2xl/5 text-slate-800 font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" 
                            style={{ textWrap: 'balance' }}>
                           {displayedPhrase || "Click to generate CEO wisdom"}
                         </p>
@@ -456,8 +453,8 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 </AnimatePresence>
               </motion.div>
 
-              {/* Action Buttons - Swapped positions and styles */}
-              <div className="flex gap-3 justify-center">
+              {/* Action Buttons - Responsive layout for ultra small screens only */}
+              <div className="flex gap-3 justify-center flex-row xs:flex-col">
                 <motion.button
                   onClick={onShare}
                   whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
@@ -488,22 +485,22 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   <span>Generate</span>
                 </motion.button>
               </div>
+              {/* More apps by Serious People - dotted underline style */}
+              <div className="w-full text-center mt-3">
+                <a 
+                  href="https://oilwell.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-slate-400 font-medium rounded px-2 py-1 bg-white/60  hover:bg-brand-pink/10 hover:text-brand-pink transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-pink/30 underline decoration-dotted underline-offset-2"
+                >
+                  More apps by Serious People
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>
         {/* Space at the bottom for fixed footer */}
         <div className="h-10"></div>
-        {/* More apps by Serious People link with pill design - now non-fixed, below content */}
-        <div className="w-full text-center">
-          <a 
-            href="https://oilwell.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="more-apps-link inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
-          >
-            More apps by Serious People
-          </a>
-        </div>
 
         {/* Dev Debug: Show current rank tier - only visible in dev mode */}
         {typeof window !== 'undefined' && window.location.hostname === 'localhost' && (

@@ -33,7 +33,7 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     rank: 1,
   },
   {
-    phrase: "We're moving towards a post-sleep workforce",
+    phrase: "Sleep is just unconscious time theft.",
     theme: 'efficiency',
     color: '#0ea5e9',
     rank: 1,
@@ -82,16 +82,10 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     color: '#7c3aed',
     rank: 2,
   },
-  {
-    phrase: "We don't solve problems, we reimagine solutions in problem-adjacent spaces.",
-    theme: 'vision',
-    color: '#7c3aed',
-    rank: 2,
-  },
-  {
-    phrase: "Our north star metric is disruption itself.",
-    theme: 'vision',
-    color: '#7c3aed',
+      {
+    phrase: "Let them work from home. But home is an underground carpark below the office",
+    theme: 'efficiency',
+    color: '#0ea5e9',
     rank: 2,
   },
   {
@@ -112,12 +106,6 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     color: '#ec4899',
     rank: 2,
   },
-    {
-    phrase: "Let them work from home. But home is an underground carpark below the office",
-    theme: 'efficiency',
-    color: '#0ea5e9',
-    rank: 1,
-  },
   {
     phrase: "We're not burning cash, we're converting currency into momentum.",
     theme: 'growth',
@@ -131,19 +119,25 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     rank: 2,
   },
   {
-    phrase: "What would Steven Bartlett do?",
-    theme: 'vision',
-    color: '#7c3aed',
-    rank: 2,
-  },
-  {
     phrase: "We're making a difference with our We're Making a Difference campaign",
     theme: 'sustainability',
     color: '#10b981',
     rank: 2,
   },
-      {
-    phrase: "What if we put ritalin in the water?",
+       {
+    phrase: "Starting today, mandatory unlimited unpaid maternity leave for everyone",
+    theme: 'growth',
+    color: '#ec4899',
+    rank: 2,
+  },
+  {
+    phrase: "Sell me this pen",
+    theme: 'efficiency',
+    color: '#0ea5e9',
+    rank: 2,
+  },
+         {
+    phrase: "Last night I dreamt about a post-sleep workforce",
     theme: 'growth',
     color: '#ec4899',
     rank: 2,
@@ -154,10 +148,58 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     color: '#10b981',
     rank: 2,
   },
+    {
+    phrase: "We put the wethane into methane",
+    theme: 'sustainability',
+    color: '#10b981',
+    rank: 2,
+  },
+    {
+    phrase: "Inclusion means including everyone that fits our very specific criteria",
+    theme: 'sustainability',
+    color: '#10b981',
+    rank: 2,
+  },
+      {
+    phrase: "We don't have meetings, we have collaborative ideation experiences",
+    theme: 'vision',
+    color: '#10b981',
+    rank: 2,
+  },
   
   // Rank 3 - Decent phrases shown last
   {
     phrase: "We're not just thinking outside the box, we're redefining the geometry of thought.",
+    theme: 'vision',
+    color: '#7c3aed',
+    rank: 3,
+  },
+    {
+    phrase: "We're carbon neutral if you don't count the carbon",
+    theme: 'sustainability',
+    color: '#7c3aed',
+    rank: 3,
+  },
+    {
+    phrase: "What would Steven Bartlett do?",
+    theme: 'vision',
+    color: '#7c3aed',
+    rank: 2,
+  },
+  {
+    phrase: "Maternity leave now matches paternity leave, which is zero days",
+    theme: 'vision',
+    color: '#7c3aed',
+    rank: 3,
+  },
+        {
+    phrase: "Could we put ritalin in the water?",
+    theme: 'growth',
+    color: '#ec4899',
+    rank: 3,
+  },
+    {
+    phrase: "We don't solve problems, we reimagine solutions in problem-adjacent spaces.",
     theme: 'vision',
     color: '#7c3aed',
     rank: 3,
@@ -175,6 +217,18 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     rank: 3,
   },
     {
+    phrase: "Our north star metric is disruption itself.",
+    theme: 'vision',
+    color: '#7c3aed',
+    rank: 3,
+  },
+    {
+    phrase: "We don't lay people off, we optimize their career trajectory toward unemployment",
+    theme: 'efficiency',
+    color: '#0ea5e9',
+    rank: 3,
+  },
+    {
     phrase: "We're creating a permission structure for keeping the status quo",
     theme: 'growth',
     color: '#ec4899',
@@ -184,7 +238,7 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     phrase: "I greenhush my children every night before bed",
     theme: 'growth',
     color: '#ec4899',
-    rank: 1,
+    rank: 3,
   },
       {
     phrase: "Our KPI is whether Joe Rogan interviews me.",
