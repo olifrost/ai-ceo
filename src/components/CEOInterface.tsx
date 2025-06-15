@@ -214,7 +214,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       )}
 
       {/* Main Content - Truly centered with padding for fixed elements */}
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8 pb-0 max-w-5xl mx-auto w-full relative z-10">
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-14 pb-0 max-w-5xl mx-auto w-full relative z-10">
         {/* Unified CEO Interface */}
         <div className="w-full max-w-4xl">
           <motion.div
@@ -281,15 +281,19 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   {personality.name}
                 </motion.h2>
                 
-                {/* AI CEO Logo Badge - Centered with pulsing dot */}
+                {/* AI CEO Logo Badge - Centered with pulsing dot and custom tooltip */}
                 <div className="flex justify-center mb-2">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-pink/10 rounded-full border border-brand-pink/20">
+                  <div className="relative inline-flex items-center gap-2 px-3 py-1 bg-brand-pink/10 rounded-full border border-brand-pink/20 group cursor-pointer">
                     <motion.div 
                       className="w-2 h-2 bg-brand-pink rounded-full"
                       animate={{ opacity: [1, 0.3, 1] }}
-                      transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                      transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
                     />
                     <span className="text-xs font-medium text-brand-pink">AI CEO</span>
+                    {/* Custom tooltip */}
+                    <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1 rounded bg-slate-800 text-white text-xs opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap z-50 shadow-lg">
+                      Does not actually use AI. <br></br>Powered by the souls of interns.
+                    </span>
                   </div>
                 </div>
                 
@@ -297,7 +301,8 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                 <div className="flex items-center justify-center gap-2">
                   <button
                     onClick={() => setShowCEOSelector(!showCEOSelector)}
-                    className="flex items-center gap-2 px-3 py-1 text-brand-pink hover:text-brand-pink/80 text-sm font-medium transition-colors duration-200 border-brand-pink"
+                    className="ceo-customise-btn flex items-center gap-2 px-3 py-1 text-brand-pink hover:text-brand-pink/80 text-sm font-medium transition-colors duration-200 border-brand-pink"
+                    style={{ border: 'none', background: 'none' }}
                   >
                     <PhotoIcon className="w-4 md:h-4" />
                     <span className='underline decoration-dotted underline-offset-4'>Customise</span>
@@ -417,7 +422,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   whileHover={{ scale: phrase && !isThinking ? 1.02 : 1 }}
                   whileTap={{ scale: phrase && !isThinking ? 0.98 : 1 }}
                   disabled={!phrase || isThinking}
-                  className={`flex items-center gap-2 px-5 py-2 bg-white border-2 border-brand-pink rounded-lg font-medium transition-all duration-200 shadow-md text-brand-pink ${
+                  className={`ceo-action-btn flex items-center gap-2 px-5 py-2 bg-white border-2 border-brand-pink rounded-lg font-medium transition-all duration-200 shadow-md text-brand-pink ${
                     (!phrase || isThinking) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
                   }`}
                 >
@@ -434,7 +439,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                   whileHover={{ scale: !isThinking ? 1.02 : 1 }}
                   whileTap={{ scale: !isThinking ? 0.98 : 1 }}
                   disabled={isThinking}
-                  className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-white bg-brand-pink ${
+                  className={`ceo-action-btn flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md text-white bg-brand-pink ${
                     isThinking ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
                   }`}
                 >
@@ -453,7 +458,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
             href="https://oilwell.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
+            className="more-apps-link inline-flex px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 text-slate-600 hover:text-brand-pink text-sm font-medium transition-colors duration-200"
           >
             More apps by Serious People
           </a>

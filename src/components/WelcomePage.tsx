@@ -187,7 +187,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
 
         {/* Features Section with white background */}
         <div id="info-section" className="bg-white">
-          <div className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+          <div className="max-w-6xl mx-auto px-6 py-6">
             {/* Main Headline - Stop working for humans */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -266,7 +266,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     Ego-free
                   </h4>
                   <p className="text-slate-600">
-                    No corner office demands, no name on buildings, no vanity acquisitions.
+                    No corner office demands, no names on buildings, no vanity acquisitions.
                   </p>
                 </motion.div>
               </div>
@@ -340,11 +340,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 </motion.button>
               </div>
             </motion.div>
-          </div>
-        </div>
-        
-        {/* Made by Serious People link with pill design - only at bottom, not fixed */}
-        <div className="w-full text-center mb-4">
+                    <div className="w-full text-center m-6 mb-2">
           <a 
             href="https://seriouspeople.co" 
             target="_blank" 
@@ -354,6 +350,12 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             Made by Serious People
           </a>
         </div>
+          </div>
+          
+        </div>
+        
+        {/* Made by Serious People link with pill design - only at bottom, not fixed */}
+
       </motion.div>
     </>
   )

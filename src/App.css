@@ -578,3 +578,34 @@ input[type=range]::-moz-range-track {
   cursor: pointer;
   border-radius: 25px;
 }
+
+/* Enhanced hover states for key buttons and links */
+
+/* Customise button (CEOInterface) */
+.ceo-customise-btn {
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.ceo-customise-btn:hover {
+  color: #C026D3;
+  text-decoration-color: #C026D3;
+}
+
+/* More apps by Serious People link */
+.more-apps-link {
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.more-apps-link:hover {
+  color: #C026D3;
+  border-color: #C026D3;
+}
+
+/* Action buttons (Share, Generate) */
+.ceo-action-btn {
+  transition: box-shadow 0.2s, background 0.2s, border 0.2s, color 0.2s;
+}
+.ceo-action-btn:hover:not(:disabled) {
+  /* Only change background for the Generate button (white text, pink bg) */
+  background: #C026D3;
+  color: #fff;
+  border-color: #C026D3;
+}
