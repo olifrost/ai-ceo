@@ -21,8 +21,8 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
   const testimonials = [
     {
       initials: "RT",
-      quote: "I used to worry what my boss thought. Now I just worry he'll reach the singularity and wipe out all of existence.",
-      name: "Raphael Tweedy",
+      quote: "I used to worry what my boss thought. Now I just worry he'll reach the singularity and erase all existence.",
+      name: "Raphael Suedey",
       title: "Junior Account Manager, Creative Agency"
     },
     {
@@ -430,7 +430,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                       Vision
                     </h4>
                     <p className="text-white/90">
-                      Buzzwords with maximum synergy
+                      Buzzwords with synergy
                     </p>
                   </motion.div>
 

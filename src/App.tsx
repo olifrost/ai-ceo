@@ -175,22 +175,10 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     rank: 3,
   },
     {
-    phrase: "We're carbon neutral if you don't count the carbon",
-    theme: 'sustainability',
-    color: '#7c3aed',
-    rank: 3,
-  },
-    {
     phrase: "What would Steven Bartlett do?",
     theme: 'vision',
     color: '#7c3aed',
     rank: 2,
-  },
-  {
-    phrase: "Maternity leave now matches paternity leave, which is zero days",
-    theme: 'vision',
-    color: '#7c3aed',
-    rank: 3,
   },
         {
     phrase: "Could we put ritalin in the water?",
@@ -206,6 +194,12 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
   },
     {
     phrase: "We're disrupting disruption by un-disrupting previously disrupted markets",
+    theme: 'vision',
+    color: '#7c3aed',
+    rank: 3,
+  },
+      {
+    phrase: "Our key metrics show we're over-invested in human capital",
     theme: 'vision',
     color: '#7c3aed',
     rank: 3,

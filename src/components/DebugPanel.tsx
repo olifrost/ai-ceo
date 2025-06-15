@@ -428,7 +428,6 @@ export default function DebugPanel({ isOpen, onClose, accentColor: _accentColor,
                   placeholder={awaitingFeedback ? "Enter your employee feedback..." : "Enter command (type HELP for assistance)"}
                   disabled={isProcessing || isAnimating}
                   className="flex-1 bg-transparent text-green-400 outline-none placeholder-gray-600 font-mono disabled:opacity-50"
-                  autoFocus
                 />
               </div>
             </form>
