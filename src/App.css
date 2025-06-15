@@ -7,7 +7,7 @@
 
 body {
   margin: 0;
-  font-family: 'IBM Plex Sans Plex Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(to bottom right, #f8fafc, #ffffff, #eef2ff);
