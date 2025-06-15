@@ -323,10 +323,10 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-center mb-16"
+                className="text-center mb-24 mt-24"
               >
                 <div className="max-w-4xl mx-auto">
-                  <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">
+                  <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
                     Choose an <span className="text-brand-pink">AI CEO</span>
                   </h3>
                   
@@ -373,76 +373,76 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 transition={{ duration: 0.8, delay: 0.6 }}
                 className="text-center mb-16"
               >
-                <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">
+                <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
                   Four pillars of <span className="text-brand-pink">corporate wisdom</span>
                 </h3>
                 
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+                    className="bg-gradient-to-br from-brand-pink to-brand-pink/80 rounded-2xl p-8 shadow-lg text-white"
                   >
-                    <div className="w-12 h-12 bg-brand-pink rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-4">
                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v18m9-9H3" />
                       </svg>
                     </div>
-                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                    <h4 className="text-2xl font-bold text-white mb-4">
                       Growth
                     </h4>
-                    <p className="text-slate-600">
+                    <p className="text-white/90">
                       Growth at all costs, especially human ones.
                     </p>
                   </motion.div>
 
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+                    className="bg-gradient-to-br from-brand-pink to-brand-pink/80 rounded-2xl p-8 shadow-lg text-white"
                   >
-                    <div className="w-12 h-12 bg-brand-pink rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-4">
                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </div>
-                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                    <h4 className="text-2xl font-bold text-white mb-4">
                       Efficiency
                     </h4>
-                    <p className="text-slate-600">
+                    <p className="text-white/90">
                       Maximum output with minimum empathy.
                     </p>
                   </motion.div>
 
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+                    className="bg-gradient-to-br from-brand-pink to-brand-pink/80 rounded-2xl p-8 shadow-lg text-white"
                   >
-                    <div className="w-12 h-12 bg-brand-pink rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-4">
                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
                     </div>
-                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                    <h4 className="text-2xl font-bold text-white mb-4">
                       Vision
                     </h4>
-                    <p className="text-slate-600">
+                    <p className="text-white/90">
                       See the future that doesn't exist yet.
                     </p>
                   </motion.div>
 
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-lg"
+                    className="bg-gradient-to-br from-brand-pink to-brand-pink/80 rounded-2xl p-8 shadow-lg text-white"
                   >
-                    <div className="w-12 h-12 bg-brand-pink rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-4">
                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
                     </div>
-                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                    <h4 className="text-2xl font-bold text-white mb-4">
                       Sustainability
                     </h4>
-                    <p className="text-slate-600">
+                    <p className="text-white/90">
                       Save the planet by talking about it.
                     </p>
                   </motion.div>
@@ -455,15 +455,15 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.8 }}
-                className="text-center mb-8 pb-16"
+                className="text-center mb-8"
               >
-                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12">
+                <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
                   What <span className="text-brand-pink">employees</span> are saying
                 </h3>
                 
                 {/* Carousel Container with extra padding for shadows */}
                 <div className="relative max-w-4xl mx-auto px-4">
-                  <div className="overflow-hidden rounded-2xl mb-12">
+                  <div className="overflow-hidden rounded-2xl mb-6 py-4">
                     <motion.div 
                       className="flex"
                       animate={{ x: `-${currentTestimonial * 100}%` }}
@@ -537,7 +537,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-center mb-8"
+                className="text-center mb-4"
               >
                 <div className="bg-gradient-to-r from-brand-pink to-brand-pink/80 rounded-3xl p-6 md:p-8 text-white">
                   <h3 className="text-3xl md:text-4xl font-bold mb-3">
@@ -560,7 +560,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
             </div>
             
             {/* Made by Serious People link with pill design - centered and properly positioned */}
-            <div className="bg-white w-full flex justify-center items-center py-8">
+            <div className="bg-white w-full flex justify-center items-center py-2">
               <a 
                 href="https://seriouspeople.co" 
                 target="_blank" 
