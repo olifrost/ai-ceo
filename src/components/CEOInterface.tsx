@@ -214,7 +214,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
       )}
 
       {/* Main Content - Truly centered with padding for fixed elements */}
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8 max-w-5xl mx-auto w-full relative z-10">
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8 pb-0 max-w-5xl mx-auto w-full relative z-10">
         {/* Unified CEO Interface */}
         <div className="w-full max-w-4xl">
           <motion.div
@@ -299,7 +299,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     onClick={() => setShowCEOSelector(!showCEOSelector)}
                     className="flex items-center gap-2 px-3 py-1 text-brand-pink hover:text-brand-pink/80 text-sm font-medium transition-colors duration-200 border-brand-pink"
                   >
-                    <PhotoIcon className="w-4 h-4" />
+                    <PhotoIcon className="w-4 md:h-4" />
                     <span className='underline decoration-dotted underline-offset-4'>Customise</span>
                   </button>
                 </div>
@@ -397,7 +397,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                     transition={{ duration: 0.2 }}
                     className="relative z-10 w-full flex items-center justify-center"
                   >
-                    <p className="text-xl leading-6 md:text-2xl/5 text-slate-800 leading-relaxed font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" style={{ textWrap: 'balance' }}>
+                    <p className="text-xl leading-6 md:leading-8 md:text-2xl/5 text-slate-800 leading-relaxed font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" style={{ textWrap: 'balance' }}>
                       {isThinking ? (
                         <span className="text-slate-500 italic text-xl font-medium font-mono">
                           {thinkingMessage}
