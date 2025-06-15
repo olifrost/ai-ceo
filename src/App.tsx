@@ -51,30 +51,6 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     rank: 1,
   },
   {
-    phrase: "We're disrupting disruption by un-disrupting previously disrupted markets",
-    theme: 'vision',
-    color: '#7c3aed',
-    rank: 1,
-  },
-  {
-    phrase: "I greenhush my children every night before bed",
-    theme: 'growth',
-    color: '#ec4899',
-    rank: 1,
-  },
-  {
-    phrase: "We would've decarbonised, but we didn't like when those women threw that soup",
-    theme: 'sustainability',
-    color: '#10b981',
-    rank: 1,
-  },
-  {
-    phrase: "Let them work from home. But have them live in an underground carpark below the office",
-    theme: 'efficiency',
-    color: '#0ea5e9',
-    rank: 1,
-  },
-  {
     phrase: "Empathy, but only if it's billable",
     theme: 'efficiency',
     color: '#0ea5e9',
@@ -131,21 +107,27 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     rank: 2,
   },
   {
-    phrase: "We're creating a permission structure for keeping the status quo",
-    theme: 'growth',
-    color: '#ec4899',
-    rank: 2,
-  },
-  {
     phrase: "We encourage our staff to be creative by replacing them with creative robots",
     theme: 'growth',
     color: '#ec4899',
     rank: 2,
   },
+    {
+    phrase: "Let them work from home. But home is an underground carpark below the office",
+    theme: 'efficiency',
+    color: '#0ea5e9',
+    rank: 1,
+  },
   {
     phrase: "We're not burning cash, we're converting currency into momentum.",
     theme: 'growth',
     color: '#ec4899',
+    rank: 2,
+  },
+    {
+    phrase: "We must reframe the essence of leadership as we chart the course to everywhere",
+    theme: 'vision',
+    color: '#7c3aed',
     rank: 2,
   },
   {
@@ -158,6 +140,12 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     phrase: "We're making a difference with our We're Making a Difference campaign",
     theme: 'sustainability',
     color: '#10b981',
+    rank: 2,
+  },
+      {
+    phrase: "What if we put ritalin in the water?",
+    theme: 'growth',
+    color: '#ec4899',
     rank: 2,
   },
   {
@@ -174,29 +162,71 @@ const CEO_PHRASES: Array<{ phrase: string; theme: string; color: string; rank: 1
     color: '#7c3aed',
     rank: 3,
   },
+    {
+    phrase: "We're disrupting disruption by un-disrupting previously disrupted markets",
+    theme: 'vision',
+    color: '#7c3aed',
+    rank: 3,
+  },
   {
     phrase: "Let's reduce redundancy by eliminating redundant employees",
     theme: 'efficiency',
     color: '#0ea5e9',
     rank: 3,
   },
+    {
+    phrase: "We're creating a permission structure for keeping the status quo",
+    theme: 'growth',
+    color: '#ec4899',
+    rank: 3,
+  },
   {
-    phrase: "We must reframe the essence of leadership as we chart the course to everywhere",
+    phrase: "I greenhush my children every night before bed",
+    theme: 'growth',
+    color: '#ec4899',
+    rank: 1,
+  },
+      {
+    phrase: "Our KPI is whether Joe Rogan interviews me.",
     theme: 'vision',
     color: '#7c3aed',
     rank: 3,
   },
+  {
+    phrase: "We would've decarbonised, but we didn't like when those women threw that soup",
+    theme: 'sustainability',
+    color: '#10b981',
+    rank: 3,
+  }
 ]
 
-// Generate CEO_WISDOM and PHRASE_THEMES from CEO_PHRASES
+// Generate CEO_WISDOM, PHRASE_THEMES, and PHRASE_RANKS from CEO_PHRASES
 const CEO_WISDOM: string[] = CEO_PHRASES.map(p => p.phrase)
 const PHRASE_THEMES: Record<string, { theme: string; color: string }> = Object.fromEntries(
   CEO_PHRASES.map(p => [p.phrase, { theme: p.theme, color: p.color }])
+)
+const PHRASE_RANKS: Record<string, number> = Object.fromEntries(
+  CEO_PHRASES.map(p => [p.phrase, p.rank])
 )
 
 // Expose globally for CEOInterface
 ;(window as any).CEO_WISDOM = CEO_WISDOM
 ;(window as any).PHRASE_THEMES = PHRASE_THEMES
+;(window as any).PHRASE_RANKS = PHRASE_RANKS
+;(window as any).CEO_PHRASES = CEO_PHRASES
+
+/*
+ * SINGLE SOURCE OF TRUTH FOR CEO PHRASES
+ * 
+ * All phrases are defined once in the CEO_PHRASES array below.
+ * The system automatically generates:
+ * - CEO_WISDOM: Array of just the phrase strings
+ * - PHRASE_THEMES: Maps phrases to their theme and color  
+ * - PHRASE_RANKS: Maps phrases to their ranking (1-3)
+ * 
+ * These are exposed globally so CEOInterface can access the same data
+ * without duplication. To add/edit phrases, only modify CEO_PHRASES.
+ */
 
 /*
  * RANKING SYSTEM FOR CEO PHRASES
