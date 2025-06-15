@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .icon {
+      fill: #F14FFF;
+    }
+    @media (prefers-color-scheme: dark) {
+      .icon {
+        fill: #F14FFF;
+      }
+    }
+  </style>
+  <rect width="32" height="32" rx="6" fill="#FFFFFF" />
+  <path class="icon" d="M16,5.5l1.7,6.4c0.3,1.2,1.2,2.1,2.4,2.4l6.4,1.7l-6.4,1.7c-1.2,0.3-2.1,1.2-2.4,2.4L16,26.5l-1.7-6.4
+    c-0.3-1.2-1.2-2.1-2.4-2.4l-6.4-1.7l6.4-1.7c1.2-0.3,2.1-1.2,2.4-2.4L16,5.5z" />
+</svg>
