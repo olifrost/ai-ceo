@@ -232,9 +232,8 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
               >
                 <h2 ref={stopWorkingRef} id="stop-working-headline" className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
                   Stop working <span className="text-brand-pink">for humans</span>
-                </h2>
-                <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-                  Why settle for expensive, unpredictable human CEOs when you can have AI leadership that delivers consistent corporate wisdom at the push of a button?
+                </h2>                  <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+                  AI CEOs deliver thought leaderhsip at the fraction of the cost.
                 </p>
               </motion.div>
 
@@ -311,7 +310,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-center mb-24 mt-24"
+                className="text-center mb-32 mt-32"
               >
                 <div className="max-w-4xl mx-auto">
                   <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
@@ -349,8 +348,8 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                     </div>
                   </div>
                   
-                  <p className="text-xl md:text-2xl text-slate-700 leading-relaxed max-w-3xl mx-auto">
-                    Providing thought leadership at the push of a button. AI CEOs can deliver complete nonsense with complete confidence.
+                  <p className="text-2xl md:text-3xl text-slate-700 leading-relaxed max-w-3xl mx-auto">
+                    AI CEOs deliver complete nonsense with total confidence, all at the push of a button.
                   </p>
                 </div>
               </motion.div>              {/* Four Pillars of Corporate Wisdom */}
@@ -359,11 +358,15 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-center mb-16"
+                className="text-center mb-32"
               >
-                <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-12">
-                  Four pillars of <span className="text-brand-pink">corporate wisdom</span>
+                <h3 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
+                  Four pillars of <span className="text-brand-pink">corporate&nbsp;wisdom</span>
                 </h3>
+                
+                <p className="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+                  Our AI CEOs are trained on these essential principles of modern leadership.
+                </p>
                 
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                   <motion.div 
