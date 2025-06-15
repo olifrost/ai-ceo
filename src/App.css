@@ -609,3 +609,28 @@ input[type=range]::-moz-range-track {
   color: #fff;
   border-color: #C026D3;
 }
+
+/* Typewriter effect using clip-path to reveal text without shifting */
+@keyframes typewriterReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.typewriter-text {
+  animation: typewriterReveal var(--typing-duration, 1s) linear forwards;
+}
+
+/* Action buttons (Share, Generate) */
+.ceo-action-btn {
+  transition: box-shadow 0.2s, background 0.2s, border 0.2s, color 0.2s;
+}
+.ceo-action-btn:hover:not(:disabled) {
+  /* Only change background for the Generate button (white text, pink bg) */
+  background: #C026D3;
+  color: #fff;
+  border-color: #C026D3;
+}

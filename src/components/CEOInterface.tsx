@@ -50,6 +50,7 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
   const [displayedPhrase, setDisplayedPhrase] = useState('')
   const [typing, setTyping] = useState(false)
   const [thinkingMessage, setThinkingMessage] = useState('')
+  const [visibleChars, setVisibleChars] = useState(0)
 
   // Use brand pink consistently instead of dynamic accent color
   const brandPink = '#F14FFF'
@@ -153,21 +154,24 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
     }, 1000);
   };
 
-  // Improved typing effect for new phrase that prevents text shifting
+  // Character-by-character typing effect that prevents text shifting
   React.useEffect(() => {
     if (phrase && !isThinking) {
       setTyping(true)
+      setDisplayedPhrase(phrase) // Set full phrase immediately for layout
+      setVisibleChars(0) // Start with no visible characters
+      
       let i = 0
-      const type = () => {
-        setDisplayedPhrase(phrase.slice(0, i))
-        if (i < phrase.length) {
+      const revealChar = () => {
+        setVisibleChars(i + 1)
+        if (i < phrase.length - 1) {
           i++
-          setTimeout(type, TYPING_SPEED)
+          setTimeout(revealChar, TYPING_SPEED)
         } else {
           setTyping(false)
         }
       }
-      type()
+      revealChar()
     }
   }, [phrase, isThinking])
 
@@ -435,18 +439,30 @@ const CEOInterface: React.FC<CEOInterfaceProps> = ({
                       </p>
                     ) : (
                       <div className="w-full relative">
-                        {/* Invisible full text to maintain stable positioning */}
-                        {phrase && (
-                          <p className="text-xl leading-5 md:leading-8 md:text-2xl/5 text-transparent w-full flex items-center justify-center text-center px-4 md:px-8 font-semibold" 
-                             style={{ textWrap: 'balance', visibility: 'hidden', position: 'absolute', top: 0, left: 0, right: 0 }}>
-                            {phrase}
-                          </p>
-                        )}
-                        {/* Visible text that displays the typewriter effect */}
-                        <p className="text-xl leading-5 md:leading-8 md:text-2xl/5 text-slate-800 font-semibold w-full flex items-center justify-center text-center px-4 md:px-8" 
-                           style={{ textWrap: 'balance' }}>
-                          {displayedPhrase || "Click to generate CEO wisdom"}
-                        </p>
+                        {/* Character-by-character typewriter effect with proper wrapping */}
+                        <div 
+                          className="text-xl leading-5 md:leading-8 md:text-2xl/5 text-slate-800 font-semibold w-full text-center px-4 md:px-8"
+                          style={{ 
+                            textWrap: 'balance',
+                            wordBreak: 'break-word',
+                            whiteSpace: 'pre-wrap'
+                          }}
+                        >
+                          {displayedPhrase ? (
+                            <>
+                              {/* Visible portion */}
+                              <span className="opacity-100">
+                                {displayedPhrase.slice(0, visibleChars)}
+                              </span>
+                              {/* Invisible portion to maintain layout */}
+                              <span className="opacity-0">
+                                {displayedPhrase.slice(visibleChars)}
+                              </span>
+                            </>
+                          ) : (
+                            "Click to generate CEO wisdom"
+                          )}
+                        </div>
                       </div>
                     )}
                   </motion.div>
